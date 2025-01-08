@@ -20,7 +20,7 @@
 ## 📲 Installation  
 1. Clone this repository:
    ```bash
-    https://github.com/HotarunIchijou/Diary.git
+    git clone https://github.com/HotarunIchijou/Diary.git
    ```
 3. Open the project in **Android Studio**
 4. Sync Gradle files and resolve dependencies  

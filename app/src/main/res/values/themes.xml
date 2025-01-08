@@ -1,0 +1,18 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Diary" parent="Theme.Material3.DynamicColors.Light.NoActionBar">
+		<item name="windowActionModeOverlay">true</item>
+		<item name="colorControlHighlight">@android:color/transparent</item>
+    </style>
+
+    <style name="Theme.Diary" parent="Base.Theme.Diary" />
+
+    <style name="Theme.Diary.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Diary.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="Theme.Diary.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+</resources>

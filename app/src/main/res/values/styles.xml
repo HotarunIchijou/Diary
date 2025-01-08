@@ -1,0 +1,22 @@
+<resources>
+    <style name="Widget.Theme.Diary.MyView" parent="">
+        <item name="android:background">@color/gray_400</item>
+        <item name="exampleColor">@color/light_blue_400</item>
+    </style>
+
+	<style name="Widget.Diary.ActionMode" parent="Base.Widget.Material3.ActionMode">
+		<item name="theme">@style/ThemeOverlay.Diary.ActionMode</item>
+	</style>
+
+	<style name="ThemeOverlay.Diary.ActionMode" parent="">
+		<item name="colorOnSurface">?colorPrimary</item>
+		<item name="colorControlNormal">?colorPrimary</item>
+		<item name="windowActionModeOverlay">true</item>
+	</style>
+
+	<style name="SearchView" parent="Widget.Material3.SearchView">
+		<item name="android:background">@android:color/transparent</item>
+		<item name="android:iconTint">@android:color/transparent</item>
+		<item name="rippleColor">@android:color/transparent</item>
+	</style>
+</resources>

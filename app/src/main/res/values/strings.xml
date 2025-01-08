@@ -1,0 +1,26 @@
+<resources>
+	<string name="app_name">Diary</string>
+	<!-- Strings related to login -->
+	<string name="prompt_email">Email</string>
+	<string name="prompt_password">Password</string>
+	<string name="action_sign_in">Sign in</string>
+	<string name="action_register">Register</string>
+	<string name="registered_successfully">Registered successfully</string>
+	<string name="welcome">"Welcome!"</string>
+	<string name="invalid_username">Not a valid username</string>
+	<string name="invalid_password">Password must be at least 5 characters</string>
+	<string name="login_failed">"Login failed"</string>
+	<string name="title_activity_login">LoginActivity</string>
+	<string name="action_sign_in_short">Sign in</string>
+	<string name="title_activity_scrolling">ScrollingActivity</string>
+	<string name="action_settings">Settings</string>
+	<string name="add_note">Add note</string>
+	<string name="notes_hint">Type your notes here</string>
+	<string name="search_notes">Search notes</string>
+	<string name="save_note">Save note</string>
+	<string name="delete">Delete</string>
+	<string name="grid_view">Grid view</string>
+	<string name="title_activity_main">MainActivity</string>
+	<string name="dont_have_an_account">Don\'t have an account?</string>
+	<string name="register">Register</string>
+</resources>

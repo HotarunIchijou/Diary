@@ -70,7 +70,7 @@ Contributions are welcome!
 ---
 
 ## 📄 License  
-This project is licensed under the **MIT License**  
+This project is licensed under the [MIT License](https://github.com/HotarunIchijou/Diary/blob/master/LICENSE)
 
 ---
 

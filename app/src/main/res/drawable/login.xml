@@ -117,7 +117,7 @@
         android:translateY="-189.9307">
         <path
             android:pathData="M1004.98163 709.57417h-738.294a1.19069 1.19069 0 0 1 0 -2.38137h738.294a1.19069 1.19069 0 0 1 0 2.38137Z"
-            android:fillColor="?attr/colorSurfaceContainer" />
+            android:fillColor="?attr/colorOutlineVariant" />
     </group>
     <group
         android:translateX="-165"

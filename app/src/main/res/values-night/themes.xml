@@ -5,8 +5,4 @@
 		<item name="colorControlHighlight">@android:color/transparent</item>
 	</style>
 
-	<style name="TextButton">
-		<item name="color">@color/material_dynamic_primary80</item>
-	</style>
-
 </resources>

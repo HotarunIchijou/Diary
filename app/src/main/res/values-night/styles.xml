@@ -1,10 +1,4 @@
 <resources>
-
-    <style name="Widget.Theme.Diary.MyView" parent="">
-        <item name="android:background">@color/gray_600</item>
-        <item name="exampleColor">@color/light_blue_600</item>
-    </style>
-
 	<style name="Widget.Diary.ActionMode" parent="Base.Widget.Material3.ActionMode">
 		<item name="theme">@style/ThemeOverlay.Diary.ActionMode</item>
 	</style>
@@ -19,4 +13,13 @@
 		<item name="rippleColor">@android:color/transparent</item>
 		<item name="itemRippleColor">@android:color/transparent</item>
 	</style>
+
+	<style name="iconPrimary">
+		<item name="color">@color/material_dynamic_primary80</item>
+	</style>
+
+	<style name="TextButton" parent="Widget.Material3.Button.TextButton">
+		<item name="textStartPadding">0dp</item>
+	</style>
+
 </resources>

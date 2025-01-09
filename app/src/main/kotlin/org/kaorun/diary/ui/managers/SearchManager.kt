@@ -1,5 +1,6 @@
 package org.kaorun.diary.ui.managers
 
+import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.OnBackPressedDispatcher
 import androidx.appcompat.content.res.AppCompatResources
@@ -118,10 +119,14 @@ class SearchManager(
 		val filteredList = notesList.filter {
 			it.title.contains(query, ignoreCase = true) // Filter notes by title
 		}.toMutableList()
-		notesAdapter.updateNotes(filteredList) // Update RecyclerView with filtered list
 		searchBar.navigationIcon = AppCompatResources.getDrawable(binding.mainActivity.context, R.drawable.arrow_back_24px)
 		backPressedCallback?.remove()
 		binding.extendedFab.hide()
+		notesAdapter.updateNotes(filteredList) // Update RecyclerView with filtered list
+		if (filteredList.isEmpty()){
+			binding.nothingFound.nothingFoundLayout.visibility= View.VISIBLE
+		}
+
 
 		// Handle back button for search mode
 		backPressedCallback = object : OnBackPressedCallback(true) {
@@ -130,6 +135,7 @@ class SearchManager(
 				searchBar.clearText()
 				binding.extendedFab.show()
 				backPressedCallback?.remove()
+				binding.nothingFound.nothingFoundLayout.visibility= View.GONE
 			}
 		}
 
@@ -142,6 +148,7 @@ class SearchManager(
 			binding.extendedFab.show()
 			backPressedCallback?.remove()
 			searchBar.setNavigationOnClickListener(null)
+			binding.nothingFound.nothingFoundLayout.visibility= View.GONE
 		}
 	}
 

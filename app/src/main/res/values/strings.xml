@@ -26,4 +26,5 @@
 	<string name="sign_in_icon">Sign in icon</string>
 	<string name="sign_in_with_email">Sign in with email</string>
 	<string name="continue_with_google">Continue with Google</string>
+    <string name="nothing_found">Nothing found in your notes</string>
 </resources>

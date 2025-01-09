@@ -13,8 +13,8 @@ class RegisterActivity : AppCompatActivity() {
 	private lateinit var binding: ActivityRegisterBinding
 	private lateinit var auth: FirebaseAuth
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
 		enableEdgeToEdge()
 		binding = ActivityRegisterBinding.inflate(layoutInflater)
 		setContentView(binding.root)

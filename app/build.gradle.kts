@@ -27,6 +27,7 @@ android {
                 "proguard-rules.pro"
             )
         } */
+
 		debug {
 			proguardFiles(
 				getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -43,13 +44,31 @@ android {
 			}
 		}
     }
+
+	android.sourceSets {
+		getByName("main") {
+			java.srcDir("src/$name/kotlin")
+			kotlin.srcDir("src/$name/kotlin")
+		}
+
+		// Explicitly remove androidTest and unitTest if they exist
+		getByName("androidTest") {
+			java.srcDirs()
+		}
+		getByName("test") {
+			java.srcDirs()
+		}
+	}
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
 	buildFeatures{
 		viewBinding = true
 	}

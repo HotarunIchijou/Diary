@@ -26,7 +26,7 @@ import org.kaorun.diary.data.NotesDatabase
 import org.kaorun.diary.data.SearchHistoryManager
 import org.kaorun.diary.databinding.ActivityMainBinding
 import org.kaorun.diary.ui.managers.SearchManager
-import org.kaorun.diary.utils.InsetsHandler
+import org.kaorun.diary.ui.utils.InsetsHandler
 
 class MainActivity : AppCompatActivity() {
 

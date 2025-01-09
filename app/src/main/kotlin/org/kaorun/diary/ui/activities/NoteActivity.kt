@@ -19,8 +19,8 @@ import com.onegravity.rteditor.api.RTMediaFactoryImpl
 import com.onegravity.rteditor.api.RTProxyImpl
 import com.onegravity.rteditor.api.format.RTFormat
 import org.kaorun.diary.databinding.ActivityNoteBinding
-import org.kaorun.diary.utils.FloatingToolbarHelper
-import org.kaorun.diary.utils.InsetsHandler
+import org.kaorun.diary.ui.utils.FloatingToolbarHelper
+import org.kaorun.diary.ui.utils.InsetsHandler
 
 class NoteActivity : AppCompatActivity() {
 

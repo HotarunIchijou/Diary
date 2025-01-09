@@ -1,4 +1,4 @@
-package org.kaorun.diary.utils
+package org.kaorun.diary.ui.utils
 
 import android.graphics.Typeface
 import android.text.Editable

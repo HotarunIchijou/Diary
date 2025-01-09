@@ -47,16 +47,7 @@ android {
 
 	android.sourceSets {
 		getByName("main") {
-			java.srcDir("src/$name/kotlin")
-			kotlin.srcDir("src/$name/kotlin")
-		}
-
-		// Explicitly remove androidTest and unitTest if they exist
-		getByName("androidTest") {
-			java.srcDirs()
-		}
-		getByName("test") {
-			java.srcDirs()
+			java.srcDirs("src/main/kotlin")
 		}
 	}
 

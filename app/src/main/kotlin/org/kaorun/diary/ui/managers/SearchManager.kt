@@ -11,11 +11,11 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.google.android.material.search.SearchView
 import org.kaorun.diary.R
-import org.kaorun.diary.ui.adapters.NotesAdapter
-import org.kaorun.diary.ui.adapters.SearchHistoryAdapter
 import org.kaorun.diary.data.NotesDatabase
 import org.kaorun.diary.data.SearchHistoryManager
 import org.kaorun.diary.databinding.ActivityMainBinding
+import org.kaorun.diary.ui.adapters.NotesAdapter
+import org.kaorun.diary.ui.adapters.SearchHistoryAdapter
 
 class SearchManager(
     private val binding: ActivityMainBinding,
@@ -82,6 +82,9 @@ class SearchManager(
 
 		searchBar.inflateMenu(R.menu.menu_search_bar)
 
+		val menuItem = binding.searchBar.menu.findItem(R.id.layoutSwitcher)
+		menuItem.isVisible = notesList.isNotEmpty()
+
 		searchBar.setOnMenuItemClickListener {
 			when (it.itemId) {
 				R.id.layoutSwitcher -> {
@@ -119,12 +122,15 @@ class SearchManager(
 		val filteredList = notesList.filter {
 			it.title.contains(query, ignoreCase = true) // Filter notes by title
 		}.toMutableList()
+		binding.notesEmpty.notesEmptyLayout.visibility = View.GONE
 		searchBar.navigationIcon = AppCompatResources.getDrawable(binding.mainActivity.context, R.drawable.arrow_back_24px)
 		backPressedCallback?.remove()
 		binding.extendedFab.hide()
 		notesAdapter.updateNotes(filteredList) // Update RecyclerView with filtered list
 		if (filteredList.isEmpty()){
 			binding.nothingFound.nothingFoundLayout.visibility= View.VISIBLE
+			val menuItem = binding.searchBar.menu.findItem(R.id.layoutSwitcher)
+			menuItem?.isVisible = false
 		}
 
 
@@ -156,6 +162,8 @@ class SearchManager(
 		searchBar.navigationIcon = AppCompatResources.getDrawable(binding.mainActivity.context, R.drawable.search_24px)
 		notesAdapter.updateNotes(notesList) // Reset RecyclerView to show all notes
 		backPressedCallback?.remove()
+		binding.searchBar.menu.findItem(R.id.layoutSwitcher).isVisible = notesList.isNotEmpty()
+		binding.notesEmpty.notesEmptyLayout.visibility = if (notesList.isNotEmpty()) View.GONE else View.VISIBLE
 	}
 
 	private fun switchLayout() {

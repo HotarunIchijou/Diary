@@ -25,6 +25,7 @@ import org.kaorun.diary.ui.adapters.NotesAdapter
 import org.kaorun.diary.data.NotesDatabase
 import org.kaorun.diary.data.SearchHistoryManager
 import org.kaorun.diary.databinding.ActivityMainBinding
+import org.kaorun.diary.ui.fragments.WelcomeFragment
 import org.kaorun.diary.ui.managers.SearchManager
 import org.kaorun.diary.ui.utils.InsetsHandler
 
@@ -48,6 +49,15 @@ class MainActivity : AppCompatActivity() {
 		binding = ActivityMainBinding.inflate(layoutInflater)
 		setContentView(binding.root)
 
+		auth = FirebaseAuth.getInstance()
+		databaseReference = FirebaseDatabase.getInstance().getReference("Notes")
+
+		if (auth.currentUser == null || !auth.currentUser!!.isEmailVerified) {
+			navigateToWelcomeFragment()
+		} else {
+			showMainContent()
+		}
+
 		searchHistoryManager = SearchHistoryManager(this)
 
 		setupInsets()
@@ -55,9 +65,7 @@ class MainActivity : AppCompatActivity() {
 		setupScrollBehavior()
 		setupSearchManager()
 
-		auth = FirebaseAuth.getInstance()
-		databaseReference = FirebaseDatabase.getInstance().getReference("Notes")
-
+		binding.notesEmpty.notesEmptyLayout.visibility = View.VISIBLE // Fixes issue after logging in
 		observeViewModel()
 
 		binding.extendedFab.setOnClickListener {
@@ -200,22 +208,40 @@ class MainActivity : AppCompatActivity() {
 			notesList.clear()
 			notesList.addAll(notes)
 			notesAdapter.updateNotes(notes.toMutableList())
+
+			val menuItem = binding.searchBar.menu.findItem(R.id.layoutSwitcher)
+			menuItem?.isVisible = notesList.isNotEmpty()
+
+			binding.notesEmpty.notesEmptyLayout.visibility = if (notesList.isEmpty()) View.VISIBLE else View.GONE
 		}
+	}
+
+	private fun navigateToWelcomeFragment() {
+		binding.recyclerView.visibility = View.GONE
+		binding.searchBar.visibility = View.GONE
+		binding.extendedFab.visibility = View.GONE
+		binding.fragmentContainerView.visibility = View.VISIBLE
+
+		// Create the WelcomeFragment instance
+		val welcomeFragment = WelcomeFragment()
+
+		// Begin the fragment transaction
+		supportFragmentManager.beginTransaction()
+			.replace(R.id.fragmentContainerView, welcomeFragment)
+			.commit()
+	}
+
+	private fun showMainContent() {
+		binding.recyclerView.visibility = View.VISIBLE
+		binding.searchBar.visibility = View.VISIBLE
+		binding.extendedFab.visibility = View.VISIBLE
+		binding.fragmentContainerView.visibility = View.GONE
 	}
 
 	private fun setupInsets() {
-		InsetsHandler.applyRecyclerViewInsets(binding.recyclerView)
+		InsetsHandler.applyViewInsets(binding.recyclerView)
 		InsetsHandler.applyFabInsets(binding.extendedFab)
 		InsetsHandler.applyAppBarInsets(binding.appBarLayout)
-	}
-
-	override fun onStart() {
-		super.onStart()
-
-		if (auth.currentUser == null) {
-			startActivity(Intent(this, LoginActivity::class.java))
-			finish()
-		}
 	}
 }
 

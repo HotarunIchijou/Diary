@@ -5,5 +5,6 @@
 		android:id="@+id/layoutSwitcher"
 		android:icon="@drawable/grid_view_24px"
 		android:title="@string/grid_view"
-		app:showAsAction="always" />
+		app:showAsAction="always"
+		android:visible="false" />
 </menu>

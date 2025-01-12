@@ -39,4 +39,5 @@
 	<string name="verify_email">Please verify your email</string>
 	<string name="verification_status_failed">Failed to check verification status. Please try again</string>
 	<string name="registration_failed">Registration failed. Please try again</string>
+    <string name="info_icon">Info icon</string>
 </resources>

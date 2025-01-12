@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialRequest
+import androidx.credentials.exceptions.GetCredentialCancellationException
 import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
@@ -78,27 +79,28 @@ class WelcomeFragment : BaseFragment() {
 		val credentialManager = CredentialManager.create(requireContext())
 
 		lifecycleScope.launch {
-			val result = credentialManager.getCredential(
-				request = request,
-				context = requireContext()
-			)
+			try {
+				val result = credentialManager.getCredential(
+					request = request,
+					context = requireContext()
+				)
 
-			val credential = result.credential
-			if (credential is CustomCredential && credential.type == TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
-				val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
-				val firebaseCredential = GoogleAuthProvider.getCredential(googleIdTokenCredential.idToken, null)
-				val data = Firebase.auth.signInWithCredential(firebaseCredential).await()
+				val credential = result.credential
+				if (credential is CustomCredential && credential.type == TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
+					val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
+					val firebaseCredential = GoogleAuthProvider.getCredential(googleIdTokenCredential.idToken, null)
+					val data = Firebase.auth.signInWithCredential(firebaseCredential).await()
 
-				Log.i("Success", "${data.user?.displayName} ${data.user?.email} ${data.user?.uid}")
+					Log.i("Success", "${data.user?.displayName} ${data.user?.email} ${data.user?.uid}")
 
-				val intent = Intent(context, MainActivity::class.java)
-				startActivity(intent)
+					val intent = Intent(context, MainActivity::class.java)
+					startActivity(intent)
 
-				requireActivity().finish()
+					requireActivity().finish()
+				}
 			}
-
-			else {
-				Log.e("Error: ", "error")
+			catch (e: GetCredentialCancellationException) {
+				Log.e("Credential", "An error occurred: ${e.message}", e)
 			}
 		}
 	}

@@ -12,8 +12,8 @@ android {
         applicationId = "org.kaorun.diary"
         minSdk = 31
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0.0-beta01"
+        versionCode = 2
+        versionName = "1.0.0-beta02"
 
 		setProperty("archivesBaseName", "Diary-$versionName")
     }

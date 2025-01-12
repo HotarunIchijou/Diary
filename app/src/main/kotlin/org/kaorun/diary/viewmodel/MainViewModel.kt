@@ -16,13 +16,38 @@ class MainViewModel : ViewModel() {
 	private val databaseReference: DatabaseReference =
 		FirebaseDatabase.getInstance().getReference("Notes")
 	private val notes = mutableListOf<NotesDatabase>()
+	private val _isLoading = MutableLiveData<Boolean>()
+	val isLoading: LiveData<Boolean> get() = _isLoading
+
 
 	init {
 		fetchNotes()
 	}
 
 	private fun fetchNotes() {
+		_isLoading.value = true
 		val userId = firebaseAuth.currentUser?.uid ?: return
+
+		// Initial check for notes existence
+		databaseReference.child(userId).addListenerForSingleValueEvent(object : ValueEventListener {
+			override fun onDataChange(snapshot: DataSnapshot) {
+				if (!snapshot.exists()) {
+					// If no notes exist, update the state
+					_notesList.value = emptyList()
+					_isLoading.value = false
+				} else {
+					// Attach the real-time listener
+					attachChildEventListener(userId)
+				}
+			}
+
+			override fun onCancelled(error: DatabaseError) {
+				_isLoading.value = false
+			}
+		})
+	}
+
+	private fun attachChildEventListener(userId: String) {
 		databaseReference.child(userId).addChildEventListener(object : ChildEventListener {
 			override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
 				val noteId = snapshot.key.orEmpty()
@@ -30,6 +55,7 @@ class MainViewModel : ViewModel() {
 				val note = NotesDatabase(id = noteId, title = noteTitle)
 				notes.add(note)
 				_notesList.value = notes.toList()
+				_isLoading.value = false
 			}
 
 			override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
@@ -52,7 +78,9 @@ class MainViewModel : ViewModel() {
 			}
 
 			override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
-			override fun onCancelled(error: DatabaseError) {}
+			override fun onCancelled(error: DatabaseError) {
+				_isLoading.value = false
+			}
 		})
 	}
 

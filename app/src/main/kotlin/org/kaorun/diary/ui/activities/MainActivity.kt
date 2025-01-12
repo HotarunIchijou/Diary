@@ -11,6 +11,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -65,7 +66,6 @@ class MainActivity : AppCompatActivity() {
 		setupScrollBehavior()
 		setupSearchManager()
 
-		binding.notesEmpty.notesEmptyLayout.visibility = View.VISIBLE // Fixes issue after logging in
 		observeViewModel()
 
 		binding.extendedFab.setOnClickListener {
@@ -202,17 +202,19 @@ class MainActivity : AppCompatActivity() {
 	}
 
 	private fun observeViewModel() {
+		viewModel.isLoading.observe(this) {
+				isLoading -> binding.progressBar.isVisible = isLoading
+		}
 		viewModel.notesList.observe(
 			this
 		) { notes ->
 			notesList.clear()
 			notesList.addAll(notes)
 			notesAdapter.updateNotes(notes.toMutableList())
+			binding.notesEmpty.notesEmptyLayout.isVisible = notes.isEmpty()
 
 			val menuItem = binding.searchBar.menu.findItem(R.id.layoutSwitcher)
-			menuItem?.isVisible = notesList.isNotEmpty()
-
-			binding.notesEmpty.notesEmptyLayout.visibility = if (notesList.isEmpty()) View.VISIBLE else View.GONE
+			menuItem?.isVisible = notes.isNotEmpty()
 		}
 	}
 

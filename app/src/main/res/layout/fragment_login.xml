@@ -1,108 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
-	android:id="@+id/container"
+	android:id="@+id/fragment_container_login"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	tools:context=".ui.login.LoginFragment">
+	android:background="?attr/colorSurface"
+	tools:context=".ui.fragments.LoginFragment">
 
-	<com.google.android.material.appbar.AppBarLayout
-		android:id="@+id/appBarLayout"
+	<androidx.core.widget.NestedScrollView
+		android:id="@+id/nestedScrollView"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:fitsSystemWindows="true"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintTop_toTopOf="parent">
+		android:layout_height="match_parent"
+		app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-		<com.google.android.material.appbar.CollapsingToolbarLayout
-			style="?attr/collapsingToolbarLayoutMediumStyle"
+		<LinearLayout
+			android:id="@+id/credentialsContainer"
 			android:layout_width="match_parent"
-			android:layout_height="?attr/collapsingToolbarLayoutLargeSize"
-			app:layout_scrollFlags="noScroll">
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			android:layout_margin="16dp">
 
-			<com.google.android.material.appbar.MaterialToolbar
+			<com.google.android.material.appbar.AppBarLayout
+				android:id="@+id/titlebar"
 				android:layout_width="match_parent"
-				android:layout_height="?attr/actionBarSize"
-				android:elevation="0dp"
-				app:title="Sign in into account" />
+				android:layout_height="wrap_content"
+				android:background="@android:color/transparent"
+				android:backgroundTint="@android:color/transparent"
+				android:fitsSystemWindows="true">
 
-		</com.google.android.material.appbar.CollapsingToolbarLayout>
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="vertical"
+					android:background="@android:color/transparent"
+					android:paddingTop="20dp"
+					android:paddingBottom="16dp">
 
-	</com.google.android.material.appbar.AppBarLayout>
+					<ImageView
+						android:id="@+id/back"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:contentDescription="@string/navigate_back"
+						android:src="@drawable/arrow_back_24px" />
 
-	<ImageView
-		android:id="@+id/imageView"
-		android:layout_width="320dp"
-		android:layout_height="320dp"
-		android:src="@drawable/login"
-		android:layout_margin="16dp"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
-		tools:ignore="ContentDescription" />
+					<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:orientation="vertical"
+						android:paddingTop="16dp"
+						tools:ignore="UseCompoundDrawables">
 
-	<EditText
-		android:id="@+id/username"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="16dp"
-		android:layout_marginStart="16dp"
-		android:layout_marginEnd="16dp"
-		android:autofillHints="@string/prompt_email"
-		android:drawableStart="@drawable/mail_24px"
-		android:drawablePadding="8dp"
-		android:hint="@string/prompt_email"
-		android:inputType="textEmailAddress"
-		android:selectAllOnFocus="true"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/imageView" />
+						<ImageView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:contentDescription="@string/sign_in_icon"
+							android:src="@drawable/person_40px"
+							app:tint="?colorPrimary" />
 
-	<EditText
-		android:id="@+id/password"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginStart="16dp"
-		android:layout_marginTop="8dp"
-		android:layout_marginEnd="16dp"
-		android:autofillHints="@string/prompt_password"
-		android:hint="@string/prompt_password"
-		android:imeActionLabel="@string/action_sign_in_short"
-		android:imeOptions="actionDone"
-		android:inputType="textPassword"
-		android:selectAllOnFocus="true"
-		android:drawableStart="@drawable/password_24px"
-		android:drawablePadding="8dp"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/username" />
+						<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="8dp"
+							android:text="@string/sign_in_title"
+							android:textAppearance="?attr/textAppearanceHeadlineMedium" />
+					</LinearLayout>
+				</LinearLayout>
+			</com.google.android.material.appbar.AppBarLayout>
+
+			<ImageView
+				android:id="@+id/imageView"
+				android:layout_width="320dp"
+				android:layout_height="320dp"
+				android:layout_margin="16dp"
+				android:src="@drawable/login"
+				tools:ignore="ContentDescription" />
+
+			<com.google.android.material.textfield.TextInputLayout
+				android:id="@+id/usernameContainer"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				app:endIconMode="clear_text"
+				app:startIconDrawable="@drawable/mail_24px"
+				app:startIconContentDescription="@string/mail_icon">
+
+				<com.google.android.material.textfield.TextInputEditText
+					android:id="@+id/username"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:hint="@string/prompt_email"
+					android:inputType="textEmailAddress"
+					android:autofillHints="emailAddress"
+					android:paddingStart="48dp"
+					android:paddingEnd="16dp" />
+			</com.google.android.material.textfield.TextInputLayout>
+
+			<com.google.android.material.textfield.TextInputLayout
+				android:id="@+id/passwordContainer"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="8dp"
+				app:endIconMode="password_toggle"
+				app:startIconDrawable="@drawable/password_24px"
+				app:startIconContentDescription="@string/password_icon">
+
+				<com.google.android.material.textfield.TextInputEditText
+					android:id="@+id/password"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:hint="@string/prompt_password"
+					android:imeOptions="actionDone"
+					android:inputType="textPassword"
+					android:autofillHints="password"
+					android:selectAllOnFocus="true"
+					android:paddingStart="48dp"
+					android:paddingEnd="16dp"/>
+			</com.google.android.material.textfield.TextInputLayout>
+		</LinearLayout>
+	</androidx.core.widget.NestedScrollView>
 
 	<Button
 		android:id="@+id/login"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_margin="16dp"
+		android:layout_marginHorizontal="16dp"
+		android:layout_marginBottom="16dp"
 		android:enabled="false"
 		android:text="@string/action_sign_in"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/password" />
+		android:layout_gravity="bottom" />
 
 	<ProgressBar
 		android:id="@+id/loading"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_gravity="center"
-		android:layout_marginStart="32dp"
-		android:layout_marginTop="64dp"
-		android:layout_marginEnd="32dp"
-		android:layout_marginBottom="64dp"
-		android:visibility="gone"
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintEnd_toEndOf="@+id/password"
-		app:layout_constraintStart_toStartOf="@+id/password"
-		app:layout_constraintTop_toTopOf="parent"
-		app:layout_constraintVertical_bias="0.3" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+		android:visibility="gone" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

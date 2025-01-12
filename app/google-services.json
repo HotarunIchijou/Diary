@@ -1,8 +1,9 @@
 {
   "project_info": {
     "project_number": "147141776010",
+    "firebase_url": "https://diary-2bd83-default-rtdb.firebaseio.com",
     "project_id": "diary-2bd83",
-    "storage_bucket": "diary-2bd83.appspot.com"
+    "storage_bucket": "diary-2bd83.firebasestorage.app"
   },
   "client": [
     {
@@ -12,7 +13,20 @@
           "package_name": "org.kaorun.diary"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "147141776010-546nahlob35ta67rnr7db3d9qokmdham.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.kaorun.diary",
+            "certificate_hash": "61b8ae07da6c14404f5a8750856ff69f69a3982f"
+          }
+        },
+        {
+          "client_id": "147141776010-k6ciqif9cms4vnaslgm9fth90ng2pds6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBcphvsqPAHzpFZN93DnXqPfZNz7l3sMC4"
@@ -20,7 +34,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "147141776010-k6ciqif9cms4vnaslgm9fth90ng2pds6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

@@ -13,7 +13,9 @@
   Firebase realtime database for storing and managing diary entries in the cloud securely
 
 ## 🎨 Screenshots  
-_Coming soon_
+| ![Screenshot 1](assets/Screenshot_20250112-174808.png) | ![Screenshot 2](assets/Screenshot_20250112-174813.png) | ![Screenshot 3](assets/Screenshot_20250112-174818.png)
+|---                                                     |---                                                     |---   
+| ![Screenshot 4](assets/Screenshot_20250112-174832.png) | ![Screenshot 5](assets/Screenshot_20250112-175617.png) | ![Screenshot 6](assets/Screenshot_20250112-175441.png)             
   
 
 ## 📲 Installation  

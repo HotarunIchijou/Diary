@@ -74,6 +74,7 @@
 				android:layout_width="320dp"
 				android:layout_height="320dp"
 				android:layout_margin="16dp"
+				android:layout_gravity="center"
 				android:src="@drawable/register"
 				tools:ignore="ContentDescription" />
 

@@ -81,4 +81,11 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
 	implementation(libs.android.rteditor)
+	implementation(libs.androidx.transition.ktx)
+	implementation(libs.androidx.fragment.ktx)
+	implementation(libs.play.services.auth)
+	implementation(libs.googleid)
+	implementation(libs.androidx.credentials.play.services.auth)
+	implementation(platform(libs.firebase.bom))
+	implementation(libs.androidx.credentials)
 }

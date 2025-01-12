@@ -2,17 +2,21 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/fragment_container"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent">
+	android:layout_height="match_parent"
+	android:background="?attr/colorSurface"
+	tools:context=".ui.fragments.WelcomeFragment">
 
 	<LinearLayout
-		android:id="@+id/linearLayout5"
+		android:id="@+id/header"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:orientation="vertical"
 		android:paddingHorizontal="16dp"
 		android:paddingTop="96dp"
 		android:paddingBottom="16dp"
+		android:fitsSystemWindows="true"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toTopOf="parent"
@@ -34,27 +38,29 @@
 	</LinearLayout>
 
 	<LinearLayout
-		android:id="@+id/linearLayout4"
+		android:id="@+id/buttons_group"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_marginHorizontal="16dp"
-		android:layout_marginBottom="12dp"
+		android:layout_marginBottom="16dp"
 		android:orientation="vertical"
-		app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+		app:layout_constraintBottom_toTopOf="@+id/register_container"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent">
 
 		<com.google.android.material.button.MaterialButton
+			android:id="@+id/google_button"
 			style="@style/Widget.Material3.Button.OutlinedButton.Icon"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="@string/continue_with_google"
 			android:layout_marginBottom="4dp"
+			android:text="@string/continue_with_google"
 			app:icon="@drawable/google_24px"
 			app:iconGravity="textStart"
 			app:iconTint="@null" />
 
 		<com.google.android.material.button.MaterialButton
+			android:id="@+id/email_button"
 			style="@style/Widget.Material3.Button.Icon"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
@@ -64,35 +70,36 @@
 	<ImageView
 		android:layout_width="320dp"
 		android:layout_height="320dp"
+		android:layout_marginTop="16dp"
+		android:layout_marginBottom="16dp"
 		android:src="@drawable/welcome"
-		app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
+		app:layout_constraintBottom_toTopOf="@+id/buttons_group"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/linearLayout5"
+		app:layout_constraintTop_toBottomOf="@+id/header"
 		tools:ignore="ContentDescription" />
 
 	<LinearLayout
-		android:id="@+id/linearLayout"
+		android:id="@+id/register_container"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_margin="16dp"
+		android:layout_marginBottom="16dp"
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintHorizontal_bias="0.5"
 		app:layout_constraintStart_toStartOf="parent">
 
 		<TextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="@string/dont_have_an_account"
-			android:layout_marginEnd="4dp"/>
+			android:layout_marginEnd="4dp"
+			android:text="@string/dont_have_an_account" />
 
 		<TextView
 			android:id="@+id/registerButton"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:text="@string/register"
-			android:textColor="?colorPrimary"/>
+			android:textColor="?colorPrimary" />
 	</LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

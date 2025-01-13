@@ -64,4 +64,5 @@ Feel free to reach out with questions or suggestions:
 
 ## 🙌 Special thanks to:  
 - [Shemmy](https://github.com/N3Shemmy3) and [Nick](https://github.com/nift4) for their invaluable support throughout the entire development process
+- [Nathan](https://github.com/imnathanzero) for testing the application
 - 1gravity for creating native [rich text library](https://github.com/1gravity/Android-RTEditor)

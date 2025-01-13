@@ -2,6 +2,9 @@ package org.kaorun.diary.ui.activities
 
 import android.content.Intent
 import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.RectF
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -10,25 +13,29 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.view.ActionMode
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
+import com.google.android.material.color.MaterialColors
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import org.kaorun.diary.viewmodel.MainViewModel
 import org.kaorun.diary.R
-import org.kaorun.diary.ui.adapters.NotesAdapter
 import org.kaorun.diary.data.NotesDatabase
 import org.kaorun.diary.data.SearchHistoryManager
 import org.kaorun.diary.databinding.ActivityMainBinding
+import org.kaorun.diary.ui.adapters.NotesAdapter
 import org.kaorun.diary.ui.fragments.WelcomeFragment
 import org.kaorun.diary.ui.managers.SearchManager
 import org.kaorun.diary.ui.utils.InsetsHandler
+import org.kaorun.diary.viewmodel.MainViewModel
+import kotlin.math.abs
 
 class MainActivity : AppCompatActivity() {
 
@@ -68,6 +75,9 @@ class MainActivity : AppCompatActivity() {
 
 		observeViewModel()
 
+		val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+		itemTouchHelper.attachToRecyclerView(binding.recyclerView)
+
 		binding.extendedFab.setOnClickListener {
 			val intent = Intent(this, NoteActivity::class.java)
 			startActivity(intent)
@@ -106,19 +116,30 @@ class MainActivity : AppCompatActivity() {
 		}
 	}
 
-	private val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+	private val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0,
+		ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
 		override fun onMove(
 			recyclerView: RecyclerView,
 			viewHolder: RecyclerView.ViewHolder,
 			target: RecyclerView.ViewHolder
 		): Boolean {
-			// No need to handle drag and drop for this use case
 			return false
 		}
 
 		override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
 			val position = viewHolder.adapterPosition
-			notesAdapter.removeItem(position)
+
+			val itemViewWidth = viewHolder.itemView.width
+			val swipeDistance = abs(viewHolder.itemView.translationX)
+			val noteId = notesAdapter.getNoteIdAtPosition(position)
+
+			if (swipeDistance > itemViewWidth) {
+				notesAdapter.removeItem(position)
+				viewModel.deleteNotes(listOf(noteId))
+			}
+			else {
+				notesAdapter.notifyItemChanged(position)
+			}
 		}
 
 		override fun onChildDraw(
@@ -130,13 +151,41 @@ class MainActivity : AppCompatActivity() {
 			actionState: Int,
 			isCurrentlyActive: Boolean
 		) {
-			// Optional: Customize swipe animation (background, icon, etc.)
+			val itemView = viewHolder.itemView
+			val backgroundColor = MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorError)
+			val deleteIcon: Drawable = AppCompatResources.getDrawable(applicationContext, R.drawable.delete_24px)!!
+
+			// Set up the Paint object
+			val backgroundPaint = Paint().apply {
+				color = backgroundColor
+				isAntiAlias = true
+				style = Paint.Style.FILL
+			}
+
+			val left = itemView.left.toFloat()
+			val right = itemView.right.toFloat()
+			val top = itemView.top.toFloat()
+			val bottom = itemView.bottom.toFloat()
+
+			val rectF = RectF(left, top, right, bottom)
+
+			c.drawRoundRect(rectF, 32f, 32f, backgroundPaint)
+
+			val iconColor = MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorOnError)
+			DrawableCompat.setTint(deleteIcon, iconColor)
+
+			val iconMargin = 32
+			val iconTop = (itemView.top + (itemView.height - deleteIcon.intrinsicHeight) / 2)
+			val iconBottom = iconTop + deleteIcon.intrinsicHeight
+			val iconLeft = if (dX > 0) { itemView.left + iconMargin } else { itemView.right - iconMargin - deleteIcon.intrinsicWidth }
+			val iconRight = iconLeft + deleteIcon.intrinsicWidth
+
+			deleteIcon.setBounds(iconLeft, iconTop, iconRight, iconBottom)
+			deleteIcon.draw(c)
+
 			super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
 		}
 	}
-
-	/* val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
-	itemTouchHelper.attachToRecyclerView(binding.recyclerView) */
 
 	private val actionModeCallback = object : ActionMode.Callback {
 		override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {

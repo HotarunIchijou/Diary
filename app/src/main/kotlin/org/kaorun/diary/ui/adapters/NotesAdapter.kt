@@ -92,6 +92,10 @@ class NotesAdapter(
 		return selectedNotes.toList()
 	}
 
+	fun getNoteIdAtPosition(position: Int): String {
+		return notes[position].id
+	}
+
 	fun updateNotes(newNotes: MutableList<NotesDatabase>) {
 		notes = newNotes // Update the data
 		notifyDataSetChanged() // Refresh the RecyclerView

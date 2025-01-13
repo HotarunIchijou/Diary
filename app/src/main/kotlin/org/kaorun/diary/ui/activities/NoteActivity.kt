@@ -18,6 +18,7 @@ import com.onegravity.rteditor.api.RTApi
 import com.onegravity.rteditor.api.RTMediaFactoryImpl
 import com.onegravity.rteditor.api.RTProxyImpl
 import com.onegravity.rteditor.api.format.RTFormat
+import org.kaorun.diary.R
 import org.kaorun.diary.databinding.ActivityNoteBinding
 import org.kaorun.diary.ui.utils.FloatingToolbarHelper
 import org.kaorun.diary.ui.utils.InsetsHandler
@@ -31,6 +32,8 @@ class NoteActivity : AppCompatActivity() {
 	private lateinit var rtManager: RTManager
 	private lateinit var rtEditText: RTEditText
 	private var noteId: String? = null
+	private var isNoteDeleted: Boolean = false
+
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		enableEdgeToEdge()
@@ -106,6 +109,17 @@ class NoteActivity : AppCompatActivity() {
 			this.finish()
 		}
 
+		binding.topAppBar.setOnMenuItemClickListener { menuItem ->
+			when (menuItem.itemId) {
+				R.id.delete -> {
+					deleteNote()
+					true
+				}
+
+				else -> false
+			}
+		}
+
 		binding.fab.setOnClickListener {
 			saveNote(noteId)
 		}
@@ -129,14 +143,36 @@ class NoteActivity : AppCompatActivity() {
 			}
 		} else {
 			// Create new note
-			databaseRef.push().setValue(note).addOnCompleteListener {
-				if (it.isSuccessful) {
-					binding.editText.text = null
-					this.finish()
-				} else {
-					Toast.makeText(applicationContext, it.exception?.message, Toast.LENGTH_SHORT).show()
+			if (note.isNotEmpty()) {
+				databaseRef.push().setValue(note).addOnCompleteListener {
+					if (it.isSuccessful) {
+						binding.editText.text = null
+						this.finish()
+					} else {
+						Toast.makeText(applicationContext, it.exception?.message, Toast.LENGTH_SHORT).show()
+					}
 				}
 			}
+		}
+	}
+
+	private fun deleteNote() {
+		if (noteId != null) {
+			auth = FirebaseAuth.getInstance()
+			databaseRef = FirebaseDatabase.getInstance()
+				.reference.child("Notes").child(auth.currentUser?.uid.toString())
+
+			databaseRef.child(noteId!!).removeValue().addOnCompleteListener { task ->
+				if (task.isSuccessful) {
+					isNoteDeleted = true // Mark the note as deleted
+					finish()
+				} else {
+					Toast.makeText(this, "Failed to delete note: ${task.exception?.message}",
+						Toast.LENGTH_SHORT).show()
+				}
+			}
+		} else {
+			Toast.makeText(this, "Note not found", Toast.LENGTH_SHORT).show()
 		}
 	}
 
@@ -146,7 +182,10 @@ class NoteActivity : AppCompatActivity() {
 	}
 
 	override fun onPause() {
-		saveNote(noteId)
+		if (!isNoteDeleted) {
+			saveNote(noteId)
+		}
 		super.onPause()
 	}
+
 }

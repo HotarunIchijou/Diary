@@ -1,21 +1,30 @@
 package org.kaorun.diary.ui.fragments
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.exceptions.GetCredentialCancellationException
+import androidx.credentials.exceptions.GetCredentialProviderConfigurationException
+import androidx.credentials.exceptions.NoCredentialException
 import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential.Companion.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
 import kotlinx.coroutines.launch
@@ -29,6 +38,7 @@ class WelcomeFragment : BaseFragment() {
 
 	private var _binding: FragmentWelcomeBinding? = null
 	private val binding get() = _binding!!
+	private val auth = FirebaseAuth.getInstance()
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		_binding = FragmentWelcomeBinding.inflate(inflater, container, false)
@@ -57,7 +67,8 @@ class WelcomeFragment : BaseFragment() {
 		}
 
 		binding.googleButton.setOnClickListener {
-			continueWithGoogle()
+			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) signInWithGoogleOld()
+			else continueWithGoogle()
 		}
 	}
 
@@ -66,6 +77,7 @@ class WelcomeFragment : BaseFragment() {
 		_binding = null
 	}
 
+	@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 	private fun continueWithGoogle() {
 		val googleIdOption = GetGoogleIdOption.Builder()
 			.setFilterByAuthorizedAccounts(false)
@@ -101,6 +113,55 @@ class WelcomeFragment : BaseFragment() {
 			}
 			catch (e: GetCredentialCancellationException) {
 				Log.e("Credential", "An error occurred: ${e.message}", e)
+			}
+			catch (e: GetCredentialProviderConfigurationException) {
+				Log.e("Credential", "An error occurred: ${e.message}", e)
+				Toast.makeText(requireContext(),e.message, Toast.LENGTH_SHORT).show()
+			}
+			catch (e: NoCredentialException) {
+				Log.e("Credential", "An error occurred: ${e.message}", e)
+				Toast.makeText(requireContext(), getString(R.string.no_accounts_found), Toast.LENGTH_SHORT).show()
+			}
+		}
+	}
+
+	@Suppress("DEPRECATION")
+	private fun signInWithGoogleOld() {
+		val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+			.requestIdToken(getString(R.string.default_web_client_id))
+			.requestEmail()
+			.build()
+
+		val googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
+		val signInIntent = googleSignInClient.signInIntent
+		startActivityForResult(signInIntent, 9001)
+	}
+
+	@Deprecated("Deprecated in Java",
+		ReplaceWith("super.onActivityResult(requestCode, resultCode, data)"))
+	@Suppress("DEPRECATION")
+	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+		super.onActivityResult(requestCode, resultCode, data)
+
+		if (requestCode == 9001) {
+			val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+			try {
+				val account = task.getResult(ApiException::class.java)
+				firebaseAuthWithGoogle(account.idToken!!)
+			}
+			catch (_: ApiException) {}
+		}
+	}
+
+	private fun firebaseAuthWithGoogle(idToken: String) {
+		val credential = GoogleAuthProvider.getCredential(idToken, null)
+
+		auth.signInWithCredential(credential).addOnCompleteListener(requireActivity()) { task ->
+			if (task.isSuccessful) {
+				val intent = Intent(context, MainActivity::class.java)
+				startActivity(intent)
+
+				requireActivity().finish()
 			}
 		}
 	}

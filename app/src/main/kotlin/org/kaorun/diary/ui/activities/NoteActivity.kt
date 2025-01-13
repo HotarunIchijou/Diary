@@ -30,6 +30,7 @@ class NoteActivity : AppCompatActivity() {
 	private lateinit var rootLayout: CoordinatorLayout
 	private lateinit var rtManager: RTManager
 	private lateinit var rtEditText: RTEditText
+	private var noteId: String? = null
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		enableEdgeToEdge()
@@ -52,7 +53,7 @@ class NoteActivity : AppCompatActivity() {
 		val toolbarHelper = FloatingToolbarHelper(rtManager, binding)
 		toolbarHelper.setupFloatingToolbar()
 
-		val noteId = intent.getStringExtra("NOTE_ID")
+		noteId = intent.getStringExtra("NOTE_ID")
 		val noteContent = intent.getStringExtra("NOTE_CONTENT")
 
 		if (noteContent != null) {
@@ -106,30 +107,34 @@ class NoteActivity : AppCompatActivity() {
 		}
 
 		binding.fab.setOnClickListener {
-			val note = rtEditText.getText(RTFormat.HTML)
+			saveNote(noteId)
+		}
+	}
 
-			auth = FirebaseAuth.getInstance()
-			databaseRef = FirebaseDatabase.getInstance()
-				.reference.child("Notes").child(auth.currentUser?.uid.toString())
+	private fun saveNote(noteId: String?) {
+		val note = rtEditText.getText(RTFormat.HTML)
 
-			if (noteId != null) {
-				// Update existing note
-				databaseRef.child(noteId).setValue(note).addOnCompleteListener {
-					if (it.isSuccessful) {
-						this.finish()
-					} else {
-						Toast.makeText(applicationContext, it.exception?.message, Toast.LENGTH_SHORT).show()
-					}
+		auth = FirebaseAuth.getInstance()
+		databaseRef = FirebaseDatabase.getInstance()
+			.reference.child("Notes").child(auth.currentUser?.uid.toString())
+
+		if (noteId != null) {
+			// Update existing note
+			databaseRef.child(noteId).setValue(note).addOnCompleteListener {
+				if (it.isSuccessful) {
+					this.finish()
+				} else {
+					Toast.makeText(applicationContext, it.exception?.message, Toast.LENGTH_SHORT).show()
 				}
-			} else {
-				// Create new note
-				databaseRef.push().setValue(note).addOnCompleteListener {
-					if (it.isSuccessful) {
-						binding.editText.text = null
-						this.finish()
-					} else {
-						Toast.makeText(applicationContext, it.exception?.message, Toast.LENGTH_SHORT).show()
-					}
+			}
+		} else {
+			// Create new note
+			databaseRef.push().setValue(note).addOnCompleteListener {
+				if (it.isSuccessful) {
+					binding.editText.text = null
+					this.finish()
+				} else {
+					Toast.makeText(applicationContext, it.exception?.message, Toast.LENGTH_SHORT).show()
 				}
 			}
 		}
@@ -138,5 +143,10 @@ class NoteActivity : AppCompatActivity() {
 	override fun onSaveInstanceState(outState: Bundle) {
 		super.onSaveInstanceState(outState)
 		rtManager.onSaveInstanceState(outState)
+	}
+
+	override fun onPause() {
+		saveNote(noteId)
+		super.onPause()
 	}
 }

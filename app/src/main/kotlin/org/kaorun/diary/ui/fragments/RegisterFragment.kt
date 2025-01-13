@@ -109,9 +109,18 @@ class RegisterFragment : BaseFragment() {
 							}
 					}
 					else {
-						with(binding.hintText) {
-							setTextColor(MaterialColors.getColor(view, android.R.attr.colorError))
-							text = getString(R.string.registration_failed)
+						task.exception?.let {
+							when (it.message!!.contains("PASSWORD_DOES_NOT_MEET_REQUIREMENTS")) {
+								true -> with(binding.hintText) {
+									setTextColor(MaterialColors.getColor(view, android.R.attr.colorError))
+									text = getString(R.string.weak_password)
+								}
+
+								false -> with(binding.hintText) {
+									setTextColor(MaterialColors.getColor(view, android.R.attr.colorError))
+									text = getString(R.string.registration_failed)
+								}
+							}
 						}
 					}
 				}

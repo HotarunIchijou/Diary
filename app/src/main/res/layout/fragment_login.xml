@@ -19,13 +19,13 @@
 			android:id="@+id/credentialsContainer"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:orientation="vertical">
+			android:orientation="vertical"
+			android:layout_marginHorizontal="16dp">
 
 			<com.google.android.material.appbar.AppBarLayout
 				android:id="@+id/titlebar"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_marginHorizontal="16dp"
 				android:background="@android:color/transparent"
 				android:backgroundTint="@android:color/transparent"
 				android:fitsSystemWindows="true">
@@ -71,8 +71,8 @@
 
 			<ImageView
 				android:id="@+id/imageView"
-				android:layout_width="320dp"
-				android:layout_height="320dp"
+				android:layout_width="260dp"
+				android:layout_height="260dp"
 				android:layout_margin="16dp"
 				android:src="@drawable/login"
 				android:layout_gravity="center"

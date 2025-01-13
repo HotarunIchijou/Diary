@@ -71,8 +71,8 @@
 
 			<ImageView
 				android:id="@+id/imageView"
-				android:layout_width="320dp"
-				android:layout_height="320dp"
+				android:layout_width="260dp"
+				android:layout_height="260dp"
 				android:layout_margin="16dp"
 				android:layout_gravity="center"
 				android:src="@drawable/register"

@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "147141776010-5hiqfpl7lj53jojmjj19skhi4dd85qa5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.kaorun.diary",
+            "certificate_hash": "96bd1276ee938792399318f6cf4772e852bd72d3"
+          }
+        },
+        {
           "client_id": "147141776010-k6ciqif9cms4vnaslgm9fth90ng2pds6.apps.googleusercontent.com",
           "client_type": 3
         }

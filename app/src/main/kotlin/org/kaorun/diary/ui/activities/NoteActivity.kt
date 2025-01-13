@@ -172,7 +172,8 @@ class NoteActivity : AppCompatActivity() {
 				}
 			}
 		} else {
-			Toast.makeText(this, "Note not found", Toast.LENGTH_SHORT).show()
+			isNoteDeleted = true
+			finish()
 		}
 	}
 

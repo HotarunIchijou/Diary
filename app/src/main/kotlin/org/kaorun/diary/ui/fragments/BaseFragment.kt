@@ -10,7 +10,9 @@ abstract class BaseFragment : Fragment() {
 		super.onCreate(savedInstanceState)
 
 		enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
-		returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+		returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false).apply {
+			duration = 500
+		}
 		exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
 		reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
 	}

@@ -28,6 +28,8 @@ class MainViewModel : ViewModel() {
 		_isLoading.value = true
 		val userId = firebaseAuth.currentUser?.uid ?: return
 
+		attachChildEventListener(userId) // Attach listener
+
 		// Initial check for notes existence
 		databaseReference.child(userId).addListenerForSingleValueEvent(object : ValueEventListener {
 			override fun onDataChange(snapshot: DataSnapshot) {
@@ -35,9 +37,6 @@ class MainViewModel : ViewModel() {
 					// If no notes exist, update the state
 					_notesList.value = emptyList()
 					_isLoading.value = false
-				} else {
-					// Attach the real-time listener
-					attachChildEventListener(userId)
 				}
 			}
 

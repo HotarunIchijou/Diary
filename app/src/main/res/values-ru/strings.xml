@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">Diary</string>
+	<string name="prompt_email">Эл. почта</string>
+	<string name="prompt_password">Пароль</string>
+	<string name="action_sign_in">Войти</string>
+	<string name="action_register">Зарегистрироваться</string>
+	<string name="registered_successfully">Успешная регистрация</string>
+	<string name="welcome">Добро пожаловать в Diary! [...]</string>
+	<string name="invalid_username">Некорректное имя пользователя</string>
+	<string name="login_failed">Произошла ошибка при входе</string>
+	<string name="action_sign_in_short">Войти</string>
+	<string name="action_settings">Настройки</string>
+	<string name="add_note">Добавить заметку</string>
+	<string name="notes_hint">Пишите свои заметки здесь</string>
+	<string name="search_notes">Поиск заметок</string>
+	<string name="save_note">Сохранить запись</string>
+	<string name="delete">Удалить</string>
+	<string name="grid_view">Сетка</string>
+	<string name="dont_have_an_account">Нет аккаунта?</string>
+	<string name="register">Создайте сейчас</string>
+	<string name="sign_in_icon">Иконка входа</string>
+	<string name="sign_in_with_email">Войти через эл. почту</string>
+	<string name="continue_with_google">Продолжить через Google</string>
+	<string name="nothing_found">Ничего не найдено в ваших заметках</string>
+	<string name="sign_in_title">Войти в аккаунт</string>
+	<string name="navigate_back">Назад</string>
+	<string name="mail_icon">Иконка email</string>
+	<string name="password_icon">Иконка пароля</string>
+	<string name="notes_empty">Ваш список заметок пуст</string>
+	<string name="register_new_account">Зарегестрировать новый аккаунт</string>
+	<string name="register_note">Для регистрации вам нужно подтвердить свою эл. почту</string>
+	<string name="verification_sent">Инструкция для верефикации была отправлена на вашу эл. почту</string>
+	<string name="verification_failed">Не удалось отправить инструкцию для верификации на вашу эл. почту</string>
+	<string name="verify_email">Пожалуйста, верифицируйте свой адрес эл. почты</string>
+	<string name="verification_status_failed">Не удалось проверить статус верификации. Пожалуйста, попробуйте снова</string>
+	<string name="registration_failed">Регистрация не удалась. Пожалуйста, попробуйте снова</string>
+	<string name="info_icon">Иконка информации</string>
+	<string name="weak_password">Ваш пароль должен содержать заглавные и строчные буквы, цифру и специальный символ</string>
+	<string name="no_accounts_found">Не найдено аккаунтов Google на этом устройстве</string>
+	<string name="sign_out">Выйти</string>
+</resources>

@@ -11,8 +11,8 @@
 	<string name="login_failed">Произошла ошибка при входе</string>
 	<string name="action_sign_in_short">Войти</string>
 	<string name="action_settings">Настройки</string>
-	<string name="add_note">Добавить заметку</string>
-	<string name="notes_hint">Пишите свои заметки здесь</string>
+	<string name="add_note">Добавить</string>
+	<string name="notes_hint">Поле для заметок</string>
 	<string name="search_notes">Поиск заметок</string>
 	<string name="save_note">Сохранить запись</string>
 	<string name="delete">Удалить</string>

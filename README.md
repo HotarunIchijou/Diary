@@ -60,6 +60,7 @@ This project is licensed under the [MIT License](https://github.com/HotarunIchij
 ## 📧 Contact  
 Feel free to reach out with questions or suggestions:  
 - **Email**: hotarunichijou@ik.me
+- **Telegram**: [@KaorunIchijou](https://t.me/KaorunIchijou)
 
 ## 🙌 Special thanks to:  
 - [Shemmy](https://github.com/N3Shemmy3) and [Nick](https://github.com/nift4) for their invaluable support throughout the entire development process

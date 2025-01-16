@@ -40,11 +40,10 @@
 
 ## 📝 TODO List  
 Here's what's planned for future updates:  
-- [ ] Add **auto-save** functionality  
+- [x] Add **auto-save** functionality
+- [x] Rewrite some activities to fragments
 - [ ] Support for **image uploads** in entries
-- [ ] Rewrite some activities to fragments
 - [ ] Add settings
-- [ ] Fix the issue with action mode (status bar becomes black)
 - [ ] Implement tasks in addition to notes
 - [ ] Add themes
 

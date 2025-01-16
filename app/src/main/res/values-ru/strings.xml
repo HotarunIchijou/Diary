@@ -6,7 +6,7 @@
 	<string name="action_sign_in">Войти</string>
 	<string name="action_register">Зарегистрироваться</string>
 	<string name="registered_successfully">Успешная регистрация</string>
-	<string name="welcome">Добро пожаловать в Diary! […]</string>
+	<string name="welcome">Добро пожаловать в Diary!</string>
 	<string name="invalid_username">Некорректное имя пользователя</string>
 	<string name="login_failed">Произошла ошибка при входе</string>
 	<string name="action_sign_in_short">Войти</string>

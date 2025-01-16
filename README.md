@@ -40,11 +40,10 @@
 
 ## 📝 TODO List  
 Here's what's planned for future updates:  
-- [ ] Add **auto-save** functionality  
+- [x] Add **auto-save** functionality
+- [x] Rewrite some activities to fragments
 - [ ] Support for **image uploads** in entries
-- [ ] Rewrite some activities to fragments
 - [ ] Add settings
-- [ ] Fix the issue with action mode (status bar becomes black)
 - [ ] Implement tasks in addition to notes
 - [ ] Add themes
 
@@ -55,12 +54,13 @@ Contributions are welcome!
 3. Commit and push your changes  
 4. Open a pull request for review  
 
-## 📄 License  
+## ⚖️ License  
 This project is licensed under the [MIT License](https://github.com/HotarunIchijou/Diary/blob/master/LICENSE)
 
 ## 📧 Contact  
 Feel free to reach out with questions or suggestions:  
 - **Email**: hotarunichijou@ik.me
+- **Telegram**: [@KaorunIchijou](https://t.me/KaorunIchijou)
 
 ## 🙌 Special thanks to:  
 - [Shemmy](https://github.com/N3Shemmy3) and [Nick](https://github.com/nift4) for their invaluable support throughout the entire development process

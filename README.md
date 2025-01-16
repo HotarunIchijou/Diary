@@ -54,7 +54,7 @@ Contributions are welcome!
 3. Commit and push your changes  
 4. Open a pull request for review  
 
-## 📄 License  
+## ⚖️ License  
 This project is licensed under the [MIT License](https://github.com/HotarunIchijou/Diary/blob/master/LICENSE)
 
 ## 📧 Contact  

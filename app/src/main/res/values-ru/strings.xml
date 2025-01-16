@@ -22,7 +22,7 @@
 	<string name="sign_in_icon">Иконка входа</string>
 	<string name="sign_in_with_email">Войти через эл. почту</string>
 	<string name="continue_with_google">Продолжить через Google</string>
-	<string name="nothing_found">Ничего не найдено в ваших заметках</string>
+	<string name="nothing_found">Ничего не найдено</string>
 	<string name="sign_in_title">Войти в аккаунт</string>
 	<string name="navigate_back">Назад</string>
 	<string name="mail_icon">Иконка email</string>

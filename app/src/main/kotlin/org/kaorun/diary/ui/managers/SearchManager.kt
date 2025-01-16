@@ -84,17 +84,6 @@ class SearchManager(
 
 		val menuItem = binding.searchBar.menu.findItem(R.id.layoutSwitcher)
 		menuItem.isVisible = notesList.isNotEmpty()
-
-		searchBar.setOnMenuItemClickListener {
-			when (it.itemId) {
-				R.id.layoutSwitcher -> {
-					switchLayout()
-					if (isGridLayout) it.setIcon(R.drawable.view_agenda_24px)
-					else it.setIcon(R.drawable.grid_view_24px)
-				}
-			}
-			true
-		}
 	}
 
 	private fun setupSearchAdapter() {
@@ -166,7 +155,7 @@ class SearchManager(
 		binding.notesEmpty.notesEmptyLayout.visibility = if (notesList.isNotEmpty()) View.GONE else View.VISIBLE
 	}
 
-	private fun switchLayout() {
+	fun switchLayout() {
 		layoutManager = if (isGridLayout) {
 			// Switch to LinearLayoutManager
 			LinearLayoutManager(binding.mainActivity.context)

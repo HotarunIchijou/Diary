@@ -22,8 +22,6 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			app:navigationIcon="@drawable/search_24px"
-			android:paddingStart="0dp"
-			android:paddingEnd="8dp"
 			android:hint="@string/search_notes" />
 	</com.google.android.material.appbar.AppBarLayout>
 

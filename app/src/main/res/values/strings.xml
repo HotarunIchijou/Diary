@@ -42,4 +42,5 @@
     <string name="info_icon">Info icon</string>
 	<string name="weak_password">Your password must contain uppercase, lowercase, number and a special symbol</string>
 	<string name="no_accounts_found">No Google accounts found on this device</string>
+    <string name="sign_out">Sign out</string>
 </resources>

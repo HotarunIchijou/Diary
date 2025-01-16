@@ -239,7 +239,7 @@ class MainActivity : AppCompatActivity() {
 	}
 
 	private fun setupSearchManager() {
-		SearchManager(
+		val searchManager = SearchManager(
 			binding = binding,
 			onBackPressedDispatcher = this.onBackPressedDispatcher,
 			notesAdapter = notesAdapter,
@@ -247,7 +247,23 @@ class MainActivity : AppCompatActivity() {
 			layoutManager = layoutManager,
 			notesList = notesList,
 			backPressedCallback = backPressedCallback,
-			isGridLayout = isGridLayout)
+			isGridLayout = isGridLayout
+		)
+
+		binding.searchBar.setOnMenuItemClickListener {
+			when (it.itemId) {
+				R.id.layoutSwitcher -> {
+					searchManager.switchLayout()
+					if (isGridLayout) it.setIcon(R.drawable.view_agenda_24px)
+					else it.setIcon(R.drawable.grid_view_24px)
+				}
+				R.id.signOut -> {
+					FirebaseAuth.getInstance().signOut()
+					navigateToWelcomeFragment()
+				}
+			}
+			true
+		}
 	}
 
 	private fun observeViewModel() {
@@ -267,7 +283,7 @@ class MainActivity : AppCompatActivity() {
 		}
 	}
 
-	private fun navigateToWelcomeFragment() {
+	fun navigateToWelcomeFragment() {
 		binding.recyclerView.visibility = View.GONE
 		binding.searchBar.visibility = View.GONE
 		binding.extendedFab.visibility = View.GONE

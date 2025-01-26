@@ -87,11 +87,12 @@ class MainActivity : AppCompatActivity() {
 	private fun setupRecyclerView() {
 		notesAdapter = NotesAdapter(
 			notesList,
-			onItemClicked = { noteId, noteContent ->
+			onItemClicked = { noteId, noteTitle, noteContent ->
 				if (actionMode == null) {
 					// Open note if not in selection mode
 					val intent = Intent(this, NoteActivity::class.java).apply {
 						putExtra("NOTE_ID", noteId)
+						putExtra("NOTE_TITLE", noteTitle)
 						putExtra("NOTE_CONTENT", noteContent)
 					}
 					startActivity(intent)
@@ -283,7 +284,7 @@ class MainActivity : AppCompatActivity() {
 		}
 	}
 
-	fun navigateToWelcomeFragment() {
+	private fun navigateToWelcomeFragment() {
 		binding.recyclerView.visibility = View.GONE
 		binding.searchBar.visibility = View.GONE
 		binding.extendedFab.visibility = View.GONE

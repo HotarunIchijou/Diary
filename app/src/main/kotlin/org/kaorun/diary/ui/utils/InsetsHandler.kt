@@ -13,13 +13,15 @@ object InsetsHandler {
 
 		ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
 			val bars = insets.getInsets(
-				WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout(),
+				WindowInsetsCompat.Type.systemBars()
+					or WindowInsetsCompat.Type.displayCutout()
+					or WindowInsetsCompat.Type.ime()
 			)
 			v.updatePadding(
 				left = bars.left,
 				right = bars.right,
 				bottom = bars.bottom + additionalBottomPadding,
-				top = if (isTopPadding) bars.top else 0,
+				top = if (isTopPadding) bars.top else v.paddingTop
 			)
 			WindowInsetsCompat.CONSUMED
 		}

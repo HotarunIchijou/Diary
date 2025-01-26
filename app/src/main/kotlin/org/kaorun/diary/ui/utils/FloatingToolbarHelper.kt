@@ -6,6 +6,7 @@ import android.text.style.StyleSpan
 import android.view.textclassifier.SelectionEvent
 import android.view.textclassifier.TextClassifier
 import com.google.android.material.button.MaterialButton
+import com.onegravity.rteditor.RTEditText
 import com.onegravity.rteditor.RTManager
 import com.onegravity.rteditor.effects.Effect
 import com.onegravity.rteditor.effects.Effects
@@ -63,17 +64,29 @@ class FloatingToolbarHelper(
 			button.isChecked = isActive
 			rtManager.onEffectSelected(effect, isActive)
 
-			val editText = binding.editText
-			editText.setTextClassifier(object : TextClassifier {
+			setClassifier(styleChecker, typeface, flagUpdater, button, binding.noteTitle)
+			setClassifier(styleChecker, typeface, flagUpdater, button, binding.noteContent)
+		}
+	}
+
+	private fun setClassifier(
+		styleChecker: (spannable: Editable?, start: Int, end: Int, typeface: Int?) -> Boolean,
+		typeface: Int?,
+		flagUpdater: (Boolean) -> Unit,
+		button: MaterialButton,
+		textbox: RTEditText
+	) {
+		textbox.setTextClassifier(
+			object : TextClassifier {
 				override fun onSelectionEvent(event: SelectionEvent) {
-					val spannable = editText.text
-					if (styleChecker(spannable, editText.selectionStart, editText.selectionEnd, typeface)) {
+					val spannable = textbox.text
+					if (styleChecker(spannable, textbox.selectionStart, textbox.selectionEnd, typeface)) {
 						flagUpdater(true)
 						button.isChecked = true
 					}
 				}
-			})
-		}
+			},
+		)
 	}
 
 	// Updated style checker functions

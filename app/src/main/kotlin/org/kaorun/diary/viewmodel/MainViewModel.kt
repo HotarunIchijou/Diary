@@ -50,19 +50,44 @@ class MainViewModel : ViewModel() {
 		databaseReference.child(userId).addChildEventListener(object : ChildEventListener {
 			override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
 				val noteId = snapshot.key.orEmpty()
-				val noteTitle = snapshot.getValue(String::class.java) ?: ""
-				val note = NotesDatabase(id = noteId, title = noteTitle)
-				notes.add(note)
-				_notesList.value = notes.toList()
-				_isLoading.value = false
+				val value = snapshot.value
+
+				when (value) {
+					is String -> {
+						// Handling the old structure: "id:title"
+						val noteTitle = snapshot.getValue(String::class.java) ?: ""  // Get title from old structure
+						val noteContent = ""  // Old structure doesn't have content, so it's left empty
+						val note = NotesDatabase(id = noteId, title = noteTitle, note = noteContent)
+						notes.add(note)
+						_notesList.value = notes.toList()
+						_isLoading.value = false
+					}
+
+					is Map<*, *> -> {
+						val noteData = snapshot.getValue(object : GenericTypeIndicator<Map<String, String>>() {})
+						val noteTitle = noteData?.get("title") ?: ""
+						val noteContent = noteData?.get("note") ?: ""
+						val note = NotesDatabase(id = noteId, title = noteTitle, note = noteContent)
+						notes.add(note)
+						_notesList.value = notes.toList()
+						_isLoading.value = false
+					}
+
+					else -> {
+						_isLoading.value = false
+					}
+				}
 			}
 
 			override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
 				val noteId = snapshot.key.orEmpty()
-				val noteTitle = snapshot.getValue(String::class.java) ?: ""
+				val noteData = snapshot.getValue(object : GenericTypeIndicator<Map<String, String>>() {})
+
+				val noteTitle = noteData?.get("title") ?: ""
+				val noteContent = noteData?.get("note") ?: ""
 				val index = notes.indexOfFirst { it.id == noteId }
 				if (index != -1) {
-					notes[index] = NotesDatabase(id = noteId, title = noteTitle)
+					notes[index] = NotesDatabase(id = noteId, title = noteTitle, note = noteContent)
 					_notesList.value = notes.toList()
 				}
 			}

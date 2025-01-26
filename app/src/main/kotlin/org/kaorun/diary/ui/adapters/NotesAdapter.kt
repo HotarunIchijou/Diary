@@ -9,7 +9,7 @@ import org.kaorun.diary.databinding.NotesItemBinding
 
 class NotesAdapter(
 	private var notes: MutableList<NotesDatabase>,
-	private val onItemClicked: (noteId: String, noteContent: String) -> Unit,
+	private val onItemClicked: (noteId: String, noteTitle:String, noteContent: String) -> Unit,
 	private val onSelectionChanged: (isSelectionModeActive: Boolean) -> Unit
 ) : RecyclerView.Adapter<NotesAdapter.NoteViewHolder>() {
 
@@ -22,16 +22,17 @@ class NotesAdapter(
 		fun bind(note: NotesDatabase, position: Int) {
 			val isSelected = selectedNotes.contains(note.id)
 
-			// Update the UI based on the selection state
 			binding.CardView.isChecked = isSelected
-			binding.noteTitle.text = HtmlCompat.fromHtml(note.title, HtmlCompat.FROM_HTML_MODE_COMPACT)
+			binding.noteTitle.text = HtmlCompat.fromHtml(
+				(note.title.ifEmpty { note.note }),
+				HtmlCompat.FROM_HTML_MODE_COMPACT)
 
 			// Handle click and long-click events
 			binding.root.setOnClickListener {
 				if (isSelectionModeActive) {
 					toggleSelection(note.id, position)
 				} else {
-					onItemClicked(note.id, note.title)
+					onItemClicked(note.id, note.title, note.note)
 				}
 			}
 

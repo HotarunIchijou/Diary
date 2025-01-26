@@ -5,10 +5,8 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.OnBackPressedDispatcher
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.LifecycleOwner
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.google.android.material.search.SearchView
 import org.kaorun.diary.R
 import org.kaorun.diary.data.NotesDatabase
@@ -22,10 +20,8 @@ class SearchManager(
     private val onBackPressedDispatcher: OnBackPressedDispatcher,
     private val notesAdapter: NotesAdapter,
     private val lifecycleOwner: LifecycleOwner,
-    private var layoutManager: LayoutManager,
     private var notesList: MutableList<NotesDatabase>,
     private var backPressedCallback: OnBackPressedCallback? = null,
-    private var isGridLayout: Boolean,
 ) {
 
 	private lateinit var searchAdapter: SearchHistoryAdapter
@@ -153,18 +149,5 @@ class SearchManager(
 		backPressedCallback?.remove()
 		binding.searchBar.menu.findItem(R.id.layoutSwitcher).isVisible = notesList.isNotEmpty()
 		binding.notesEmpty.notesEmptyLayout.visibility = if (notesList.isNotEmpty()) View.GONE else View.VISIBLE
-	}
-
-	fun switchLayout() {
-		layoutManager = if (isGridLayout) {
-			// Switch to LinearLayoutManager
-			LinearLayoutManager(binding.mainActivity.context)
-		} else {
-			// Switch to GridLayoutManager (2 columns)
-			GridLayoutManager(binding.mainActivity.context, 2)
-		}
-
-		binding.recyclerView.layoutManager = layoutManager
-		isGridLayout = !isGridLayout
 	}
 }

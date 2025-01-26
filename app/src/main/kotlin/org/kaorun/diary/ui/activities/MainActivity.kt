@@ -18,6 +18,7 @@ import androidx.appcompat.view.ActionMode
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -240,21 +241,19 @@ class MainActivity : AppCompatActivity() {
 	}
 
 	private fun setupSearchManager() {
-		val searchManager = SearchManager(
+		SearchManager(
 			binding = binding,
 			onBackPressedDispatcher = this.onBackPressedDispatcher,
 			notesAdapter = notesAdapter,
 			lifecycleOwner = this,
-			layoutManager = layoutManager,
 			notesList = notesList,
 			backPressedCallback = backPressedCallback,
-			isGridLayout = isGridLayout
 		)
 
 		binding.searchBar.setOnMenuItemClickListener {
 			when (it.itemId) {
 				R.id.layoutSwitcher -> {
-					searchManager.switchLayout()
+					switchLayout()
 					if (isGridLayout) it.setIcon(R.drawable.view_agenda_24px)
 					else it.setIcon(R.drawable.grid_view_24px)
 				}
@@ -310,6 +309,19 @@ class MainActivity : AppCompatActivity() {
 		InsetsHandler.applyViewInsets(binding.recyclerView)
 		InsetsHandler.applyFabInsets(binding.extendedFab)
 		InsetsHandler.applyAppBarInsets(binding.appBarLayout)
+	}
+
+	private fun switchLayout() {
+		layoutManager = if (isGridLayout) {
+			// Switch to LinearLayoutManager
+			LinearLayoutManager(binding.mainActivity.context)
+		} else {
+			// Switch to GridLayoutManager (2 columns)
+			GridLayoutManager(binding.mainActivity.context, 2)
+		}
+
+		binding.recyclerView.layoutManager = layoutManager
+		isGridLayout = !isGridLayout
 	}
 }
 

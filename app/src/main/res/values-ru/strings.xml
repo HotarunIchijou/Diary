@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">Diary</string>
-	<string name="prompt_email">Эл. почта</string>
+    <string name="prompt_email">Эл. почта</string>
 	<string name="prompt_password">Пароль</string>
 	<string name="action_sign_in">Войти</string>
 	<string name="action_register">Зарегистрироваться</string>
@@ -39,4 +38,5 @@
 	<string name="weak_password">Ваш пароль должен содержать заглавные и строчные буквы, цифру и специальный символ</string>
 	<string name="no_accounts_found">Не найдено аккаунтов Google на этом устройстве</string>
 	<string name="sign_out">Выйти</string>
+	<string name="title">Заголовок</string>
 </resources>

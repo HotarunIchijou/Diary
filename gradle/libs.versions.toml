@@ -3,32 +3,32 @@ agp = "8.8.0"
 kotlin = "2.0.21"
 coreKtx = "1.15.0"
 appcompat = "1.7.0"
-activity = "1.9.3"
+activity = "1.10.0"
 constraintlayout = "2.2.0"
 googleGmsGoogleServices = "4.4.2"
 firebaseDatabase = "21.0.0"
 firebaseAuth = "23.1.0"
-navigationFragment = "2.8.5"
+navigationFragment = "2.8.6"
 annotation = "1.9.1"
 lifecycleLivedataKtx = "2.8.7"
 lifecycleViewmodelKtx = "2.8.7"
-navigationFragmentKtx = "2.8.5"
-navigationUiKtx = "2.8.5"
+navigationFragmentKtx = "2.8.6"
+navigationUiKtx = "2.8.6"
 androidRteditor = "1.8.0"
 transitionKtx = "1.6.0-alpha01"
 fragmentKtx = "1.8.5"
 playServicesAuth = "21.3.0"
 googleid = "1.1.1"
-credentialsPlayServicesAuth = "1.5.0-beta01"
-firebaseBom = "33.7.0"
-credentials = "1.5.0-beta01"
+credentialsPlayServicesAuth = "1.5.0-rc01"
+firebaseBom = "33.8.0"
+credentials = "1.5.0-rc01"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-navigation-fragment = { module = "androidx.navigation:navigation-fragment", version.ref = "navigationFragment" }
 androidx-navigation-ui = { module = "androidx.navigation:navigation-ui", version.ref = "navigationFragment" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-material = { group = "com.google.android.material", name = "material", version = "1.13.0-alpha09" }
+material = { group = "com.google.android.material", name = "material", version = "1.13.0-alpha10" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }

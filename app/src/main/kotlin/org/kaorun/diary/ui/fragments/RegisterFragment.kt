@@ -140,6 +140,7 @@ class RegisterFragment : BaseFragment() {
 				if (binding.titlebar.visibility != View.GONE) {
 					animateViewTranslation(binding.titlebar, -100f)
 					binding.titlebar.visibility = View.GONE
+					binding.infoContainer.visibility = View.INVISIBLE
 
 					animateViewTranslation(binding.imageView, -100f)
 					animateViewTranslation(binding.usernameContainer, -100f)
@@ -149,6 +150,7 @@ class RegisterFragment : BaseFragment() {
 				if (binding.titlebar.visibility != View.VISIBLE) {
 					animateViewTranslation(binding.titlebar, 0f)
 					binding.titlebar.visibility = View.VISIBLE
+					binding.infoContainer.visibility = View.VISIBLE
 
 					animateViewTranslation(binding.imageView, 0f)
 					animateViewTranslation(binding.usernameContainer, 0f)

@@ -1,6 +1,7 @@
 package org.kaorun.diary.ui.fragments
 
 import android.animation.ValueAnimator
+import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
@@ -9,6 +10,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import com.google.android.material.color.MaterialColors
 import com.google.firebase.auth.FirebaseAuth
@@ -37,7 +39,7 @@ class RegisterFragment : BaseFragment() {
 
 		liftOnKeyboardOpen()
 
-		val loginTextWatcher = object : TextWatcher {
+		val textWatcher = object : TextWatcher {
 			override fun afterTextChanged(s: Editable?) {
 				username = binding.username.text.toString()
 				password = binding.password.text.toString()
@@ -49,8 +51,8 @@ class RegisterFragment : BaseFragment() {
 			override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 		}
 
-		binding.username.addTextChangedListener(loginTextWatcher)
-		binding.password.addTextChangedListener(loginTextWatcher)
+		binding.username.addTextChangedListener(textWatcher)
+		binding.password.addTextChangedListener(textWatcher)
 
 		binding.back.setOnClickListener {
 			val supportFragmentManager = requireActivity().supportFragmentManager
@@ -59,6 +61,12 @@ class RegisterFragment : BaseFragment() {
 
 		binding.register.setOnClickListener {
 			val currentUser = auth.currentUser
+			binding.username.clearFocus()
+			binding.password.clearFocus()
+			val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE)
+					as InputMethodManager
+			imm.hideSoftInputFromWindow(binding.username.windowToken, 0)
+			imm.hideSoftInputFromWindow(binding.password.windowToken, 0)
 
 			if (currentUser != null) {
 				// Check if the email is verified

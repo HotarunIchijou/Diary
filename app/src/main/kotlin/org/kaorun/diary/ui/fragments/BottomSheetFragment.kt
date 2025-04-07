@@ -270,8 +270,10 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
 
         try {
             val intent = Intent(requireContext(), NotificationReceiver::class.java).apply {
+                setPackage(requireContext().packageName)
                 putExtra("notification_title", taskText)
             }
+
 
             val pendingIntent = PendingIntent.getBroadcast(
                 requireContext(), 0, intent,

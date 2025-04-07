@@ -23,6 +23,15 @@
 			android:layout_height="wrap_content"
 			app:navigationIcon="@drawable/search_24px"
 			android:hint="@string/search_notes" />
+
+		<com.google.android.material.chip.Chip
+			android:id="@+id/chipSwitch"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/switch_mode"
+			app:chipIcon="@drawable/task_alt_24px"
+			android:layout_marginHorizontal="16dp" />
+
 	</com.google.android.material.appbar.AppBarLayout>
 
 	<com.google.android.material.search.SearchView
@@ -98,7 +107,6 @@
 		android:id="@+id/fragmentContainerView"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		app:defaultNavHost="true"
 		android:visibility="gone"
 		app:layout_constraintTop_toBottomOf="parent"
 		app:layout_constraintBottom_toBottomOf="parent"

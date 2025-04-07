@@ -29,7 +29,7 @@ class SearchManager(
 	private val searchBar = binding.searchBar
 	private val searchView = binding.searchView
 	private val recentSearches = mutableListOf<String>()
-	private val searchHistoryManager = SearchHistoryManager(binding.mainActivity.context)
+	private val notesSearchHistoryManager = SearchHistoryManager(binding.root.context, "notes")
 
 	init {
 		setupSearchAdapter()
@@ -38,7 +38,7 @@ class SearchManager(
 
 	private fun setupSearchBehavior() {
 
-		recentSearches.addAll(searchHistoryManager.loadSearchHistory())
+		recentSearches.addAll(notesSearchHistoryManager.loadSearchHistory())
 		searchAdapter.updateSuggestions(recentSearches)
 
 		searchView.findViewById<RecyclerView>(R.id.SearchRecyclerView).apply {
@@ -62,7 +62,7 @@ class SearchManager(
 			if (query.isNotBlank()) {
 				if (!recentSearches.contains(query)) {
 					recentSearches.add(0, query)
-					searchHistoryManager.saveSearchHistory(recentSearches) // Save the new query
+					notesSearchHistoryManager.saveSearchHistory(recentSearches) // Save the new query
 					searchAdapter.updateSuggestions(recentSearches) // Notify adapter
 				}
 				searchView.hide()
@@ -93,7 +93,7 @@ class SearchManager(
 			onItemDeleted = { suggestion ->
 				recentSearches.remove(suggestion)
 				searchAdapter.updateSuggestions(recentSearches)
-				searchHistoryManager.saveSearchHistory(recentSearches)
+				notesSearchHistoryManager.saveSearchHistory(recentSearches)
 			}
 		)
 

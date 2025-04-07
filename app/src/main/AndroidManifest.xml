@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,10 +16,14 @@
         android:supportsRtl="true"
 		android:localeConfig="@xml/locale_config"
         android:theme="@style/Theme.Diary">
+
         <activity
             android:name=".ui.activities.NoteActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.activities.TasksMainActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.activities.MainActivity"
 			android:windowSoftInputMode="adjustResize"
@@ -33,6 +40,9 @@
 			android:exported="false"
 			tools:replace="android:authorities"
 			android:authorities="${applicationId}.provider"/>
+
+        <receiver android:name="org.kaorun.diary.receivers.NotificationReceiver" />
+
     </application>
 
 </manifest>

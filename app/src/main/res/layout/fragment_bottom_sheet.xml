@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/new_task"
+        android:importantForAutofill="no"
+        android:inputType="textCapSentences|textMultiLine"
+        android:maxLines="10"
+        android:textAppearance="?attr/textAppearanceTitleLarge"
+        android:backgroundTint="@android:color/transparent" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:singleLine="true" >
+
+        <com.google.android.material.chip.Chip
+            style="@style/Widget.Material3.Chip.Assist"
+            android:id="@+id/timeChip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/time"
+            app:chipIcon="@drawable/schedule_24px"
+            app:chipBackgroundColor="?attr/colorSurfaceContainerLow" />
+
+        <com.google.android.material.chip.Chip
+            style="@style/Widget.Material3.Chip.Assist"
+            android:id="@+id/dateChip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/date"
+            app:chipIcon="@drawable/calendar_month_24px"
+            app:chipBackgroundColor="?attr/colorSurfaceContainerLow" />
+
+    </com.google.android.material.chip.ChipGroup>
+
+    <Button
+        android:id="@+id/buttonSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/save"
+        android:layout_gravity="end" />
+</LinearLayout>

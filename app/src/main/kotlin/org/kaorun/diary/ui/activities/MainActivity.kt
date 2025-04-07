@@ -1,5 +1,6 @@
 package org.kaorun.diary.ui.activities
 
+import android.app.ActivityOptions
 import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -67,7 +68,7 @@ class MainActivity : AppCompatActivity() {
 			showMainContent()
 		}
 
-		searchHistoryManager = SearchHistoryManager(this)
+		searchHistoryManager = SearchHistoryManager(this, "notes")
 
 		setupInsets()
 		setupRecyclerView()
@@ -82,6 +83,14 @@ class MainActivity : AppCompatActivity() {
 		binding.extendedFab.setOnClickListener {
 			val intent = Intent(this, NoteActivity::class.java)
 			startActivity(intent)
+		}
+
+		binding.chipSwitch.setOnClickListener {
+			val intent = Intent(this, TasksMainActivity::class.java)
+			val options = ActivityOptions.makeCustomAnimation(this, android.R.anim.fade_in,
+				android.R.anim.fade_out)
+			startActivity(intent, options.toBundle())
+			finish()
 		}
 	}
 

@@ -40,4 +40,17 @@
 	<string name="no_accounts_found">No Google accounts found on this device</string>
     <string name="sign_out">Sign out</string>
     <string name="title">Title</string>
+    <string name="add_task">Add task</string>
+	<string name="search_tasks">Search tasks</string>
+    <string name="switch_mode">Switch mode</string>
+    <string name="save">Save</string>
+	<string name="new_task">New task</string>
+    <string name="time">Time</string>
+	<string name="date">Today</string>
+	<string name="date_tomorrow">Tomorrow</string>
+	<string name="date_yesterday">Yesterday</string>
+	<string name="select_time">Select time</string>
+	<string name="select_date">Select date</string>
+	<string name="grant_reminders_permission">Please, grant a permission to set reminders</string>
+	<string name="must_be_in_the_future">Scheduled time must be in the future</string>
 </resources>

@@ -269,7 +269,8 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
         }
 
         try {
-            val intent = Intent(requireContext(), NotificationReceiver::class.java).apply {
+            val intent = Intent().apply {
+                setClassName(requireContext().packageName, "org.kaorun.diary.receivers.NotificationReceiver")
                 putExtra("notification_title", taskText)
             }
 

@@ -41,7 +41,9 @@
 			tools:replace="android:authorities"
 			android:authorities="${applicationId}.provider"/>
 
-        <receiver android:name="org.kaorun.diary.receivers.NotificationReceiver" />
+        <receiver
+            android:name="org.kaorun.diary.receivers.NotificationReceiver"
+            android:exported="false" />
 
     </application>
 

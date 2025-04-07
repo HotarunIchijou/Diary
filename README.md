@@ -42,9 +42,9 @@
 Here's what's planned for future updates:  
 - [x] Add **auto-save** functionality
 - [x] Rewrite some activities to fragments
+- [x] Implement tasks in addition to notes
 - [ ] Support for **image uploads** in entries
 - [ ] Add settings
-- [ ] Implement tasks in addition to notes
 - [ ] Add themes
 
 ## 🤝 Contribution  

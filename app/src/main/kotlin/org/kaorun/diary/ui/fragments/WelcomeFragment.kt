@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package org.kaorun.diary.ui.fragments
 
 import android.content.Intent
@@ -125,7 +127,6 @@ class WelcomeFragment : BaseFragment() {
 		}
 	}
 
-	@Suppress("DEPRECATION")
 	private fun signInWithGoogleOld() {
 		val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
 			.requestIdToken(getString(R.string.default_web_client_id))
@@ -139,7 +140,6 @@ class WelcomeFragment : BaseFragment() {
 
 	@Deprecated("Deprecated in Java",
 		ReplaceWith("super.onActivityResult(requestCode, resultCode, data)"))
-	@Suppress("DEPRECATION")
 	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 		super.onActivityResult(requestCode, resultCode, data)
 

@@ -163,7 +163,7 @@ class MainActivity : AppCompatActivity() {
 			isCurrentlyActive: Boolean
 		) {
 			val itemView = viewHolder.itemView
-			val backgroundColor = MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorError)
+			val backgroundColor = MaterialColors.getColor(itemView, androidx.appcompat.R.attr.colorError)
 			val deleteIcon: Drawable = AppCompatResources.getDrawable(applicationContext, R.drawable.delete_24px)!!
 
 			// Set up the Paint object

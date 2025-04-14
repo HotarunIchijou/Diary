@@ -1,6 +1,5 @@
 package org.kaorun.diary.ui.activities
 
-import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -44,6 +43,7 @@ class NoteActivity : AppCompatActivity() {
 
 		InsetsHandler.applyAppBarInsets(binding.appBarLayout)
 		InsetsHandler.applyViewInsets(binding.noteContent)
+		InsetsHandler.applyFabInsets(binding.floatingToolbarParent)
 
 		val fab = binding.fab
 
@@ -70,7 +70,7 @@ class NoteActivity : AppCompatActivity() {
 
 		binding.noteTitle.requestFocus()
 
-		val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+		val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
 		imm.showSoftInput(binding.noteTitle, InputMethodManager.SHOW_IMPLICIT)
 
 		registerEvents()

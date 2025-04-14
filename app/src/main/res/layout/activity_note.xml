@@ -85,14 +85,13 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_gravity="center"
-			android:layout_margin="16dp"
 			android:id="@+id/floatingToolbar">
 
 			<LinearLayout
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center"
-				android:layout_margin="8dp"
+
 				android:orientation="horizontal">
 
 				<com.google.android.material.button.MaterialButton
@@ -130,9 +129,7 @@
 			android:layout_gravity="center"
 			android:contentDescription="@string/add_note"
 			app:srcCompat="@drawable/save_24px"
-			android:layout_marginVertical="16dp"
-			android:layout_marginStart="0dp"
-			android:layout_marginEnd="16dp" />
+			android:layout_marginHorizontal="16dp" />
 
 	</LinearLayout>
 

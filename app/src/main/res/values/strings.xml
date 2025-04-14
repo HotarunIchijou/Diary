@@ -53,4 +53,5 @@
 	<string name="select_date">Select date</string>
 	<string name="grant_reminders_permission">Please, grant a permission to set reminders</string>
 	<string name="must_be_in_the_future">Scheduled time must be in the future</string>
+	<string name="enter_task">Please, enter a task to continue</string>
 </resources>

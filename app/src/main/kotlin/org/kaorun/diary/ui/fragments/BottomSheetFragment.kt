@@ -85,7 +85,7 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
                 if (formattedTime != null) scheduleNotification(selectedDate, formattedTime!!, task.id)
                 else dismiss()
             }
-            else Toast.makeText(requireContext(), "Please enter a task", Toast.LENGTH_SHORT).show()
+            else Toast.makeText(requireContext(), getString(R.string.enter_task), Toast.LENGTH_SHORT).show()
         }
 
 

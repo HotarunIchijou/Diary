@@ -23,7 +23,6 @@ import com.google.firebase.database.FirebaseDatabase
 import org.kaorun.diary.R
 import org.kaorun.diary.data.TasksDatabase
 import org.kaorun.diary.databinding.FragmentBottomSheetBinding
-import org.kaorun.diary.receivers.NotificationReceiver
 import org.kaorun.diary.viewmodel.TasksViewModel
 import java.time.LocalDate
 import java.time.LocalTime
@@ -40,6 +39,8 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
     private var taskText: String = ""
     private var formattedTime: String? = null
     private var selectedDate: Date? = null
+    private var isCompleted: Boolean = false
+
 
     private var existingTaskId: String? = null
 
@@ -70,22 +71,23 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
                 val task = TasksDatabase(
                     id = existingTaskId ?: FirebaseDatabase.getInstance().reference.push().key.orEmpty(),
                     title = taskText,
-                    isCompleted = false,
+                    isCompleted = isCompleted,
                     time = finalTime
                 )
 
                 if (existingTaskId != null) {
                     tasksViewModel.updateTask(task)
-                } else {
-                    tasksViewModel.addTask(task)
-                }
 
-                if (formattedTime != null) scheduleNotification(selectedDate, formattedTime!!)
+                    if (formattedTime == null) cancelNotification(task.id)
+                }
+                else tasksViewModel.addTask(task)
+
+                if (formattedTime != null) scheduleNotification(selectedDate, formattedTime!!, task.id)
                 else dismiss()
-            } else {
-                Toast.makeText(requireContext(), "Please enter a task", Toast.LENGTH_SHORT).show()
             }
+            else Toast.makeText(requireContext(), "Please enter a task", Toast.LENGTH_SHORT).show()
         }
+
 
         return binding.root
     }
@@ -98,6 +100,11 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
 
         val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.showSoftInput(binding.editText, InputMethodManager.SHOW_IMPLICIT)
+
+        arguments?.let {
+            isCompleted = it.getBoolean("IS_COMPLETED", false)
+        }
+
 
         setupTimeChip()
         setupDateChip()
@@ -237,14 +244,14 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
                 val formatter = DateTimeFormatter.ofPattern(format, Locale.getDefault())
                 val localDate = LocalDate.parse(dateStr, formatter)
                 return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 continue
             }
         }
         return null
     }
 
-    private fun scheduleNotification(selectedDate: Date?, selectedTime: String) {
+    private fun scheduleNotification(selectedDate: Date?, selectedTime: String, taskId: String) {
         if (selectedTime.isBlank()) return
 
         val timeParts = selectedTime.split(":")
@@ -274,9 +281,8 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
                 putExtra("notification_title", taskText)
             }
 
-
             val pendingIntent = PendingIntent.getBroadcast(
-                requireContext(), 0, intent,
+                requireContext(), taskId.hashCode(), intent,
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
 
@@ -287,9 +293,25 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
             )
 
             dismiss()
-        } catch (e: SecurityException) {
+        } catch (_: SecurityException) {
             Toast.makeText(requireContext(), getString(R.string.grant_reminders_permission), Toast.LENGTH_SHORT).show()
             startActivity(Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM))
         }
     }
+
+
+    private fun cancelNotification(taskId: String) {
+        val intent = Intent().apply {
+            setClassName(requireContext().packageName, "org.kaorun.diary.receivers.NotificationReceiver")
+        }
+
+        val pendingIntent = PendingIntent.getBroadcast(
+            requireContext(), taskId.hashCode(), intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        val alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmManager.cancel(pendingIntent)
+    }
+
 }

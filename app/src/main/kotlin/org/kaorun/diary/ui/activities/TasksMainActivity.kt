@@ -33,6 +33,7 @@ class TasksMainActivity : AppCompatActivity() {
         binding = ActivityTasksMainBinding.inflate(layoutInflater)
         setContentView(binding.root) // Set the layout for the activity
         setupInsets()
+        setupScrollBehavior()
 
         createNotificationChannel(this)
 
@@ -84,6 +85,19 @@ class TasksMainActivity : AppCompatActivity() {
         tasksViewModel.isLoading.observe(this) { isLoading ->
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
+    }
+
+    private fun setupScrollBehavior() {
+        val fab = binding.extendedFab
+        binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                if (dy > 12 && fab.isExtended) fab.shrink()
+                if (dy < -12 && !fab.isExtended) fab.extend()
+                if (!recyclerView.canScrollVertically(-1)) fab.extend()
+            }
+        })
     }
 
     private fun createNotificationChannel(context: Context) {

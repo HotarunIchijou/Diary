@@ -101,16 +101,13 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
         val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.showSoftInput(binding.editText, InputMethodManager.SHOW_IMPLICIT)
 
-        arguments?.let {
-            isCompleted = it.getBoolean("IS_COMPLETED", false)
-        }
-
 
         setupTimeChip()
         setupDateChip()
 
         arguments?.let { args ->
             existingTaskId = args.getString("TASK_ID")
+            isCompleted = args.getBoolean("IS_COMPLETED", false)
             val taskTitle = args.getString("NOTE_TITLE")
             val taskTime = args.getString("TIME")
 
@@ -128,6 +125,16 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
                     selectedDate = parsedDate
                     binding.dateChip.text = formatDateForChip(parsedDate)
                     binding.dateChip.isCloseIconVisible = true
+                }
+            }
+
+            binding.buttonDelete.visibility = View.VISIBLE
+
+            binding.buttonDelete.setOnClickListener {
+                existingTaskId?.let { taskId ->
+                    tasksViewModel.deleteTask(taskId)
+                    cancelNotification(taskId)
+                    dismiss()
                 }
             }
         }

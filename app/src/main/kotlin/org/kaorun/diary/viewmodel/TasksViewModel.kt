@@ -119,15 +119,12 @@ class TasksViewModel : ViewModel() {
 	}
 
 
-	fun deleteTask(taskIds: List<String>) {
+	fun deleteTask(taskId: String) {
 		val userId = firebaseAuth.currentUser?.uid ?: return
-		for (taskId in taskIds) {
+
 			databaseReference.child(userId).child(taskId).removeValue()
 			val index = tasks.indexOfFirst { it.id == taskId }
-			if (index != -1) {
-				tasks.removeAt(index)
-				_tasksList.value = tasks.toList()
-			}
-		}
+			tasks.removeAt(index)
+			_tasksList.value = tasks.toList()
 	}
 }

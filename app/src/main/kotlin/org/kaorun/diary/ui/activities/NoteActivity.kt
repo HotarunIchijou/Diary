@@ -78,16 +78,20 @@ class NoteActivity : AppCompatActivity() {
 		fab.hide()
 
 		rootLayout = binding.root
-		rootLayout.viewTreeObserver.addOnPreDrawListener {
+		rootLayout.viewTreeObserver.addOnGlobalLayoutListener {
 			val rect = android.graphics.Rect()
 			rootLayout.getWindowVisibleDisplayFrame(rect)
 			val screenHeight = rootLayout.height
 			val keypadHeight = screenHeight - rect.bottom
+			val desiredOffsetDp = 16
+			val scale = resources.displayMetrics.density
+			val desiredOffsetPx = (desiredOffsetDp * scale + 0.5f).toInt()
 
-			if (keypadHeight > 0) {
-				binding.floatingToolbarParent.translationY = -keypadHeight.toFloat()
-			} else {
-				binding.floatingToolbarParent.translationY = 100f
+			if (keypadHeight > screenHeight * 0.15) {
+				binding.floatingToolbarParent.translationY = -keypadHeight.toFloat() + desiredOffsetPx
+			}
+			else {
+				binding.floatingToolbarParent.translationY = 0f
 			}
 			true
 		}

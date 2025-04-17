@@ -11,11 +11,13 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import org.kaorun.diary.R
 import org.kaorun.diary.data.TasksDatabase
 import org.kaorun.diary.databinding.ActivityTasksMainBinding
 import org.kaorun.diary.ui.adapters.TasksAdapter
 import org.kaorun.diary.ui.fragments.BottomSheetFragment
+import org.kaorun.diary.ui.fragments.WelcomeFragment
 import org.kaorun.diary.ui.managers.SearchTasksManager
 import org.kaorun.diary.ui.utils.InsetsHandler
 import org.kaorun.diary.viewmodel.TasksViewModel
@@ -72,6 +74,16 @@ class TasksMainActivity : AppCompatActivity() {
             bottomSheet.show(supportFragmentManager, bottomSheet.tag)
         }
 
+        binding.searchBar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.signOut -> {
+                    FirebaseAuth.getInstance().signOut()
+                    navigateToWelcomeFragment()
+                }
+            }
+            true
+        }
+
         observeViewModel()
     }
 
@@ -108,6 +120,21 @@ class TasksMainActivity : AppCompatActivity() {
         )
         val manager = context.getSystemService(NotificationManager::class.java)
         manager.createNotificationChannel(channel)
+    }
+
+    private fun navigateToWelcomeFragment() {
+        binding.recyclerView.visibility = View.GONE
+        binding.searchBar.visibility = View.GONE
+        binding.extendedFab.visibility = View.GONE
+        binding.fragmentContainerView.visibility = View.VISIBLE
+
+        // Create the WelcomeFragment instance
+        val welcomeFragment = WelcomeFragment()
+
+        // Begin the fragment transaction
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainerView, welcomeFragment)
+            .commit()
     }
 
 

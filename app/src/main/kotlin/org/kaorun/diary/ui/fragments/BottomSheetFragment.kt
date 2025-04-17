@@ -38,6 +38,7 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
     private val binding get() = _binding!!
     private var taskText: String = ""
     private var formattedTime: String? = null
+    private var formattedDate: String? = null
     private var selectedDate: Date? = null
     private var isCompleted: Boolean = false
 
@@ -45,13 +46,14 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
     private var existingTaskId: String? = null
 
     companion object {
-        fun newInstance(id: String, title: String, isCompleted: Boolean, time: String?): BottomSheetDialogFragment {
+        fun newInstance(id: String, title: String, isCompleted: Boolean, time: String?, date: String?): BottomSheetDialogFragment {
             val fragment = BottomSheetFragment()
             val args = Bundle().apply {
                 putString("TASK_ID", id)
                 putString("NOTE_TITLE", title)
                 putBoolean("IS_COMPLETED", isCompleted)
                 putString("TIME", time)
+                putString("DATE", date)
             }
             fragment.arguments = args
             return fragment
@@ -66,14 +68,15 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
             taskText = binding.editText.text.toString().trim()
 
             if (taskText.isNotEmpty()) {
-                val finalTime = formatTime(selectedDate, formattedTime)
 
                 val task = TasksDatabase(
                     id = existingTaskId ?: FirebaseDatabase.getInstance().reference.push().key.orEmpty(),
                     title = taskText,
                     isCompleted = isCompleted,
-                    time = finalTime
+                    time = formattedTime,
+                    date = formattedDate
                 )
+
 
                 if (existingTaskId != null) {
                     tasksViewModel.updateTask(task)
@@ -110,22 +113,21 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
             isCompleted = args.getBoolean("IS_COMPLETED", false)
             val taskTitle = args.getString("NOTE_TITLE")
             val taskTime = args.getString("TIME")
+            val taskDate = args.getString("DATE")
 
             binding.editText.setText(taskTitle ?: "")
 
             if (!taskTime.isNullOrEmpty()) {
-                formattedTime = taskTime.substringAfter(", ", taskTime)
+                formattedTime = taskTime
                 binding.timeChip.text = formattedTime
                 binding.timeChip.isCloseIconVisible = true
                 binding.dateChip.isVisible = true
+            }
 
-                val dateString = taskTime.substringBefore(",", "")
-                val parsedDate = tryParseDate(dateString)
-                if (parsedDate != null) {
-                    selectedDate = parsedDate
-                    binding.dateChip.text = formatDateForChip(parsedDate)
-                    binding.dateChip.isCloseIconVisible = true
-                }
+            if (!taskDate.isNullOrEmpty()) {
+                formattedDate = taskDate
+                binding.dateChip.text = formattedDate
+                binding.dateChip.isCloseIconVisible = true
             }
 
             binding.buttonDelete.visibility = View.VISIBLE
@@ -208,25 +210,16 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
             selectedDate = Date(selection)
             binding.dateChip.text = formatDateForChip(selectedDate)
             binding.dateChip.isCloseIconVisible = true
+
+            formattedDate = selectedDate?.let {
+                val localDate = it.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+                val pattern = if (localDate.year == LocalDate.now().year) "MMM d" else "MMM d, yyyy"
+                localDate.format(DateTimeFormatter.ofPattern(pattern, Locale.getDefault()))
+            }
         }
+
 
         picker.show(parentFragmentManager, "date")
-    }
-
-    private fun formatTime(selectedDate: Date?, selectedTime: String?): String? {
-        if (selectedTime == null) return null
-        if (selectedDate == null) return selectedTime
-
-        val localDate = selectedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
-        val today = LocalDate.now()
-        val label = when (localDate) {
-            today -> getString(R.string.date)
-            today.minusDays(1) -> getString(R.string.date_yesterday)
-            today.plusDays(1) -> getString(R.string.date_tomorrow)
-            else -> localDate.format(DateTimeFormatter.ofPattern("MMM d", Locale.getDefault()))
-        }
-
-        return "$label, $selectedTime"
     }
 
     private fun formatDateForChip(selectedDate: Date?): String {
@@ -241,21 +234,6 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
                 localDate.format(DateTimeFormatter.ofPattern(pattern, Locale.getDefault()))
             }
         }
-    }
-
-    private fun tryParseDate(dateStr: String?): Date? {
-        if (dateStr == null) return null
-        val formats = listOf("MMM d", "MMM d, yyyy")
-        for (format in formats) {
-            try {
-                val formatter = DateTimeFormatter.ofPattern(format, Locale.getDefault())
-                val localDate = LocalDate.parse(dateStr, formatter)
-                return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
-            } catch (_: Exception) {
-                continue
-            }
-        }
-        return null
     }
 
     private fun scheduleNotification(selectedDate: Date?, selectedTime: String, taskId: String) {

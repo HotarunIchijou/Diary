@@ -5,8 +5,7 @@ data class TasksDatabase(
     val title: String,
     var isCompleted: Boolean,
     val time: String?,
-    // val createdAt: Long = System.currentTimeMillis()
+    val date: String?
 ) {
-    // Firebase requires a no-arg constructor
-    constructor() : this("", "", false, null)
+    constructor() : this("", "", false, null, null)
 }

@@ -41,8 +41,8 @@ class TasksMainActivity : AppCompatActivity() {
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
         taskAdapter = TasksAdapter(
             taskList,
-            onItemClicked = { taskId, title, isCompleted, time ->
-                val bottomSheet = BottomSheetFragment.newInstance(taskId, title, isCompleted, time)
+            onItemClicked = { taskId, title, isCompleted, time, date ->
+                val bottomSheet = BottomSheetFragment.newInstance(taskId, title, isCompleted, time, date)
                 bottomSheet.show(supportFragmentManager, bottomSheet.tag)
             },
             updateTask = { task -> tasksViewModel.updateTask(task) } // Pass the updateTask method

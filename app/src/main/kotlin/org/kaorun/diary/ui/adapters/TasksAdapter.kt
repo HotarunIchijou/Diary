@@ -6,10 +6,11 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import org.kaorun.diary.data.TasksDatabase
 import org.kaorun.diary.databinding.ItemTaskBinding
+import org.kaorun.diary.ui.utils.DateUtils.formatDate
 
 class TasksAdapter(
     private var tasks: List<TasksDatabase>,
-    private val onItemClicked: (taskId: String, title: String, isCompleted: Boolean, time: String?) -> Unit,
+    private val onItemClicked: (taskId: String, title: String, isCompleted: Boolean, time: String?, date: String?) -> Unit,
     private val updateTask: (task: TasksDatabase) -> Unit // Add a callback to update task
 ) : RecyclerView.Adapter<TasksAdapter.TaskViewHolder>() {
 
@@ -18,12 +19,19 @@ class TasksAdapter(
         : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(task: TasksDatabase) {
-            binding.taskTitle.text = task.title
-            binding.date.text = task.time
-            binding.date.isVisible = !task.time.isNullOrEmpty()
+            val formattedDate = when {
+                task.date.isNullOrEmpty() && task.time.isNullOrEmpty() -> null
+                task.date.isNullOrEmpty() -> task.time
+                task.time.isNullOrEmpty() -> formatDate(binding.root.context, task.date)
+                else -> "${formatDate(binding.root.context, task.date)}, ${task.time}"
+            }
 
+
+            binding.taskTitle.text = task.title
+            binding.date.text = formattedDate
+            binding.date.isVisible = !formattedDate.isNullOrEmpty()
             binding.root.setOnClickListener {
-                onItemClicked(task.id, task.title, task.isCompleted, task.time)
+                onItemClicked(task.id, task.title, task.isCompleted, task.time, task.date)
             }
 
             binding.checkbox.isChecked = task.isCompleted

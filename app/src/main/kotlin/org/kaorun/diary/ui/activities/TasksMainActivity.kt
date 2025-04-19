@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
@@ -92,6 +93,7 @@ class TasksMainActivity : AppCompatActivity() {
             taskList.clear()
             taskList.addAll(tasks)
             taskAdapter.notifyDataSetChanged()
+            binding.tasksEmpty.tasksEmptyLayout.isVisible = tasks.isEmpty()
         }
 
         tasksViewModel.isLoading.observe(this) { isLoading ->

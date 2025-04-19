@@ -54,4 +54,6 @@
 	<string name="grant_reminders_permission">Please, grant a permission to set reminders</string>
 	<string name="must_be_in_the_future">Scheduled time must be in the future</string>
 	<string name="enter_task">Please, enter a task to continue</string>
+	<string name="all_tasks_completed">All tasks completed</string>
+	<string name="enjoy_your_day">Enjoy your day</string>
 </resources>

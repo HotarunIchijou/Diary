@@ -124,7 +124,7 @@ class TasksMainActivity : AppCompatActivity() {
         }
 
         tasksViewModel.isLoading.observe(this) { isLoading ->
-            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            binding.loading.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
     }
 

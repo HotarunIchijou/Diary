@@ -92,11 +92,11 @@
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
-	<com.google.android.material.progressindicator.CircularProgressIndicator
-		android:id="@+id/progressBar"
+	<com.google.android.material.loadingindicator.LoadingIndicator
+		style="@style/Widget.Material3.LoadingIndicator.Contained"
+		android:id="@+id/loading"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:indeterminate="true"
 		android:visibility="gone"
 		app:layout_constraintTop_toTopOf="parent"
 		app:layout_constraintBottom_toBottomOf="parent"

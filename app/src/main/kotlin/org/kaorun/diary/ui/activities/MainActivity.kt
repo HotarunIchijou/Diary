@@ -277,7 +277,7 @@ class MainActivity : AppCompatActivity() {
 
 	private fun observeViewModel() {
 		viewModel.isLoading.observe(this) {
-				isLoading -> binding.progressBar.isVisible = isLoading
+				isLoading -> binding.loading.isVisible = isLoading
 		}
 		viewModel.notesList.observe(
 			this

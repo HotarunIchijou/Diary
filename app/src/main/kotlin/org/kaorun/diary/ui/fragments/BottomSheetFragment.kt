@@ -172,7 +172,7 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
         chip.setOnCloseIconClickListener {
             chip.text = getString(R.string.date)
             chip.isCloseIconVisible = false
-            selectedDate = null
+            formattedDate = null
         }
     }
 

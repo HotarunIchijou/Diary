@@ -50,7 +50,7 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
             val fragment = BottomSheetFragment()
             val args = Bundle().apply {
                 putString("TASK_ID", id)
-                putString("NOTE_TITLE", title)
+                putString("TASK_TITLE", title)
                 putBoolean("IS_COMPLETED", isCompleted)
                 putString("TIME", time)
                 putString("DATE", date)
@@ -111,7 +111,7 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
         arguments?.let { args ->
             existingTaskId = args.getString("TASK_ID")
             isCompleted = args.getBoolean("IS_COMPLETED", false)
-            val taskTitle = args.getString("NOTE_TITLE")
+            val taskTitle = args.getString("TASK_TITLE")
             val taskTime = args.getString("TIME")
             val taskDate = args.getString("DATE")
 

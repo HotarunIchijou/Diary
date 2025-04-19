@@ -24,13 +24,28 @@
             app:navigationIcon="@drawable/search_24px"
             android:hint="@string/search_tasks" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chipSwitch"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/switch_mode"
-            app:chipIcon="@drawable/sticky_note_2_24px"
-            android:layout_marginHorizontal="16dp" />
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="16dp">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/switch_mode"
+                app:chipIcon="@drawable/sticky_note_2_24px"
+                android:layout_marginEnd="8dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipTasksFilter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pending"
+                app:chipIcon="@drawable/pending_actions_24px" />
+
+        </LinearLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 

@@ -9,9 +9,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import org.kaorun.diary.R
 import org.kaorun.diary.data.TasksDatabase
@@ -30,6 +33,7 @@ class TasksMainActivity : AppCompatActivity() {
     private lateinit var searchTasksManager: SearchTasksManager
     private val taskList = mutableListOf<TasksDatabase>()
     private val tasksViewModel: TasksViewModel by viewModels()
+    private var selected = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +52,13 @@ class TasksMainActivity : AppCompatActivity() {
                 val bottomSheet = BottomSheetFragment.newInstance(taskId, title, isCompleted, time, date)
                 bottomSheet.show(supportFragmentManager, bottomSheet.tag)
             },
-            updateTask = { task -> tasksViewModel.updateTask(task) } // Pass the updateTask method
+            // Pass the updateTask method
+            onTaskChecked = { task, isChecked ->
+                if (isChecked) {
+                    showUndoSnackbar(task)
+                }
+                tasksViewModel.updateTask(task)
+            }
         )
 
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -69,6 +79,24 @@ class TasksMainActivity : AppCompatActivity() {
             startActivity(intent, options.toBundle())
             finish()
         }
+
+        binding.chipTasksFilter.setOnClickListener {
+            val options = arrayOf(getString(R.string.pendindg), getString(R.string.completed))
+
+            MaterialAlertDialogBuilder(this, com.google.android.material.R.style.ThemeOverlay_Material3_MaterialAlertDialog_Centered)
+                .setIcon(R.drawable.filter_alt_24px)
+                .setTitle(getString(R.string.tasks_filter_title))
+                .setSingleChoiceItems(options, selected) { dialog, which ->
+                    selected = which
+                    applyFilter(which)
+                    dialog.dismiss()
+                }
+                .setPositiveButton(getString(R.string.cancel)) { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .show()
+        }
+
 
         binding.extendedFab.setOnClickListener {
             val bottomSheet = BottomSheetFragment()
@@ -92,8 +120,7 @@ class TasksMainActivity : AppCompatActivity() {
         tasksViewModel.tasksList.observe(this) { tasks ->
             taskList.clear()
             taskList.addAll(tasks)
-            taskAdapter.notifyDataSetChanged()
-            binding.tasksEmpty.tasksEmptyLayout.isVisible = tasks.isEmpty()
+            applyFilter(selected)
         }
 
         tasksViewModel.isLoading.observe(this) { isLoading ->
@@ -139,6 +166,44 @@ class TasksMainActivity : AppCompatActivity() {
             .commit()
     }
 
+    private fun applyFilter(filterType: Int) {
+        val filtered = when (filterType) {
+            0 -> taskList.filter { !it.isCompleted } // Pending
+            1 -> taskList.filter { it.isCompleted }  // Completed
+            else -> taskList
+        }
+        updateList(filtered)
+    }
+
+    private fun updateList(tasks: List<TasksDatabase>) {
+        taskAdapter.updateTasks(tasks)
+
+        binding.tasksEmpty.tasksEmptyLayout.isVisible = tasks.isEmpty()
+
+        binding.chipTasksFilter.apply {
+            when (selected) {
+                0 -> {
+                    text = getString(R.string.pendindg)
+                    chipIcon = AppCompatResources.getDrawable(context, R.drawable.pending_actions_24px)
+                }
+                1 -> {
+                    text = getString(R.string.completed)
+                    chipIcon = AppCompatResources.getDrawable(context, R.drawable.inventory_24px)
+                }
+            }
+        }
+    }
+
+    private fun showUndoSnackbar(task: TasksDatabase) {
+        Snackbar.make(binding.root, getString(R.string.task_completed), Snackbar.LENGTH_LONG)
+            .setAnchorView(binding.extendedFab)
+            .setAction(
+                getString(R.string.undo)
+            ) {
+            val undoneTask = task.copy(isCompleted = false)
+            tasksViewModel.updateTask(undoneTask)
+        }.show()
+    }
 
     private fun setupInsets() {
         InsetsHandler.applyViewInsets(binding.recyclerView)

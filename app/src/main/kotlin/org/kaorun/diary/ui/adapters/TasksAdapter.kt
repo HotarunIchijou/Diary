@@ -11,7 +11,7 @@ import org.kaorun.diary.ui.utils.DateUtils.formatDate
 class TasksAdapter(
     private var tasks: List<TasksDatabase>,
     private val onItemClicked: (taskId: String, title: String, isCompleted: Boolean, time: String?, date: String?) -> Unit,
-    private val updateTask: (task: TasksDatabase) -> Unit // Add a callback to update task
+    private val onTaskChecked: (task: TasksDatabase, isChecked: Boolean) -> Unit
 ) : RecyclerView.Adapter<TasksAdapter.TaskViewHolder>() {
 
     // ViewHolder to hold each item view
@@ -37,8 +37,8 @@ class TasksAdapter(
             binding.checkbox.isChecked = task.isCompleted
 
             binding.checkbox.setOnClickListener {
-                task.isCompleted = binding.checkbox.isChecked
-                updateTask(task) // Update the task in Firebase when checkbox state changes
+                val updatedTask = task.copy(isCompleted = binding.checkbox.isChecked)
+                onTaskChecked(updatedTask, binding.checkbox.isChecked)
             }
         }
     }

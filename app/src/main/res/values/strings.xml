@@ -56,4 +56,11 @@
 	<string name="enter_task">Please, enter a task to continue</string>
 	<string name="all_tasks_completed">All tasks completed</string>
 	<string name="enjoy_your_day">Enjoy your day</string>
+	<string name="pending">Pending</string>
+	<string name="cancel">Cancel</string>
+	<string name="tasks_filter_title">Filter tasks</string>
+	<string name="pendindg">Pending</string>
+	<string name="completed">Completed</string>
+	<string name="task_completed">Task completed!</string>
+	<string name="undo">Undo</string>
 </resources>

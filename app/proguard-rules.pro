@@ -24,26 +24,14 @@
 -keepclassmembers class * extends com.onegravity.rteditor.spans.RTSpan {
     public <init>(int);
 }
-# Keep RTEditor classes and their members
+-keepclassmembers class * {
+    public <init>(...);
+}
 -keep class com.onegravity.rteditor.** { *; }
--keep class com.onegravity.rteditor.api.** { *; }
--keep class com.onegravity.rteditor.spans.** { *; }
--keep class com.onegravity.rteditor.utils.** { *; }
-
-# Keep all classes that might be involved in reflection
--keep class * implements com.onegravity.rteditor.api.RTMediaFactory { *; }
--keep class * implements com.onegravity.rteditor.api.RTProxy { *; }
-
-# Keep signatures for generic types
--keepattributes Signature
-
-# Keep annotations
--keepattributes *Annotation*
-
-# Keep the RTManager and its components
--keep class com.onegravity.rteditor.RTManager { *; }
--keep class com.onegravity.rteditor.RTEditText { *; }
-
-# Keep Firebase classes
+-keep class U2.** { *; }
 -keep class com.google.firebase.** { *; }
 -keep class com.google.firebase.database.** { *; }
+-keepclassmembers class * {
+    @com.google.firebase.database.IgnoreExtraProperties <methods>;
+}
+

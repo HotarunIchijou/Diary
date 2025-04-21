@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.ContextThemeWrapper
-import androidx.activity.enableEdgeToEdge
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,7 +19,6 @@ class AppearanceActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         binding = ActivityAppearanceBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

@@ -1,6 +1,7 @@
 package org.kaorun.diary.ui.activities
 
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import org.kaorun.diary.R
@@ -10,6 +11,7 @@ abstract class BaseActivity : AppCompatActivity() {
     protected var cachedThemeIndex: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
         cachedThemeIndex = prefs.getInt("color_scheme", 0)
         setTheme(getThemeResFromIndex(cachedThemeIndex))

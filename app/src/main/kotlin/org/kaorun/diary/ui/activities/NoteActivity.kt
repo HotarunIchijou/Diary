@@ -5,7 +5,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -35,7 +34,6 @@ class NoteActivity : BaseActivity() {
 	private var lastSavedNote: String? = null
 
 	override fun onCreate(savedInstanceState: Bundle?) {
-		enableEdgeToEdge()
 		super.onCreate(savedInstanceState)
 		binding = ActivityNoteBinding.inflate(layoutInflater)
 		setContentView(binding.root)

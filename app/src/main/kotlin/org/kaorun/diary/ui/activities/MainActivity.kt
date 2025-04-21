@@ -2,20 +2,22 @@ package org.kaorun.diary.ui.activities
 
 import android.app.ActivityOptions
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.RectF
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.view.ActionMode
+import androidx.core.app.ActivityCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.isVisible
 import androidx.preference.PreferenceManager
@@ -31,17 +33,16 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import org.kaorun.diary.R
 import org.kaorun.diary.data.NotesDatabase
-import org.kaorun.diary.ui.managers.SearchHistoryManager
 import org.kaorun.diary.databinding.ActivityMainBinding
 import org.kaorun.diary.ui.adapters.NotesAdapter
 import org.kaorun.diary.ui.fragments.WelcomeFragment
+import org.kaorun.diary.ui.managers.SearchHistoryManager
 import org.kaorun.diary.ui.managers.SearchManager
 import org.kaorun.diary.ui.utils.InsetsHandler
 import org.kaorun.diary.viewmodel.MainViewModel
 import kotlin.math.abs
 
 class MainActivity : BaseActivity() {
-
 	private lateinit var auth: FirebaseAuth
 	private lateinit var databaseReference: DatabaseReference
 	private lateinit var binding: ActivityMainBinding
@@ -54,12 +55,12 @@ class MainActivity : BaseActivity() {
 	private var backPressedCallback: OnBackPressedCallback? = null
 	private var isGridLayout = false
 
-	override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		enableEdgeToEdge()
 		binding = ActivityMainBinding.inflate(layoutInflater)
 		setContentView(binding.root)
 		applySavedTheme()
+		checkNotificationPermission()
 
 		auth = FirebaseAuth.getInstance()
 		databaseReference = FirebaseDatabase.getInstance().getReference("Notes")
@@ -350,6 +351,13 @@ class MainActivity : BaseActivity() {
 		}
 
 		AppCompatDelegate.setDefaultNightMode(mode)
+	}
+
+    private fun checkNotificationPermission() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+		if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+			ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 1)
+		}
 	}
 }
 

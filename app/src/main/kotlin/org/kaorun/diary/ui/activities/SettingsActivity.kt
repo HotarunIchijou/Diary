@@ -2,7 +2,6 @@ package org.kaorun.diary.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.kaorun.diary.R
 import org.kaorun.diary.data.SettingsItem
@@ -13,7 +12,6 @@ class SettingsActivity : BaseActivity() {
     private lateinit var binding: ActivitySettingsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)

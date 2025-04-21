@@ -61,7 +61,7 @@ class NotificationReceiver : BroadcastReceiver() {
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
             .setContentTitle(title)
             .setSmallIcon(R.drawable.task_alt_24px)
-            .setContentIntent(openAppPendingIntent) // <--- это то, что откроет активность
+            .setContentIntent(openAppPendingIntent)
             .addAction(0, getString(context, R.string.mark_as_completed), pendingIntent)
             .setAutoCancel(true)
             .build()

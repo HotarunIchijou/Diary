@@ -72,12 +72,9 @@
 	<string name="about_summary">Информация о приложении</string>
 	<string name="theme">Тема</string>
 	<string name="source_code">Исходный код</string>
-	<string name="source_code">И</string>
 	<string name="source_code_summary">Репозиторий проекта на GitHub</string>
 	<string name="contact_developer">Связь с разработчиком</string>
-	<string name="contact_developer">С</string>
 	<string name="contact_developer_summary">Свяжитесь с разработчиком в Telegram</string>
-	<string name="contact_developer_summary">С</string>
 	<string name="simple_elegant_productive">Простой. Элегантный. Продуктивный.</string>
 	<string name="nothing_found_tasks">Ничего не найдено в ваших задачах</string>
 	<string name="type_to_start_search">Введите для поиска</string>

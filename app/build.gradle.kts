@@ -12,21 +12,21 @@ android {
         applicationId = "org.kaorun.diary"
         minSdk = 31
         targetSdk = 35
-        versionCode = 3
-        versionName = "1.0.0-beta03"
+        versionCode = 4
+        versionName = "1.0.0"
 
 		setProperty("archivesBaseName", "Diary-$versionName")
     }
 
     buildTypes {
-        /* release {
+       release {
             isMinifyEnabled = true
 			isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-        } */
+        }
 
 		debug {
 			proguardFiles(

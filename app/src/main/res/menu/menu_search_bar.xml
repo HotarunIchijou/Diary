@@ -8,6 +8,10 @@
 		app:showAsAction="ifRoom"
 		android:visible="false" />
 	<item
+		android:id="@+id/settings"
+		android:title="@string/settings"
+		app:showAsAction="never" />
+	<item
 		android:id="@+id/signOut"
 		android:title="@string/sign_out"
 		app:showAsAction="never" />

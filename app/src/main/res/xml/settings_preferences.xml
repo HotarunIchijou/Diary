@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreferenceCompat
+        android:key="dark_mode"
+        android:title="Темная тема"
+        android:summary="Включить или отключить тёмную тему"
+        android:defaultValue="false" />
+
+    <EditTextPreference
+        android:key="username"
+        android:title="Имя пользователя"
+        android:summary="Введите ваше имя"
+        android:dialogTitle="Имя пользователя" />
+</androidx.preference.PreferenceScreen>

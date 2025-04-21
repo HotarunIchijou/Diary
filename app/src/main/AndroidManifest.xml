@@ -34,7 +34,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity
+            android:name=".ui.activities.SettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activities.AboutActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activities.AppearanceActivity"
+            android:exported="false" />
 		<provider
 			android:name="androidx.core.content.FileProvider"
 			android:exported="false"

@@ -6,7 +6,6 @@ import android.text.TextWatcher
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -22,7 +21,7 @@ import org.kaorun.diary.databinding.ActivityNoteBinding
 import org.kaorun.diary.ui.utils.FloatingToolbarHelper
 import org.kaorun.diary.ui.utils.InsetsHandler
 
-class NoteActivity : AppCompatActivity() {
+class NoteActivity : BaseActivity() {
 
 	private lateinit var binding: ActivityNoteBinding
 	private lateinit var databaseRef: DatabaseReference

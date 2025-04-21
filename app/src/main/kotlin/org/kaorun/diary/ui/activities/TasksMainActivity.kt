@@ -8,7 +8,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,7 +25,7 @@ import org.kaorun.diary.ui.managers.SearchTasksManager
 import org.kaorun.diary.ui.utils.InsetsHandler
 import org.kaorun.diary.viewmodel.TasksViewModel
 
-class TasksMainActivity : AppCompatActivity() {
+class TasksMainActivity : BaseActivity() {
 
     private lateinit var taskAdapter: TasksAdapter
     private lateinit var binding: ActivityTasksMainBinding
@@ -105,6 +104,10 @@ class TasksMainActivity : AppCompatActivity() {
 
         binding.searchBar.setOnMenuItemClickListener {
             when (it.itemId) {
+                R.id.settings -> {
+                    val intent = Intent(this, SettingsActivity::class.java)
+                    startActivity(intent)
+                }
                 R.id.signOut -> {
                     FirebaseAuth.getInstance().signOut()
                     navigateToWelcomeFragment()

@@ -13,11 +13,12 @@ import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.view.ActionMode
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.isVisible
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -39,7 +40,7 @@ import org.kaorun.diary.ui.utils.InsetsHandler
 import org.kaorun.diary.viewmodel.MainViewModel
 import kotlin.math.abs
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
 	private lateinit var auth: FirebaseAuth
 	private lateinit var databaseReference: DatabaseReference
@@ -58,6 +59,7 @@ class MainActivity : AppCompatActivity() {
 		enableEdgeToEdge()
 		binding = ActivityMainBinding.inflate(layoutInflater)
 		setContentView(binding.root)
+		applySavedTheme()
 
 		auth = FirebaseAuth.getInstance()
 		databaseReference = FirebaseDatabase.getInstance().getReference("Notes")
@@ -266,6 +268,10 @@ class MainActivity : AppCompatActivity() {
 					if (isGridLayout) it.setIcon(R.drawable.view_agenda_24px)
 					else it.setIcon(R.drawable.grid_view_24px)
 				}
+				R.id.settings -> {
+					val intent = Intent(this, SettingsActivity::class.java)
+					startActivity(intent)
+				}
 				R.id.signOut -> {
 					FirebaseAuth.getInstance().signOut()
 					navigateToWelcomeFragment()
@@ -331,6 +337,19 @@ class MainActivity : AppCompatActivity() {
 
 		binding.recyclerView.layoutManager = layoutManager
 		isGridLayout = !isGridLayout
+	}
+
+	private fun applySavedTheme() {
+		val themeMode = PreferenceManager.getDefaultSharedPreferences(this)
+			.getInt("theme_mode", 0)
+
+		val mode = when (themeMode) {
+			1 -> AppCompatDelegate.MODE_NIGHT_NO
+			2 -> AppCompatDelegate.MODE_NIGHT_YES
+			else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+		}
+
+		AppCompatDelegate.setDefaultNightMode(mode)
 	}
 }
 

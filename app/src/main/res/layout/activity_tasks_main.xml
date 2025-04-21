@@ -54,12 +54,22 @@
         android:layout_height="match_parent"
         android:hint="@string/search_tasks"
         android:id="@+id/searchView">
+
+        <include layout="@layout/search_suggestions_empty"
+            android:id="@+id/searchSuggestionsEmpty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|top"
+            android:layout_marginTop="128dp"
+            android:visibility="gone" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:id="@+id/SearchTasksRecyclerView"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
     </com.google.android.material.search.SearchView>
 
     <androidx.recyclerview.widget.RecyclerView

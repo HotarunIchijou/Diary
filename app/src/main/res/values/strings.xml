@@ -79,4 +79,6 @@
 	<string name="contact_developer_summary">Give feedback to developer in Telegram</string>
 	<string name="simple_elegant_productive">Simple. Elegant. Productive.</string>
 	<string name="nothing_found_tasks">Nothing found in your tasks</string>
+	<string name="type_to_start_search">Type to start search</string>
+	<string name="mark_as_completed">Mark as completed</string>
 </resources>

@@ -16,12 +16,12 @@ import org.kaorun.diary.ui.adapters.NotesAdapter
 import org.kaorun.diary.ui.adapters.SearchHistoryAdapter
 
 class SearchManager(
-    private val binding: ActivityMainBinding,
-    private val onBackPressedDispatcher: OnBackPressedDispatcher,
-    private val notesAdapter: NotesAdapter,
-    private val lifecycleOwner: LifecycleOwner,
-    private var notesList: MutableList<NotesDatabase>,
-    private var backPressedCallback: OnBackPressedCallback? = null,
+	private val binding: ActivityMainBinding,
+	private val onBackPressedDispatcher: OnBackPressedDispatcher,
+	private val notesAdapter: NotesAdapter,
+	private val lifecycleOwner: LifecycleOwner,
+	private var notesList: MutableList<NotesDatabase>,
+	private var backPressedCallback: OnBackPressedCallback? = null,
 ) {
 
 	private lateinit var searchAdapter: SearchHistoryAdapter
@@ -33,13 +33,12 @@ class SearchManager(
 
 	init {
 		setupSearchAdapter()
-	    setupSearchBehavior()
+		setupSearchBehavior()
 	}
 
 	private fun setupSearchBehavior() {
-
 		recentSearches.addAll(notesSearchHistoryManager.loadSearchHistory())
-		searchAdapter.updateSuggestions(recentSearches)
+		updateSearchSuggestions()
 
 		searchView.findViewById<RecyclerView>(R.id.SearchRecyclerView).apply {
 			adapter = searchAdapter
@@ -47,7 +46,6 @@ class SearchManager(
 		}
 
 		searchView.setupWithSearchBar(searchBar)
-
 
 		searchView.addTransitionListener { _, _, newState ->
 			if (newState == SearchView.TransitionState.SHOWING) {
@@ -62,8 +60,8 @@ class SearchManager(
 			if (query.isNotBlank()) {
 				if (!recentSearches.contains(query)) {
 					recentSearches.add(0, query)
-					notesSearchHistoryManager.saveSearchHistory(recentSearches) // Save the new query
-					searchAdapter.updateSuggestions(recentSearches) // Notify adapter
+					notesSearchHistoryManager.saveSearchHistory(recentSearches)
+					updateSearchSuggestions()
 				}
 				searchView.hide()
 				searchBar.setText(query)
@@ -77,8 +75,7 @@ class SearchManager(
 		}
 
 		searchBar.inflateMenu(R.menu.menu_search_bar)
-
-		val menuItem = binding.searchBar.menu.findItem(R.id.layoutSwitcher)
+		val menuItem = searchBar.menu.findItem(R.id.layoutSwitcher)
 		menuItem.isVisible = notesList.isNotEmpty()
 	}
 
@@ -92,7 +89,7 @@ class SearchManager(
 			},
 			onItemDeleted = { suggestion ->
 				recentSearches.remove(suggestion)
-				searchAdapter.updateSuggestions(recentSearches)
+				updateSearchSuggestions()
 				notesSearchHistoryManager.saveSearchHistory(recentSearches)
 			}
 		)
@@ -103,51 +100,64 @@ class SearchManager(
 		}
 	}
 
+	private fun updateSearchSuggestions() {
+		searchAdapter.updateSuggestions(recentSearches)
+		binding.searchSuggestionsEmpty.searchSuggestionsEmptyLayout.visibility =
+			if (recentSearches.isEmpty()) View.VISIBLE else View.GONE
+	}
+
 	private fun filterNotes(query: String) {
 		val filteredList = notesList.filter {
-			it.title.contains(query, ignoreCase = true) // Filter notes by title
+			it.title.contains(query, ignoreCase = true)
 		}.toMutableList()
+
 		binding.notesEmpty.notesEmptyLayout.visibility = View.GONE
-		searchBar.navigationIcon = AppCompatResources.getDrawable(binding.mainActivity.context, R.drawable.arrow_back_24px)
+		searchBar.navigationIcon =
+			AppCompatResources.getDrawable(binding.mainActivity.context, R.drawable.arrow_back_24px)
 		backPressedCallback?.remove()
 		binding.extendedFab.hide()
-		notesAdapter.updateNotes(filteredList) // Update RecyclerView with filtered list
-		if (filteredList.isEmpty()){
-			binding.nothingFound.nothingFoundLayout.visibility= View.VISIBLE
-			val menuItem = binding.searchBar.menu.findItem(R.id.layoutSwitcher)
-			menuItem?.isVisible = false
+
+		notesAdapter.updateNotes(filteredList)
+
+		if (filteredList.isEmpty()) {
+			binding.nothingFound.nothingFoundLayout.visibility = View.VISIBLE
+			searchBar.menu.findItem(R.id.layoutSwitcher)?.isVisible = false
 		}
 
-
-		// Handle back button for search mode
 		backPressedCallback = object : OnBackPressedCallback(true) {
 			override fun handleOnBackPressed() {
 				resetNotesList()
 				searchBar.clearText()
 				binding.extendedFab.show()
 				backPressedCallback?.remove()
-				binding.nothingFound.nothingFoundLayout.visibility= View.GONE
+				binding.nothingFound.nothingFoundLayout.visibility = View.GONE
 			}
 		}
 
 		onBackPressedDispatcher.addCallback(lifecycleOwner, backPressedCallback!!)
 
-		// Set up navigation icon click listener to exit search mode
 		searchBar.setNavigationOnClickListener {
 			resetNotesList()
 			searchBar.clearText()
 			binding.extendedFab.show()
 			backPressedCallback?.remove()
 			searchBar.setNavigationOnClickListener(null)
-			binding.nothingFound.nothingFoundLayout.visibility= View.GONE
+			binding.nothingFound.nothingFoundLayout.visibility = View.GONE
 		}
 	}
 
 	private fun resetNotesList() {
-		searchBar.navigationIcon = AppCompatResources.getDrawable(binding.mainActivity.context, R.drawable.search_24px)
-		notesAdapter.updateNotes(notesList) // Reset RecyclerView to show all notes
+		searchBar.navigationIcon =
+			AppCompatResources.getDrawable(binding.mainActivity.context, R.drawable.search_24px)
+		notesAdapter.updateNotes(notesList)
 		backPressedCallback?.remove()
-		binding.searchBar.menu.findItem(R.id.layoutSwitcher).isVisible = notesList.isNotEmpty()
-		binding.notesEmpty.notesEmptyLayout.visibility = if (notesList.isNotEmpty()) View.GONE else View.VISIBLE
+
+		searchBar.menu.findItem(R.id.layoutSwitcher).isVisible = notesList.isNotEmpty()
+
+		binding.nothingFound.nothingFoundLayout.visibility = View.GONE
+		binding.notesEmpty.notesEmptyLayout.visibility =
+			if (notesList.isNotEmpty()) View.GONE else View.VISIBLE
+
+		updateSearchSuggestions()
 	}
 }

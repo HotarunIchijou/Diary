@@ -38,7 +38,7 @@ class SearchTasksManager(
 
     private fun setupSearchBehavior() {
         recentSearches.addAll(tasksSearchHistoryManager.loadSearchHistory())
-        searchAdapter.updateSuggestions(recentSearches)
+        updateSearchSuggestions()
 
         searchView.findViewById<RecyclerView>(R.id.SearchTasksRecyclerView).apply {
             adapter = searchAdapter
@@ -61,7 +61,7 @@ class SearchTasksManager(
                 if (!recentSearches.contains(query)) {
                     recentSearches.add(0, query)
                     tasksSearchHistoryManager.saveSearchHistory(recentSearches)
-                    searchAdapter.updateSuggestions(recentSearches)
+                    updateSearchSuggestions()
                 }
                 searchView.hide()
                 searchBar.setText(query)
@@ -75,7 +75,7 @@ class SearchTasksManager(
         }
 
         searchBar.inflateMenu(R.menu.menu_search_bar)
-        val menuItem = binding.searchBar.menu.findItem(R.id.layoutSwitcher)
+        val menuItem = searchBar.menu.findItem(R.id.layoutSwitcher)
         menuItem?.isVisible = tasksList.isNotEmpty()
     }
 
@@ -89,7 +89,7 @@ class SearchTasksManager(
             },
             onItemDeleted = { suggestion ->
                 recentSearches.remove(suggestion)
-                searchAdapter.updateSuggestions(recentSearches)
+                updateSearchSuggestions()
                 tasksSearchHistoryManager.saveSearchHistory(recentSearches)
             }
         )
@@ -98,6 +98,12 @@ class SearchTasksManager(
             adapter = searchAdapter
             layoutManager = LinearLayoutManager(context)
         }
+    }
+
+    private fun updateSearchSuggestions() {
+        searchAdapter.updateSuggestions(recentSearches)
+        binding.searchSuggestionsEmpty.searchSuggestionsEmptyLayout.visibility =
+            if (recentSearches.isEmpty()) View.VISIBLE else View.GONE
     }
 
     private fun filterTasks(query: String) {
@@ -113,7 +119,7 @@ class SearchTasksManager(
 
         if (filteredList.isEmpty()) {
             binding.nothingFound.nothingFoundLayout.visibility = View.VISIBLE
-            binding.searchBar.menu.findItem(R.id.layoutSwitcher)?.isVisible = false
+            searchBar.menu.findItem(R.id.layoutSwitcher)?.isVisible = false
         }
 
         backPressedCallback = object : OnBackPressedCallback(true) {
@@ -141,7 +147,10 @@ class SearchTasksManager(
         searchBar.navigationIcon = AppCompatResources.getDrawable(binding.root.context, R.drawable.search_24px)
         tasksAdapter.updateTasks(tasksList)
         backPressedCallback?.remove()
-        binding.searchBar.menu.findItem(R.id.layoutSwitcher)?.isVisible = tasksList.isNotEmpty()
-        binding.tasksEmpty.tasksEmptyLayout.visibility = if (tasksList.isNotEmpty()) View.GONE else View.VISIBLE
+        searchBar.menu.findItem(R.id.layoutSwitcher)?.isVisible = tasksList.isNotEmpty()
+        binding.tasksEmpty.tasksEmptyLayout.visibility =
+            if (tasksList.isNotEmpty()) View.GONE else View.VISIBLE
+
+        updateSearchSuggestions()
     }
 }

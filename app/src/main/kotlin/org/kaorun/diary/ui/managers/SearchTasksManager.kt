@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.search.SearchView
 import org.kaorun.diary.R
-import org.kaorun.diary.ui.managers.SearchHistoryManager
 import org.kaorun.diary.data.TasksDatabase
 import org.kaorun.diary.databinding.ActivityTasksMainBinding
 import org.kaorun.diary.ui.adapters.SearchHistoryAdapter
@@ -118,7 +117,7 @@ class SearchTasksManager(
         binding.tasksEmpty.tasksEmptyLayout.visibility = View.GONE
 
         if (filteredList.isEmpty()) {
-            binding.nothingFound.nothingFoundLayout.visibility = View.VISIBLE
+            binding.nothingFoundTasks.nothingFoundTasksLayout.visibility = View.VISIBLE
             searchBar.menu.findItem(R.id.layoutSwitcher)?.isVisible = false
         }
 
@@ -128,7 +127,7 @@ class SearchTasksManager(
                 searchBar.clearText()
                 binding.extendedFab.show()
                 backPressedCallback?.remove()
-                binding.nothingFound.nothingFoundLayout.visibility = View.GONE
+                binding.nothingFoundTasks.nothingFoundTasksLayout.visibility = View.GONE
             }
         }
         onBackPressedDispatcher.addCallback(lifecycleOwner, backPressedCallback!!)
@@ -139,7 +138,7 @@ class SearchTasksManager(
             binding.extendedFab.show()
             backPressedCallback?.remove()
             searchBar.setNavigationOnClickListener(null)
-            binding.nothingFound.nothingFoundLayout.visibility = View.GONE
+            binding.nothingFoundTasks.nothingFoundTasksLayout.visibility = View.GONE
         }
     }
 

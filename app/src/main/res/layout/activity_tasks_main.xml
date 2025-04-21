@@ -85,8 +85,8 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     <include
-        layout="@layout/nothing_found"
-        android:id="@+id/nothingFound"
+        layout="@layout/nothing_found_tasks"
+        android:id="@+id/nothingFoundTasks"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"

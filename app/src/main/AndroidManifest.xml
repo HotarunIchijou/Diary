@@ -21,9 +21,11 @@
             android:name=".ui.activities.NoteActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+
         <activity
             android:name=".ui.activities.TasksMainActivity"
             android:exported="false" />
+
         <activity
             android:name=".ui.activities.MainActivity"
 			android:windowSoftInputMode="adjustResize"
@@ -34,15 +36,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".ui.activities.SettingsActivity"
             android:exported="false" />
+
         <activity
             android:name=".ui.activities.AboutActivity"
             android:exported="false" />
+
         <activity
             android:name=".ui.activities.AppearanceActivity"
             android:exported="false" />
+
 		<provider
 			android:name="androidx.core.content.FileProvider"
 			android:exported="false"
@@ -52,6 +58,8 @@
         <receiver
             android:name="org.kaorun.diary.receivers.NotificationReceiver"
             android:exported="false" />
+
+        <receiver android:name=".receivers.MarkAsCompletedReceiver" />
 
     </application>
 

@@ -33,6 +33,8 @@ class TasksMainActivity : BaseActivity() {
     private val taskList = mutableListOf<TasksDatabase>()
     private val tasksViewModel: TasksViewModel by viewModels()
     private var selected = 0
+    private var taskIdFromNotification: String? = null
+    private var titleFromNotification: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -116,6 +118,9 @@ class TasksMainActivity : BaseActivity() {
             true
         }
 
+        taskIdFromNotification = intent.getStringExtra("task_id")
+        titleFromNotification = intent.getStringExtra("notification_title")
+
         observeViewModel()
     }
 
@@ -124,12 +129,29 @@ class TasksMainActivity : BaseActivity() {
             taskList.clear()
             taskList.addAll(tasks)
             applyFilter(selected)
+
+            if (taskIdFromNotification != null && titleFromNotification != null) {
+                val task = tasks.find { it.id == taskIdFromNotification }
+                if (task != null) {
+                    val bottomSheet = BottomSheetFragment.newInstance(
+                        task.id,
+                        task.title,
+                        task.isCompleted,
+                        task.time,
+                        task.date
+                    )
+                    bottomSheet.show(supportFragmentManager, bottomSheet.tag)
+                    taskIdFromNotification = null
+                    titleFromNotification = null
+                }
+            }
         }
 
         tasksViewModel.isLoading.observe(this) { isLoading ->
             binding.loading.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
     }
+
 
     private fun setupScrollBehavior() {
         val fab = binding.extendedFab

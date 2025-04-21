@@ -263,6 +263,7 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
         try {
             val intent = Intent(requireContext(), org.kaorun.diary.receivers.NotificationReceiver::class.java).apply {
                 putExtra("notification_title", taskText)
+                putExtra("task_id", taskId)
             }
 
             val pendingIntent = PendingIntent.getBroadcast(

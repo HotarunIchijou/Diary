@@ -31,7 +31,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import org.kaorun.diary.R
 import org.kaorun.diary.data.NotesDatabase
-import org.kaorun.diary.data.SearchHistoryManager
+import org.kaorun.diary.ui.managers.SearchHistoryManager
 import org.kaorun.diary.databinding.ActivityMainBinding
 import org.kaorun.diary.ui.adapters.NotesAdapter
 import org.kaorun.diary.ui.fragments.WelcomeFragment

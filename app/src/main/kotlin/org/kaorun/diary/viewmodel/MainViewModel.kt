@@ -13,12 +13,11 @@ class MainViewModel : ViewModel() {
 	val notesList: LiveData<List<NotesDatabase>> get() = _notesList
 
 	private val firebaseAuth = FirebaseAuth.getInstance()
-	private val databaseReference: DatabaseReference =
-		FirebaseDatabase.getInstance().getReference("Notes")
+	private val databaseReference = FirebaseDatabase.getInstance().getReference("Notes")
 	private val notes = mutableListOf<NotesDatabase>()
+
 	private val _isLoading = MutableLiveData<Boolean>()
 	val isLoading: LiveData<Boolean> get() = _isLoading
-
 
 	init {
 		fetchNotes()
@@ -28,16 +27,14 @@ class MainViewModel : ViewModel() {
 		_isLoading.value = true
 		val userId = firebaseAuth.currentUser?.uid ?: return
 
-		attachChildEventListener(userId) // Attach listener
+		attachChildEventListener(userId)
 
-		// Initial check for notes existence
 		databaseReference.child(userId).addListenerForSingleValueEvent(object : ValueEventListener {
 			override fun onDataChange(snapshot: DataSnapshot) {
 				if (!snapshot.exists()) {
-					// If no notes exist, update the state
 					_notesList.value = emptyList()
-					_isLoading.value = false
 				}
+				_isLoading.value = false
 			}
 
 			override fun onCancelled(error: DatabaseError) {
@@ -50,44 +47,23 @@ class MainViewModel : ViewModel() {
 		databaseReference.child(userId).addChildEventListener(object : ChildEventListener {
 			override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
 				val noteId = snapshot.key.orEmpty()
-				val value = snapshot.value
+				val title = snapshot.child("title").getValue(String::class.java) ?: ""
+				val content = snapshot.child("note").getValue(String::class.java) ?: ""
 
-				when (value) {
-					is String -> {
-						// Handling the old structure: "id:title"
-						val noteTitle = snapshot.getValue(String::class.java) ?: ""  // Get title from old structure
-						val noteContent = ""  // Old structure doesn't have content, so it's left empty
-						val note = NotesDatabase(id = noteId, title = noteTitle, note = noteContent)
-						notes.add(note)
-						_notesList.value = notes.toList()
-						_isLoading.value = false
-					}
-
-					is Map<*, *> -> {
-						val noteData = snapshot.getValue(object : GenericTypeIndicator<Map<String, String>>() {})
-						val noteTitle = noteData?.get("title") ?: ""
-						val noteContent = noteData?.get("note") ?: ""
-						val note = NotesDatabase(id = noteId, title = noteTitle, note = noteContent)
-						notes.add(note)
-						_notesList.value = notes.toList()
-						_isLoading.value = false
-					}
-
-					else -> {
-						_isLoading.value = false
-					}
-				}
+				val note = NotesDatabase(id = noteId, title = title, note = content)
+				notes.add(note)
+				_notesList.value = notes.toList()
+				_isLoading.value = false
 			}
 
 			override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
 				val noteId = snapshot.key.orEmpty()
-				val noteData = snapshot.getValue(object : GenericTypeIndicator<Map<String, String>>() {})
+				val title = snapshot.child("title").getValue(String::class.java) ?: ""
+				val content = snapshot.child("note").getValue(String::class.java) ?: ""
 
-				val noteTitle = noteData?.get("title") ?: ""
-				val noteContent = noteData?.get("note") ?: ""
 				val index = notes.indexOfFirst { it.id == noteId }
 				if (index != -1) {
-					notes[index] = NotesDatabase(id = noteId, title = noteTitle, note = noteContent)
+					notes[index] = NotesDatabase(id = noteId, title = title, note = content)
 					_notesList.value = notes.toList()
 				}
 			}

@@ -1,4 +1,4 @@
-package org.kaorun.diary.data
+package org.kaorun.diary.ui.managers
 
 import android.content.Context
 import android.content.SharedPreferences

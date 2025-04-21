@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.search.SearchView
 import org.kaorun.diary.R
-import org.kaorun.diary.data.SearchHistoryManager
+import org.kaorun.diary.ui.managers.SearchHistoryManager
 import org.kaorun.diary.data.TasksDatabase
 import org.kaorun.diary.databinding.ActivityTasksMainBinding
 import org.kaorun.diary.ui.adapters.SearchHistoryAdapter

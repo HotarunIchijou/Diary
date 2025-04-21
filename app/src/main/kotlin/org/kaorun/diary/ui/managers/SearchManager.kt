@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.search.SearchView
 import org.kaorun.diary.R
 import org.kaorun.diary.data.NotesDatabase
-import org.kaorun.diary.data.SearchHistoryManager
+import org.kaorun.diary.ui.managers.SearchHistoryManager
 import org.kaorun.diary.databinding.ActivityMainBinding
 import org.kaorun.diary.ui.adapters.NotesAdapter
 import org.kaorun.diary.ui.adapters.SearchHistoryAdapter

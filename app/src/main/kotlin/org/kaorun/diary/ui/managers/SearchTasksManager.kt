@@ -1,5 +1,6 @@
 package org.kaorun.diary.ui.managers
 
+import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.OnBackPressedDispatcher
 import androidx.appcompat.content.res.AppCompatResources
@@ -104,14 +105,14 @@ class SearchTasksManager(
             it.title.contains(query, ignoreCase = true)
         }.toMutableList()
 
-        //binding.tasksEmptyLayout.visibility = View.GONE
         searchBar.navigationIcon = AppCompatResources.getDrawable(binding.root.context, R.drawable.arrow_back_24px)
         backPressedCallback?.remove()
         binding.extendedFab.hide()
         tasksAdapter.updateTasks(filteredList)
+        binding.tasksEmpty.tasksEmptyLayout.visibility = View.GONE
 
         if (filteredList.isEmpty()) {
-            //binding.nothingFoundLayout.visibility = View.VISIBLE
+            binding.nothingFound.nothingFoundLayout.visibility = View.VISIBLE
             binding.searchBar.menu.findItem(R.id.layoutSwitcher)?.isVisible = false
         }
 
@@ -121,7 +122,7 @@ class SearchTasksManager(
                 searchBar.clearText()
                 binding.extendedFab.show()
                 backPressedCallback?.remove()
-                //binding.nothingFoundLayout.visibility = View.GONE
+                binding.nothingFound.nothingFoundLayout.visibility = View.GONE
             }
         }
         onBackPressedDispatcher.addCallback(lifecycleOwner, backPressedCallback!!)
@@ -132,7 +133,7 @@ class SearchTasksManager(
             binding.extendedFab.show()
             backPressedCallback?.remove()
             searchBar.setNavigationOnClickListener(null)
-            //binding.nothingFoundLayout.visibility = View.GONE
+            binding.nothingFound.nothingFoundLayout.visibility = View.GONE
         }
     }
 
@@ -141,6 +142,6 @@ class SearchTasksManager(
         tasksAdapter.updateTasks(tasksList)
         backPressedCallback?.remove()
         binding.searchBar.menu.findItem(R.id.layoutSwitcher)?.isVisible = tasksList.isNotEmpty()
-        //binding.tasksEmptyLayout.visibility = if (tasksList.isNotEmpty()) View.GONE else View.VISIBLE
+        binding.tasksEmpty.tasksEmptyLayout.visibility = if (tasksList.isNotEmpty()) View.GONE else View.VISIBLE
     }
 }

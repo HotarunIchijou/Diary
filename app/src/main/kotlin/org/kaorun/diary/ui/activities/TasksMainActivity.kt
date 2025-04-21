@@ -82,7 +82,7 @@ class TasksMainActivity : BaseActivity() {
         }
 
         binding.chipTasksFilter.setOnClickListener {
-            val options = arrayOf(getString(R.string.pendindg), getString(R.string.completed))
+            val options = arrayOf(getString(R.string.pending), getString(R.string.completed))
 
             MaterialAlertDialogBuilder(this, com.google.android.material.R.style.ThemeOverlay_Material3_MaterialAlertDialog_Centered)
                 .setIcon(R.drawable.filter_alt_24px)
@@ -208,7 +208,7 @@ class TasksMainActivity : BaseActivity() {
         binding.chipTasksFilter.apply {
             when (selected) {
                 0 -> {
-                    text = getString(R.string.pendindg)
+                    text = getString(R.string.pending)
                     chipIcon = AppCompatResources.getDrawable(context, R.drawable.pending_actions_24px)
                 }
                 1 -> {

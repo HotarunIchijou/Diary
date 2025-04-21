@@ -59,7 +59,6 @@
 	<string name="pending">Pending</string>
 	<string name="cancel">Cancel</string>
 	<string name="tasks_filter_title">Filter tasks</string>
-	<string name="pendindg">Pending</string>
 	<string name="completed">Completed</string>
 	<string name="task_completed">Task completed!</string>
 	<string name="undo">Undo</string>

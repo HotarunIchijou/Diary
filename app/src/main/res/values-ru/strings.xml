@@ -79,4 +79,6 @@
 	<string name="nothing_found_tasks">Ничего не найдено в ваших задачах</string>
 	<string name="type_to_start_search">Введите для поиска</string>
 	<string name="mark_as_completed">Отменить как выполненное</string>
+	<string name="license">Лицензия</string>
+	<string name="license_summary">Данный проект использует лицензию MIT</string>
 </resources>

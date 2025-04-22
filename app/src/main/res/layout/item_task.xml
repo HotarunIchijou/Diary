@@ -26,7 +26,8 @@
             android:textAppearance="?attr/textAppearanceTitleLarge"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            tools:text="Task title"/>
+            android:maxLines="2"
+            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."/>
 
         <TextView
             android:id="@+id/date"
@@ -36,7 +37,7 @@
             android:gravity="end"
             android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
             android:textColor="?attr/colorPrimary"
-            tools:text="12:00, Jan 1, 1970" />
+            tools:text="Jan 1, 1970, 12:00" />
 
     </LinearLayout>
 

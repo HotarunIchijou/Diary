@@ -23,7 +23,10 @@ class TasksAdapter(
                 task.date.isNullOrEmpty() && task.time.isNullOrEmpty() -> null
                 task.date.isNullOrEmpty() -> task.time
                 task.time.isNullOrEmpty() -> formatDate(binding.root.context, task.date)
-                else -> "${formatDate(binding.root.context, task.date)}, ${task.time}"
+                else -> {
+                    val formattedDate = formatDate(binding.root.context, task.date)
+                    if (formattedDate != null) "${formattedDate}, ${task.time}" else task.time
+                }
             }
 
 

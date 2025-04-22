@@ -66,30 +66,27 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
 
         binding.buttonSave.setOnClickListener {
             taskText = binding.editText.text.toString().trim()
-
-            if (taskText.isNotEmpty()) {
-
-                val task = TasksDatabase(
-                    id = existingTaskId ?: FirebaseDatabase.getInstance().reference.push().key.orEmpty(),
-                    title = taskText,
-                    isCompleted = isCompleted,
-                    time = formattedTime,
-                    date = formattedDate
-                )
-
-
-                if (existingTaskId != null) {
-                    tasksViewModel.updateTask(task)
-
-                    if (formattedTime == null) cancelNotification(task.id)
-                }
-                else tasksViewModel.addTask(task)
-
-                if (formattedTime != null) scheduleNotification(selectedDate, formattedTime!!, task.id)
-                else dismiss()
+            if (taskText.isEmpty()) {
+                Toast.makeText(requireContext(), getString(R.string.enter_task), Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
-            else Toast.makeText(requireContext(), getString(R.string.enter_task), Toast.LENGTH_SHORT).show()
+
+            val taskId = existingTaskId ?: FirebaseDatabase.getInstance().reference.push().key.orEmpty()
+            val task = TasksDatabase(taskId, taskText, isCompleted, formattedTime, formattedDate)
+
+            if (formattedTime != null && !scheduleNotification(selectedDate, formattedTime!!, taskId)) {
+                return@setOnClickListener
+            }
+
+            if (existingTaskId != null && formattedTime == null) {
+                cancelNotification(taskId)
+            }
+
+            saveTask(task)
+            dismiss()
         }
+
+
 
 
         return binding.root
@@ -236,14 +233,19 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
         }
     }
 
-    private fun scheduleNotification(selectedDate: Date?, selectedTime: String, taskId: String) {
-        if (selectedTime.isBlank()) return
+    private fun saveTask(task: TasksDatabase) {
+        if (existingTaskId != null) tasksViewModel.updateTask(task)
+        else tasksViewModel.addTask(task)
+    }
+
+    private fun scheduleNotification(selectedDate: Date?, selectedTime: String, taskId: String): Boolean {
+        if (selectedTime.isBlank()) return false
 
         val timeParts = selectedTime.split(":")
-        if (timeParts.size != 2) return
+        if (timeParts.size != 2) return false
 
-        val selectedHour = timeParts[0].toIntOrNull() ?: return
-        val selectedMinute = timeParts[1].toIntOrNull() ?: return
+        val selectedHour = timeParts[0].toIntOrNull() ?: return false
+        val selectedMinute = timeParts[1].toIntOrNull() ?: return false
 
         val date = selectedDate ?: Date()
 
@@ -257,10 +259,10 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
 
         if (calendar.timeInMillis <= System.currentTimeMillis()) {
             Toast.makeText(requireContext(), getString(R.string.must_be_in_the_future), Toast.LENGTH_SHORT).show()
-            return
+            return false
         }
 
-        try {
+        return try {
             val intent = Intent(requireContext(), org.kaorun.diary.receivers.NotificationReceiver::class.java).apply {
                 putExtra("notification_title", taskText)
                 putExtra("task_id", taskId)
@@ -277,13 +279,13 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
                 AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent
             )
 
-            dismiss()
+            true
         } catch (_: SecurityException) {
             Toast.makeText(requireContext(), getString(R.string.grant_reminders_permission), Toast.LENGTH_SHORT).show()
             startActivity(Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM))
+            false
         }
     }
-
 
     private fun cancelNotification(taskId: String) {
         val intent = Intent().apply {

@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth
 import org.kaorun.diary.R
 import org.kaorun.diary.data.TasksDatabase
 import org.kaorun.diary.databinding.ActivityTasksMainBinding
+import org.kaorun.diary.ui.activities.settings.SettingsActivity
 import org.kaorun.diary.ui.adapters.TasksAdapter
 import org.kaorun.diary.ui.fragments.BottomSheetFragment
 import org.kaorun.diary.ui.fragments.WelcomeFragment

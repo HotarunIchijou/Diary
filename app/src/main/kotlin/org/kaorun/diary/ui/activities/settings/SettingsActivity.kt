@@ -1,4 +1,4 @@
-package org.kaorun.diary.ui.activities
+package org.kaorun.diary.ui.activities.settings
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import org.kaorun.diary.R
 import org.kaorun.diary.data.SettingsItem
 import org.kaorun.diary.databinding.ActivitySettingsBinding
+import org.kaorun.diary.ui.activities.BaseActivity
 import org.kaorun.diary.ui.adapters.SettingsAdapter
 
 class SettingsActivity : BaseActivity() {
@@ -17,15 +18,19 @@ class SettingsActivity : BaseActivity() {
         setContentView(binding.root)
 
         val settingsItems = listOf(
-            SettingsItem(getString(R.string.appearance),
+            SettingsItem(
+                getString(R.string.appearance),
                 getString(R.string.appearance_summary),
                 R.drawable.palette_24px,
-                AppearanceActivity::class.java),
+                AppearanceActivity::class.java
+            ),
 
-            SettingsItem(getString(R.string.about),
+            SettingsItem(
+                getString(R.string.about),
                 getString(R.string.about_summary),
                 R.drawable.info_24px,
-                AboutActivity::class.java)
+                AboutActivity::class.java
+            )
         )
 
         val recyclerView = binding.recyclerView

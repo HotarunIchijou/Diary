@@ -80,4 +80,6 @@
 	<string name="nothing_found_tasks">Nothing found in your tasks</string>
 	<string name="type_to_start_search">Type to start search</string>
 	<string name="mark_as_completed">Mark as completed</string>
+    <string name="license">License</string>
+	<string name="license_summary">This project is licensed under the MIT license</string>
 </resources>

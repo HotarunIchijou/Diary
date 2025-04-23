@@ -21,7 +21,7 @@ class MarkAsCompletedReceiver : BroadcastReceiver() {
             .child(user.uid)
             .child(taskId)
 
-        database.child("isCompleted").setValue(true)
+        database.child("c").setValue(true)
             .addOnSuccessListener {
                 val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
                 notificationManager.cancel(taskId.hashCode())

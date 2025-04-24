@@ -5,6 +5,7 @@
     android:id="@+id/tasksMainActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
     tools:context=".ui.activities.TasksMainActivity">
 
     <com.google.android.material.appbar.AppBarLayout

@@ -80,4 +80,5 @@ dependencies {
 	implementation(platform(libs.firebase.bom))
 	implementation(libs.androidx.credentials)
 	implementation(libs.androidx.preference.ktx)
+	implementation(libs.gson)
 }

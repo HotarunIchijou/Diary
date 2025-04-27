@@ -23,7 +23,8 @@ import org.kaorun.diary.ui.adapters.TasksAdapter
 import org.kaorun.diary.ui.fragments.BottomSheetFragment
 import org.kaorun.diary.ui.fragments.WelcomeFragment
 import org.kaorun.diary.ui.managers.SearchTasksManager
-import org.kaorun.diary.ui.utils.InsetsHandler
+import org.kaorun.diary.utils.InsetsHandler
+import org.kaorun.diary.utils.TasksLocalCache
 import org.kaorun.diary.viewmodel.TasksViewModel
 
 class TasksMainActivity : BaseActivity() {
@@ -129,6 +130,7 @@ class TasksMainActivity : BaseActivity() {
         tasksViewModel.tasksList.observe(this) { tasks ->
             taskList.clear()
             taskList.addAll(tasks)
+            TasksLocalCache.saveTasks(this, taskList)
             applyFilter(selected)
 
             if (taskIdFromNotification != null && titleFromNotification != null) {

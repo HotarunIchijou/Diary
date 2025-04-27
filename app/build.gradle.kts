@@ -1,3 +1,5 @@
+import org.gradle.api.JavaVersion.VERSION_17
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -6,12 +8,12 @@ plugins {
 
 android {
     namespace = "org.kaorun.diary"
-	compileSdk = 35
+	compileSdk = 36
 
 	defaultConfig {
         applicationId = "org.kaorun.diary"
         minSdk = 31
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 4
         versionName = "1.0.0"
 
@@ -43,12 +45,12 @@ android {
 	}
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = VERSION_17
+        targetCompatibility = VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
 
 	buildFeatures{

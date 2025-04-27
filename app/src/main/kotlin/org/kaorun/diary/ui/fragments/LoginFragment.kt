@@ -14,7 +14,7 @@ import com.google.firebase.auth.FirebaseAuth
 import org.kaorun.diary.R
 import org.kaorun.diary.databinding.FragmentLoginBinding
 import org.kaorun.diary.ui.activities.MainActivity
-import org.kaorun.diary.ui.utils.InsetsHandler
+import org.kaorun.diary.utils.InsetsHandler
 
 class LoginFragment : BaseFragment() {
 

@@ -3,7 +3,7 @@ package org.kaorun.diary.ui.activities
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.inputmethod.InputMethodManager
+import android.view.accessibility.AccessibilityManager
 import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.firebase.auth.FirebaseAuth
@@ -17,15 +17,14 @@ import com.onegravity.rteditor.api.RTProxyImpl
 import com.onegravity.rteditor.api.format.RTFormat
 import org.kaorun.diary.R
 import org.kaorun.diary.databinding.ActivityNoteBinding
-import org.kaorun.diary.ui.utils.FloatingToolbarHelper
-import org.kaorun.diary.ui.utils.InsetsHandler
+import org.kaorun.diary.utils.FloatingToolbarHelper
+import org.kaorun.diary.utils.InsetsHandler
 
 class NoteActivity : BaseActivity() {
 
 	private lateinit var binding: ActivityNoteBinding
 	private lateinit var databaseRef: DatabaseReference
 	private lateinit var auth: FirebaseAuth
-	private lateinit var rootLayout: CoordinatorLayout
 	private lateinit var rtManager: RTManager
 	private lateinit var title: RTEditText
 	private lateinit var note: RTEditText
@@ -40,9 +39,6 @@ class NoteActivity : BaseActivity() {
 
 		InsetsHandler.applyAppBarInsets(binding.appBarLayout)
 		InsetsHandler.applyViewInsets(binding.noteContent)
-		InsetsHandler.applyFabInsets(binding.floatingToolbarParent)
-
-		val fab = binding.fab
 
 		val rtApi = RTApi(this, RTProxyImpl(this), RTMediaFactoryImpl(this, true))
 		rtManager = RTManager(rtApi, savedInstanceState)
@@ -56,6 +52,21 @@ class NoteActivity : BaseActivity() {
 		val toolbarHelper = FloatingToolbarHelper(rtManager, binding)
 		toolbarHelper.setupFloatingToolbar()
 
+		val floatingToolbar = binding.floatingToolbar
+
+		val am = applicationContext.getSystemService(AccessibilityManager::class.java)
+		if (am != null && am.isTouchExplorationEnabled) {
+			(floatingToolbar.layoutParams as? CoordinatorLayout.LayoutParams)?.behavior = null
+			floatingToolbar.post {
+				note.setPadding(
+					note.paddingLeft,
+					note.paddingTop,
+					note.paddingRight,
+					note.paddingBottom + floatingToolbar.measuredHeight
+				)
+			}
+		}
+
 		noteId = intent.getStringExtra("NOTE_ID")
 		val noteTitle = intent.getStringExtra("NOTE_TITLE")
 		val noteContent = intent.getStringExtra("NOTE_CONTENT")
@@ -67,31 +78,8 @@ class NoteActivity : BaseActivity() {
 
 		binding.noteTitle.requestFocus()
 
-		val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-		imm.showSoftInput(binding.noteTitle, InputMethodManager.SHOW_IMPLICIT)
-
 		registerEvents()
 
-		fab.hide()
-
-		rootLayout = binding.root
-		rootLayout.viewTreeObserver.addOnGlobalLayoutListener {
-			val rect = android.graphics.Rect()
-			rootLayout.getWindowVisibleDisplayFrame(rect)
-			val screenHeight = rootLayout.height
-			val keypadHeight = screenHeight - rect.bottom
-			val desiredOffsetDp = 16
-			val scale = resources.displayMetrics.density
-			val desiredOffsetPx = (desiredOffsetDp * scale + 0.5f).toInt()
-
-			if (keypadHeight > screenHeight * 0.15) {
-				binding.floatingToolbarParent.translationY = -keypadHeight.toFloat() + desiredOffsetPx
-			}
-			else {
-				binding.floatingToolbarParent.translationY = 0f
-			}
-			true
-		}
 	}
 
 	private fun registerEvents() {
@@ -99,9 +87,6 @@ class NoteActivity : BaseActivity() {
 			override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
 			override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-				if (p0.toString().trim().isNotEmpty()) binding.fab.show()
-				else binding.fab.hide()
-
 				if (binding.noteTitle.lineCount > 5) {
 					val currentText = binding.noteTitle.text?.toString() ?: ""
 					binding.noteTitle.setText(currentText.substring(0, currentText.length - p3))
@@ -115,10 +100,7 @@ class NoteActivity : BaseActivity() {
 		binding.noteContent.addTextChangedListener(object : TextWatcher {
 			override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
-			override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-				if (p0.toString().trim().isNotEmpty()) binding.fab.show()
-				else binding.fab.hide()
-			}
+			override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
 			override fun afterTextChanged(p0: Editable?) {}
 		})
@@ -135,10 +117,6 @@ class NoteActivity : BaseActivity() {
 				}
 				else -> false
 			}
-		}
-
-		binding.fab.setOnClickListener {
-			this.finish()
 		}
 	}
 

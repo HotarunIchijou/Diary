@@ -6,7 +6,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import org.kaorun.diary.data.TasksDatabase
 import org.kaorun.diary.databinding.ItemTaskBinding
-import org.kaorun.diary.ui.utils.DateUtils.formatDate
+import org.kaorun.diary.utils.DateUtils.formatDate
 
 class TasksAdapter(
     private var tasks: List<TasksDatabase>,

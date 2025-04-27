@@ -39,7 +39,7 @@ import org.kaorun.diary.ui.adapters.NotesAdapter
 import org.kaorun.diary.ui.fragments.WelcomeFragment
 import org.kaorun.diary.ui.managers.SearchHistoryManager
 import org.kaorun.diary.ui.managers.SearchManager
-import org.kaorun.diary.ui.utils.InsetsHandler
+import org.kaorun.diary.utils.InsetsHandler
 import org.kaorun.diary.viewmodel.MainViewModel
 import kotlin.math.abs
 
@@ -142,7 +142,7 @@ class MainActivity : BaseActivity() {
 		}
 
 		override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-			val position = viewHolder.adapterPosition
+			val position = viewHolder.absoluteAdapterPosition
 
 			val itemViewWidth = viewHolder.itemView.width
 			val swipeDistance = abs(viewHolder.itemView.translationX)

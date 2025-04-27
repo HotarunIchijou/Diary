@@ -5,6 +5,7 @@
     android:id="@+id/tasksMainActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
     tools:context=".ui.activities.TasksMainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -24,19 +25,18 @@
             app:navigationIcon="@drawable/search_24px"
             android:hint="@string/search_tasks" />
 
-        <LinearLayout
+        <com.google.android.material.chip.ChipGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginHorizontal="16dp">
+            android:layout_marginHorizontal="16dp"
+            app:singleLine="true">
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipSwitch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/switch_mode"
-                app:chipIcon="@drawable/sticky_note_2_24px"
-                android:layout_marginEnd="8dp" />
+                app:chipIcon="@drawable/sticky_note_2_24px" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipTasksFilter"
@@ -45,7 +45,7 @@
                 android:text="@string/pending"
                 app:chipIcon="@drawable/pending_actions_24px" />
 
-        </LinearLayout>
+        </com.google.android.material.chip.ChipGroup>
 
     </com.google.android.material.appbar.AppBarLayout>
 

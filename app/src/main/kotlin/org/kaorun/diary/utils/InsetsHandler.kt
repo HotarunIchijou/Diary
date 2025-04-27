@@ -1,4 +1,4 @@
-package org.kaorun.diary.ui.utils
+package org.kaorun.diary.utils
 
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams

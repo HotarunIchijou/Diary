@@ -68,70 +68,56 @@
 				android:focusableInTouchMode="true"
 				android:imeOptions="flagNoFullscreen"
 				android:inputType="textCapSentences|textMultiLine"
-				android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
+				android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+				android:accessibilityTraversalAfter="@id/floatingToolbar" />
 
 
 		</LinearLayout>
 
 	</androidx.core.widget.NestedScrollView>
 
-	<LinearLayout
+	<com.google.android.material.floatingtoolbar.FloatingToolbarLayout
+		style="?attr/floatingToolbarStyle"
+		android:id="@+id/floatingToolbar"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:id="@+id/floatingToolbarParent"
-		android:layout_gravity="bottom|center"
-		android:orientation="horizontal">
+		android:layout_gravity="center|bottom"
+		android:layout_margin="16dp"
+		android:accessibilityTraversalBefore="@id/noteContent"
+		app:layout_behavior="com.google.android.material.behavior.HideViewOnScrollBehavior">
 
-		<com.google.android.material.floatingtoolbar.FloatingToolbarLayout
+		<LinearLayout
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_gravity="center"
-			android:id="@+id/floatingToolbar">
+			android:orientation="horizontal">
 
-			<LinearLayout
+			<com.google.android.material.button.MaterialButton
+				style="?attr/materialIconButtonStyle"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_gravity="center"
+				android:checkable="true"
+				android:id="@+id/styleBold"
+				app:icon="@drawable/format_bold_24px" />
 
-				android:orientation="horizontal">
+			<com.google.android.material.button.MaterialButton
+				style="?attr/materialIconButtonStyle"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:checkable="true"
+				android:id="@+id/styleItalic"
+				app:icon="@drawable/format_italic_24px" />
 
-				<com.google.android.material.button.MaterialButton
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:checkable="true"
-					android:id="@+id/styleBold"
-					style="?materialIconButtonFilledStyle"
-					app:icon="@drawable/format_bold_24px" />
+			<com.google.android.material.button.MaterialButton
+				style="?attr/materialIconButtonStyle"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:checkable="true"
+				android:id="@+id/styleUnderline"
+				app:icon="@drawable/format_underlined_24px" />
 
-				<com.google.android.material.button.MaterialButton
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:checkable="true"
-					android:id="@+id/styleItalic"
-					style="?attr/materialIconButtonFilledStyle"
-					app:icon="@drawable/format_italic_24px" />
+		</LinearLayout>
 
-				<com.google.android.material.button.MaterialButton
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:checkable="true"
-					android:id="@+id/styleUnderline"
-					style="?attr/materialIconButtonFilledStyle"
-					app:icon="@drawable/format_underlined_24px" />
-
-			</LinearLayout>
-
-		</com.google.android.material.floatingtoolbar.FloatingToolbarLayout>
-
-		<com.google.android.material.floatingactionbutton.FloatingActionButton
-			android:id="@+id/fab"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center"
-			android:contentDescription="@string/add_note"
-			app:srcCompat="@drawable/save_24px"
-			android:layout_marginHorizontal="16dp" />
-
-	</LinearLayout>
+	</com.google.android.material.floatingtoolbar.FloatingToolbarLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

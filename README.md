@@ -1,4 +1,6 @@
-# 📖 Diary  
+# 📖 Diary
+
+🇬🇧EN/[🇷🇺RU](https://github.com/HotarunIchijou/Diary/blob/master/README_ru.md)
 
 **Diary** is a simple and elegant mobile application built in **Kotlin** with **Material 3 Design**. It features a **rich text editor** that allows users to format text with bold, italic, and underlined styles, making it perfect for journaling or documenting thoughts and ideas. This app is being developed as part of a **college project**.  
 

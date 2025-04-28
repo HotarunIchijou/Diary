@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Base.Theme.Diary" parent="Theme.Material3.DynamicColors.Light.NoActionBar">
+    <style name="Base.Theme.Diary" parent="Theme.Material3Expressive.DynamicColors.Light.NoActionBar">
         <item name="windowActionModeOverlay">true</item>
         <item name="colorControlHighlight">@android:color/transparent</item>
     </style>
@@ -16,7 +16,7 @@
 
     <style name="Theme.Diary.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="Green" parent="Theme.Material3.Light.NoActionBar">
+    <style name="Green" parent="Theme.Material3Expressive.Light.NoActionBar">
         <item name="colorPrimary">@color/md_theme_primary</item>
         <item name="colorOnPrimary">@color/md_theme_onPrimary</item>
         <item name="colorPrimaryContainer">@color/md_theme_primaryContainer</item>
@@ -65,7 +65,7 @@
         <item name="colorSurfaceContainerHighest">@color/md_theme_surfaceContainerHighest</item>
     </style>
 
-    <style name="Red" parent="Theme.Material3.Light.NoActionBar">
+    <style name="Red" parent="Theme.Material3Expressive.Light.NoActionBar">
         <item name="colorPrimary">@color/red_theme_primary</item>
         <item name="colorOnPrimary">@color/red_theme_onPrimary</item>
         <item name="colorPrimaryContainer">@color/red_theme_primaryContainer</item>
@@ -114,7 +114,7 @@
         <item name="colorSurfaceContainerHighest">@color/red_theme_surfaceContainerHighest</item>
     </style>
 
-    <style name="Blue" parent="Theme.Material3.Light.NoActionBar">
+    <style name="Blue" parent="Theme.Material3Expressive.Light.NoActionBar">
         <item name="colorOnPrimary">@color/blue_theme_onPrimary</item>
         <item name="colorPrimaryContainer">@color/blue_theme_primaryContainer</item>
         <item name="colorOnPrimaryContainer">@color/blue_theme_onPrimaryContainer</item>
@@ -162,7 +162,7 @@
         <item name="colorSurfaceContainerHighest">@color/blue_theme_surfaceContainerHighest</item>
     </style>
 
-    <style name="Yellow" parent="Theme.Material3.Light.NoActionBar">
+    <style name="Yellow" parent="Theme.Material3Expressive.Light.NoActionBar">
         <item name="colorPrimary">@color/yellow_theme_primary</item>
         <item name="colorOnPrimary">@color/yellow_theme_onPrimary</item>
         <item name="colorPrimaryContainer">@color/yellow_theme_primaryContainer</item>

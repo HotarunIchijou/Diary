@@ -1,45 +1,44 @@
 package org.kaorun.diary.utils
 
 import android.content.Context
-import android.util.Log
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import org.kaorun.diary.data.CachedTask
 import org.kaorun.diary.data.TasksDatabase
-import androidx.core.content.edit
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
-
+import org.kaorun.diary.data.TasksRoomDatabase
 
 object TasksLocalCache {
-
-    private const val PREFS_NAME = "tasks_cache"
-    private const val TASKS_KEY = "tasks"
-
-    fun getCachedTasks(context: Context): List<TasksDatabase> {
-        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        val json = prefs.getString(TASKS_KEY, null)
-        Log.d("TasksLocalCache", "Загружаем задачи из SharedPreferences: $json")
-        return if (json != null) {
-            val type = object : TypeToken<List<TasksDatabase>>() {}.type
-            Gson().fromJson(json, type)
-        } else {
-            emptyList()
+    fun cacheTasks(context: Context, tasks: List<TasksDatabase>) {
+        runBlocking(Dispatchers.IO) {
+            val cachedTasks = tasks.map {
+                CachedTask(
+                    id = it.id,
+                    title = it.title,
+                    date = it.date,
+                    time = it.time,
+                    isCompleted = it.isCompleted
+                )
+            }
+            val db = TasksRoomDatabase.getDatabase(context)
+            db.cachedTaskDao().clearAll()
+            db.cachedTaskDao().insertAll(cachedTasks)
         }
     }
 
-    fun saveTasks(context: Context, tasks: List<TasksDatabase>) {
-        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        val json = Gson().toJson(tasks.map { task ->
-            task.copy(date = task.date ?: getCurrentDate())  // Пример с установкой текущей даты, если она отсутствует
-        })
-        Log.d("TasksLocalCache", "Сохраняем задачи в SharedPreferences: $json")
-        prefs.edit { putString(TASKS_KEY, json) }
+    // Получение закешированных задач из Room
+    fun getCachedTasks(context: Context): List<TasksDatabase> {
+        return runBlocking(Dispatchers.IO) {
+            val db = TasksRoomDatabase.getDatabase(context)
+            val cachedTasks = db.cachedTaskDao().getAllTasks()
+            cachedTasks.map {
+                TasksDatabase(
+                    id = it.id,
+                    title = it.title,
+                    date = it.date,
+                    time = it.time,
+                    isCompleted = it.isCompleted
+                )
+            }
+        }
     }
-
-    fun getCurrentDate(): String {
-        val formatter = SimpleDateFormat("MMM d, yyyy", Locale.getDefault())
-        return formatter.format(Date())  // Возвращает текущую дату в формате "MMM d, yyyy"
-    }
-
 }

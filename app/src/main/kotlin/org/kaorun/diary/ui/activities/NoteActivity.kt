@@ -184,4 +184,15 @@ class NoteActivity : BaseActivity() {
 		}
 		super.onPause()
 	}
+
+	override fun onDestroy() {
+		if (!isNoteDeleted) {
+			val currentNote = title.getText(RTFormat.HTML).trim()
+			if (currentNote != lastSavedNote) {
+				saveNote(noteId)
+				lastSavedNote = currentNote
+			}
+		}
+		super.onDestroy()
+	}
 }

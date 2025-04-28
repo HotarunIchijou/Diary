@@ -10,7 +10,6 @@ import android.text.format.DateFormat.is24HourFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -23,9 +22,10 @@ import com.google.firebase.database.FirebaseDatabase
 import org.kaorun.diary.R
 import org.kaorun.diary.data.TasksDatabase
 import org.kaorun.diary.databinding.FragmentBottomSheetBinding
+import org.kaorun.diary.receivers.NotificationReceiver
+import org.kaorun.diary.utils.NotificationUtils.cancelNotification
 import org.kaorun.diary.viewmodel.TasksViewModel
 import java.time.LocalDate
-import java.time.LocalTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
@@ -41,26 +41,29 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
     private var formattedDate: String? = null
     private var selectedDate: Date? = null
     private var isCompleted: Boolean = false
-
-
     private var existingTaskId: String? = null
 
     companion object {
-        fun newInstance(id: String, title: String, isCompleted: Boolean, time: String?, date: String?): BottomSheetDialogFragment {
+        fun newInstance(
+            id: String, title: String, isCompleted: Boolean,
+            time: String?, date: String?
+        ): BottomSheetFragment {
             val fragment = BottomSheetFragment()
-            val args = Bundle().apply {
+            fragment.arguments = Bundle().apply {
                 putString("TASK_ID", id)
                 putString("TASK_TITLE", title)
                 putBoolean("IS_COMPLETED", isCompleted)
                 putString("TIME", time)
                 putString("DATE", date)
             }
-            fragment.arguments = args
             return fragment
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _binding = FragmentBottomSheetBinding.inflate(inflater, container, false)
         tasksViewModel = ViewModelProvider(requireActivity())[TasksViewModel::class.java]
 
@@ -72,67 +75,79 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
             }
 
             val taskId = existingTaskId ?: FirebaseDatabase.getInstance().reference.push().key.orEmpty()
+            if (formattedTime != null && formattedDate == null) {
+                val today = LocalDate.now()
+                formattedDate = today.format(DateTimeFormatter.ofPattern("MMM d", Locale.getDefault()))
+            }
+
             val task = TasksDatabase(taskId, taskText, isCompleted, formattedTime, formattedDate)
 
             if (formattedTime != null && !scheduleNotification(selectedDate, formattedTime!!, taskId)) {
                 return@setOnClickListener
             }
-
             if (existingTaskId != null && formattedTime == null) {
-                cancelNotification(taskId)
+                cancelNotification(requireContext(), taskId)
             }
 
             saveTask(task)
             dismiss()
         }
 
-
-
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding.dateChip.isVisible = false
         binding.editText.requestFocus()
-
-        val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.showSoftInput(binding.editText, InputMethodManager.SHOW_IMPLICIT)
-
-
         setupTimeChip()
         setupDateChip()
 
         arguments?.let { args ->
             existingTaskId = args.getString("TASK_ID")
             isCompleted = args.getBoolean("IS_COMPLETED", false)
-            val taskTitle = args.getString("TASK_TITLE")
-            val taskTime = args.getString("TIME")
-            val taskDate = args.getString("DATE")
+            binding.editText.setText(args.getString("TASK_TITLE", ""))
 
-            binding.editText.setText(taskTitle ?: "")
-
-            if (!taskTime.isNullOrEmpty()) {
-                formattedTime = taskTime
-                binding.timeChip.text = formattedTime
+            args.getString("TIME")?.let {
+                formattedTime = it
+                binding.timeChip.text = it
                 binding.timeChip.isCloseIconVisible = true
                 binding.dateChip.isVisible = true
             }
 
-            if (!taskDate.isNullOrEmpty()) {
-                formattedDate = taskDate
-                binding.dateChip.text = formattedDate
-                binding.dateChip.isCloseIconVisible = true
+            args.getString("DATE")?.let { receivedDate ->
+                val today = LocalDate.now()
+                val tomorrow = today.plusDays(1)
+                val formatter = DateTimeFormatter.ofPattern("MMM d", Locale.getDefault())
+                val todayFormatted = today.format(formatter)
+                val tomorrowFormatted = tomorrow.format(formatter)
+
+                when (receivedDate) {
+                    todayFormatted -> {
+                        binding.dateChip.text = getString(R.string.date)
+                        binding.dateChip.isCloseIconVisible = false
+                        formattedDate = null
+                    }
+                    tomorrowFormatted -> {
+                        binding.dateChip.text = getString(R.string.date_tomorrow)
+                        binding.dateChip.isCloseIconVisible = true
+                        formattedDate = tomorrowFormatted
+                    }
+                    else -> {
+                        binding.dateChip.text = receivedDate
+                        binding.dateChip.isCloseIconVisible = true
+                        formattedDate = receivedDate
+                    }
+                }
+
+                binding.dateChip.isVisible = true
             }
 
             binding.buttonDelete.visibility = View.VISIBLE
-
             binding.buttonDelete.setOnClickListener {
-                existingTaskId?.let { taskId ->
-                    tasksViewModel.deleteTask(taskId)
-                    cancelNotification(taskId)
+                existingTaskId?.let { id ->
+                    tasksViewModel.deleteTask(requireContext(), id)
+                    cancelNotification(requireContext(), id)
                     dismiss()
                 }
             }
@@ -145,55 +160,41 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     private fun setupTimeChip() {
-        val chip = binding.timeChip
-
-        chip.setOnClickListener {
-            showTimePickerDialog()
-        }
-
-        chip.setOnCloseIconClickListener {
-            chip.text = getString(R.string.time)
-            chip.isCloseIconVisible = false
+        binding.timeChip.setOnClickListener { showTimePickerDialog() }
+        binding.timeChip.setOnCloseIconClickListener {
+            binding.timeChip.text = getString(R.string.time)
+            binding.timeChip.isCloseIconVisible = false
             binding.dateChip.isVisible = false
             formattedTime = null
         }
     }
 
     private fun setupDateChip() {
-        val chip = binding.dateChip
-
-        chip.setOnClickListener {
-            showDatePickerDialog()
-        }
-
-        chip.setOnCloseIconClickListener {
-            chip.text = getString(R.string.date)
-            chip.isCloseIconVisible = false
+        binding.dateChip.setOnClickListener { showDatePickerDialog() }
+        binding.dateChip.setOnCloseIconClickListener {
+            binding.dateChip.text = getString(R.string.date)
+            binding.dateChip.isCloseIconVisible = false
             formattedDate = null
         }
     }
 
     private fun showTimePickerDialog() {
-        val isSystem24Hour = is24HourFormat(requireContext())
-        val clockFormat = if (isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
-        val now = LocalTime.now()
+        val clockFormat = if (is24HourFormat(requireContext())) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
+        val now = Calendar.getInstance()
         val picker = MaterialTimePicker.Builder()
-            .setTimeFormat(clockFormat)
-            .setHour(now.hour + 1)
-            .setMinute(if (now.minute > 30) 30 else 0)
-            .setTitleText(getString(R.string.select_time))
             .setInputMode(INPUT_MODE_CLOCK)
+            .setTimeFormat(clockFormat)
+            .setHour((now.get(Calendar.HOUR_OF_DAY) + 1) % 24)
+            .setMinute(if (now.get(Calendar.MINUTE) > 30) 30 else 0)
+            .setTitleText(getString(R.string.select_time))
             .build()
 
         picker.addOnPositiveButtonClickListener {
-            val selectedHour = picker.hour
-            val selectedMinute = picker.minute
-            formattedTime = String.format(Locale.getDefault(), "%02d:%02d", selectedHour, selectedMinute)
+            formattedTime = String.format(Locale.getDefault(), "%02d:%02d", picker.hour, picker.minute)
             binding.timeChip.text = formattedTime
             binding.timeChip.isCloseIconVisible = true
             binding.dateChip.isVisible = true
         }
-
         picker.show(parentFragmentManager, "time")
     }
 
@@ -203,82 +204,87 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
             .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
             .build()
 
-        picker.addOnPositiveButtonClickListener { selection ->
-            selectedDate = Date(selection)
-            binding.dateChip.text = formatDateForChip(selectedDate)
-            binding.dateChip.isCloseIconVisible = true
+        picker.addOnPositiveButtonClickListener { sel ->
+            selectedDate = Date(sel)
+            val local = selectedDate!!.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
 
-            formattedDate = selectedDate?.let {
-                val localDate = it.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
-                val pattern = if (localDate.year == LocalDate.now().year) "MMM d" else "MMM d, yyyy"
-                localDate.format(DateTimeFormatter.ofPattern(pattern, Locale.getDefault()))
+            val today = LocalDate.now()
+            val tomorrow = today.plusDays(1)
+
+            formattedDate = when {
+                local.isEqual(today) -> null
+                local.isEqual(tomorrow) -> tomorrow.format(
+                    DateTimeFormatter.ofPattern("MMM d", Locale.getDefault())
+                )
+                else -> local.format(
+                    DateTimeFormatter.ofPattern(
+                        if (local.year == today.year) "MMM d" else "MMM d, yyyy",
+                        Locale.getDefault()
+                    )
+                )
+            }
+
+            when {
+                local.isEqual(today) -> {
+                    binding.dateChip.text = getString(R.string.date)
+                    binding.dateChip.isCloseIconVisible = false
+                }
+                local.isEqual(tomorrow) -> {
+                    binding.dateChip.text = getString(R.string.date_tomorrow)
+                    binding.dateChip.isCloseIconVisible = true
+                }
+                else -> {
+                    binding.dateChip.text = formattedDate
+                    binding.dateChip.isCloseIconVisible = true
+                }
             }
         }
-
-
         picker.show(parentFragmentManager, "date")
     }
 
-    private fun formatDateForChip(selectedDate: Date?): String {
-        val date = selectedDate ?: Date()
-        val localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
-        val today = LocalDate.now()
-        return when (localDate) {
-            today -> getString(R.string.date)
-            today.plusDays(1) -> getString(R.string.date_tomorrow)
-            else -> {
-                val pattern = if (localDate.year == today.year) "MMM d" else "MMM d, yyyy"
-                localDate.format(DateTimeFormatter.ofPattern(pattern, Locale.getDefault()))
-            }
-        }
-    }
-
     private fun saveTask(task: TasksDatabase) {
-        if (existingTaskId != null) tasksViewModel.updateTask(task)
-        else tasksViewModel.addTask(task)
+        if (existingTaskId != null) tasksViewModel.updateTask(requireContext(), task)
+        else tasksViewModel.addTask(requireContext(), task)
     }
 
     private fun scheduleNotification(selectedDate: Date?, selectedTime: String, taskId: String): Boolean {
-        if (selectedTime.isBlank()) return false
+        val parts = selectedTime.split(":")
+        if (parts.size != 2) return false
+        val hour = parts[0].toIntOrNull() ?: return false
+        val minute = parts[1].toIntOrNull() ?: return false
 
-        val timeParts = selectedTime.split(":")
-        if (timeParts.size != 2) return false
+        val dateForAlarm = selectedDate ?: Date().also {
+            val todayLocal = LocalDate.now()
+            formattedDate = todayLocal.format(DateTimeFormatter.ofPattern("MMM d", Locale.getDefault()))
+        }
 
-        val selectedHour = timeParts[0].toIntOrNull() ?: return false
-        val selectedMinute = timeParts[1].toIntOrNull() ?: return false
-
-        val date = selectedDate ?: Date()
-
-        val calendar = Calendar.getInstance().apply {
-            time = date
-            set(Calendar.HOUR_OF_DAY, selectedHour)
-            set(Calendar.MINUTE, selectedMinute)
+        val cal = Calendar.getInstance().apply {
+            time = dateForAlarm
+            set(Calendar.HOUR_OF_DAY, hour)
+            set(Calendar.MINUTE, minute)
             set(Calendar.SECOND, 0)
             set(Calendar.MILLISECOND, 0)
         }
 
-        if (calendar.timeInMillis <= System.currentTimeMillis()) {
+        if (cal.timeInMillis <= System.currentTimeMillis()) {
             Toast.makeText(requireContext(), getString(R.string.must_be_in_the_future), Toast.LENGTH_SHORT).show()
             return false
         }
 
+        val intent = Intent(requireContext(), NotificationReceiver::class.java).apply {
+            putExtra(NotificationReceiver.EXTRA_TITLE, taskText)
+            putExtra(NotificationReceiver.EXTRA_TASK_ID, taskId)
+        }
+        val pi = PendingIntent.getBroadcast(
+            requireContext(),
+            taskId.hashCode(),
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        val am = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
         return try {
-            val intent = Intent(requireContext(), org.kaorun.diary.receivers.NotificationReceiver::class.java).apply {
-                putExtra("notification_title", taskText)
-                putExtra("task_id", taskId)
-            }
-
-            val pendingIntent = PendingIntent.getBroadcast(
-                requireContext(), taskId.hashCode(), intent,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            )
-
-            val alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
-            alarmManager.setExactAndAllowWhileIdle(
-                AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent
-            )
-
+            am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, cal.timeInMillis, pi)
             true
         } catch (_: SecurityException) {
             Toast.makeText(requireContext(), getString(R.string.grant_reminders_permission), Toast.LENGTH_SHORT).show()
@@ -286,19 +292,4 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
             false
         }
     }
-
-    private fun cancelNotification(taskId: String) {
-        val intent = Intent().apply {
-            setClassName(requireContext().packageName, "org.kaorun.diary.receivers.NotificationReceiver")
-        }
-
-        val pendingIntent = PendingIntent.getBroadcast(
-            requireContext(), taskId.hashCode(), intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
-
-        val alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.cancel(pendingIntent)
-    }
-
 }

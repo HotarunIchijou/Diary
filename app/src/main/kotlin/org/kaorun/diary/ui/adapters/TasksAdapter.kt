@@ -1,5 +1,6 @@
 package org.kaorun.diary.ui.adapters
 
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
@@ -32,6 +33,17 @@ class TasksAdapter(
 
             binding.taskTitle.text = task.title
             binding.date.text = formattedDate
+            val color = TypedValue()
+            binding.root.context.theme.resolveAttribute(
+                if (task.isCompleted) com.google.android.material.R.attr.colorOnSurfaceVariant
+                else android.R.attr.colorPrimary,
+                color,
+                true
+            )
+            binding.date.setTextColor(color.data)
+
+
+
             binding.date.isVisible = !formattedDate.isNullOrEmpty()
             binding.root.setOnClickListener {
                 onItemClicked(task.id, task.title, task.isCompleted, task.time, task.date)

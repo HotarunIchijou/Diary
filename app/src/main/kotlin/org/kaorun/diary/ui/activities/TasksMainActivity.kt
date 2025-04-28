@@ -24,7 +24,7 @@ import org.kaorun.diary.ui.fragments.BottomSheetFragment
 import org.kaorun.diary.ui.fragments.WelcomeFragment
 import org.kaorun.diary.ui.managers.SearchTasksManager
 import org.kaorun.diary.utils.InsetsHandler
-import org.kaorun.diary.utils.TasksLocalCache
+import org.kaorun.diary.utils.NotificationUtils.cancelNotification
 import org.kaorun.diary.viewmodel.TasksViewModel
 
 class TasksMainActivity : BaseActivity() {
@@ -55,12 +55,12 @@ class TasksMainActivity : BaseActivity() {
                 val bottomSheet = BottomSheetFragment.newInstance(taskId, title, isCompleted, time, date)
                 bottomSheet.show(supportFragmentManager, bottomSheet.tag)
             },
-            // Pass the updateTask method
             onTaskChecked = { task, isChecked ->
                 if (isChecked) {
                     showUndoSnackbar(task)
+                    cancelNotification(this, task.id)
                 }
-                tasksViewModel.updateTask(task)
+                tasksViewModel.updateTask(this, task)
             }
         )
 
@@ -130,7 +130,6 @@ class TasksMainActivity : BaseActivity() {
         tasksViewModel.tasksList.observe(this) { tasks ->
             taskList.clear()
             taskList.addAll(tasks)
-            TasksLocalCache.saveTasks(this, taskList)
             applyFilter(selected)
 
             if (taskIdFromNotification != null && titleFromNotification != null) {
@@ -229,7 +228,7 @@ class TasksMainActivity : BaseActivity() {
                 getString(R.string.undo)
             ) {
             val undoneTask = task.copy(isCompleted = false)
-            tasksViewModel.updateTask(undoneTask)
+            tasksViewModel.updateTask(this, undoneTask)
         }.show()
     }
 

@@ -1,6 +1,5 @@
 package org.kaorun.diary.ui.adapters
 
-import android.app.Activity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
@@ -10,7 +9,7 @@ import org.kaorun.diary.databinding.ItemSettingBinding
 
 class SettingsAdapter(
     private val items: List<SettingsItem>,
-    private val onItemClick: (Class<out Activity>) -> Unit
+    private val onItemClick: (SettingsItem) -> Unit
 ) : RecyclerView.Adapter<SettingsAdapter.ViewHolder>() {
 
     inner class ViewHolder(
@@ -24,7 +23,7 @@ class SettingsAdapter(
             binding.root.setOnClickListener {
                 val pos = bindingAdapterPosition
                 if (pos != RecyclerView.NO_POSITION) {
-                    item.targetActivity?.let { onItemClick(it) }
+                    onItemClick(item)
                 }
             }
         }

@@ -81,4 +81,6 @@
 	<string name="mark_as_completed">Отменить как выполненное</string>
 	<string name="license">Лицензия</string>
 	<string name="license_summary">Данный проект использует лицензию MIT</string>
+	<string name="language">Язык</string>
+	<string name="language_summary">Выбрать язык приложения</string>
 </resources>

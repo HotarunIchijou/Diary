@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="android.permission.LAUNCH_CAPTURE_CONTENT_ACTIVITY_FOR_NOTE" />
 
     <application
         android:allowBackup="true"
@@ -17,16 +19,41 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
 		android:localeConfig="@xml/locale_config"
-        android:theme="@style/Theme.Diary">
+        android:theme="@style/Theme.Diary"
+        tools:targetApi="33">
 
         <activity
             android:name=".ui.activities.NoteActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
+            android:exported="true"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
+            android:windowSoftInputMode="adjustResize">
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.CREATE_NOTE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="org.chromium.arc.intent.action.CREATE_NOTE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+        </activity>
 
         <activity
             android:name=".ui.activities.TasksMainActivity"
             android:exported="false" />
+
+        <activity android:name=".ui.activities.TaskAddActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Transparent" />
 
         <activity
             android:name=".ui.activities.MainActivity"

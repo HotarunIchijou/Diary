@@ -10,14 +10,21 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import org.kaorun.diary.R
 import org.kaorun.diary.data.TasksDatabase
 import org.kaorun.diary.receivers.NotificationReceiver
 import org.kaorun.diary.utils.TasksLocalCache
 import java.text.SimpleDateFormat
 import java.time.LocalDate
-import java.util.*
+import java.util.Date
+import java.util.Locale
+
 
 class TasksViewModel : ViewModel() {
 
@@ -142,6 +149,16 @@ class TasksViewModel : ViewModel() {
 
 	private fun updateLocalCache(context: Context) {
 		TasksLocalCache.cacheTasks(context, tasks)
+	}
+
+	private val bottomSheetDismissed = MutableLiveData<Boolean>()
+
+	fun setBottomSheetDismissed(dismissed: Boolean) {
+		bottomSheetDismissed.value = dismissed
+	}
+
+	fun getBottomSheetDismissed(): LiveData<Boolean> {
+		return bottomSheetDismissed
 	}
 
 	companion object {

@@ -79,13 +79,7 @@ class NoteActivity : BaseActivity() {
 			}
 		} else {
 			noteId = intent.getStringExtra("NOTE_ID")
-			val noteTitle = intent.getStringExtra("NOTE_TITLE")
-			val noteContent = intent.getStringExtra("NOTE_CONTENT")
-
-			if (noteContent != null) {
-				title.setRichTextEditing(true, noteTitle)
-				note.setRichTextEditing(true, noteContent)
-			}
+			loadNote(noteId!!)
 		}
 
 		binding.noteTitle.requestFocus()
@@ -180,6 +174,22 @@ class NoteActivity : BaseActivity() {
 			finish()
 		}
 	}
+
+	private fun loadNote(noteId: String) {
+		auth = FirebaseAuth.getInstance()
+		databaseRef = FirebaseDatabase.getInstance()
+			.reference.child("Notes").child(auth.currentUser?.uid.toString())
+		databaseRef.child(noteId).get().addOnSuccessListener { snapshot ->
+			if (snapshot.exists()) {
+				val noteTitle = snapshot.child("title").getValue(String::class.java)
+				val noteContent = snapshot.child("note").getValue(String::class.java)
+
+				title.setRichTextEditing(true, noteTitle ?: "")
+				note.setRichTextEditing(true, noteContent ?: "")
+			}
+		}
+	}
+
 
 	override fun onSaveInstanceState(outState: Bundle) {
 		super.onSaveInstanceState(outState)

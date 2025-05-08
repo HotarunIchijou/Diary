@@ -51,6 +51,23 @@
             android:name=".ui.activities.settings.AppearanceActivity"
             android:exported="false" />
 
+        <service
+            android:name=".service.AddNoteTileService"
+            android:icon="@drawable/note_add_24px"
+            android:label="@string/add_note"
+            android:enabled="true"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.service.quicksettings.ACTIVE_TILE"
+                android:value="true" />
+        </service>
+
 		<provider
 			android:name="androidx.core.content.FileProvider"
 			android:exported="false"

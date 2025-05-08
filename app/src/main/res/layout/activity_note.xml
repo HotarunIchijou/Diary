@@ -31,7 +31,6 @@
 		app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
 		android:id="@+id/scrollView">
 
-
 		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
@@ -51,6 +50,7 @@
 				android:textAppearance="@style/TextAppearance.Material3.TitleLarge" />
 
 			<com.google.android.material.divider.MaterialDivider
+				android:id="@+id/titleDivider"
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
 				android:layout_marginHorizontal="16dp"

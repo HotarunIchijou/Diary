@@ -3,6 +3,7 @@ package org.kaorun.diary.ui.fragments
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
@@ -157,6 +158,11 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        tasksViewModel.setBottomSheetDismissed(true)
     }
 
     private fun setupTimeChip() {

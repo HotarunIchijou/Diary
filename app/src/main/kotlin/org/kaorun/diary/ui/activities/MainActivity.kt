@@ -18,7 +18,10 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.view.ActionMode
 import androidx.core.app.ActivityCompat
+import androidx.core.content.pm.ShortcutInfoCompat
+import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.graphics.drawable.IconCompat
 import androidx.core.view.isVisible
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -69,6 +72,7 @@ class MainActivity : BaseActivity() {
 		if (auth.currentUser == null || !auth.currentUser!!.isEmailVerified) {
 			navigateToWelcomeFragment()
 		} else {
+			addShortcuts()
 			showMainContent()
 		}
 
@@ -234,11 +238,11 @@ class MainActivity : BaseActivity() {
 	}
 
 	private fun startActionMode() {
-	if (actionMode == null) {
+		if (actionMode == null) {
 
-		actionMode = startSupportActionMode(actionModeCallback)
+			actionMode = startSupportActionMode(actionModeCallback)
+		}
 	}
-}
 
 	private fun setupScrollBehavior() {
 		val fab = binding.extendedFab
@@ -313,6 +317,36 @@ class MainActivity : BaseActivity() {
 		supportFragmentManager.beginTransaction()
 			.replace(R.id.fragmentContainerView, welcomeFragment)
 			.commit()
+	}
+
+	private fun addShortcuts() {
+		// Add Task shortcut
+		val addTaskIntent = Intent()
+		addTaskIntent.setClass(this, TaskAddActivity::class.java)
+		addTaskIntent.action = "org.kaorun.diary.action.CREATE_TASK"
+		addTaskIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+
+		val addTaskShortcut = ShortcutInfoCompat.Builder(this, "create_task")
+			.setShortLabel(getString(R.string.add_task))
+			.setIcon(IconCompat.createWithResource(this, R.drawable.task_add_24px))
+			.setIntent(addTaskIntent)
+			.build()
+
+		ShortcutManagerCompat.pushDynamicShortcut(this, addTaskShortcut)
+
+		// Add Note shortcut
+		val addNoteIntent = Intent()
+		addNoteIntent.setClass(this, NoteActivity::class.java)
+		addNoteIntent.action = "org.kaorun.diary.action.CREATE_NOTE"
+		addNoteIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+
+		val addNoteShortcut = ShortcutInfoCompat.Builder(this, "create_note")
+			.setShortLabel(getString(R.string.add_note))
+			.setIcon(IconCompat.createWithResource(this, R.drawable.note_add_24px))
+			.setIntent(addNoteIntent)
+			.build()
+
+		ShortcutManagerCompat.pushDynamicShortcut(this, addNoteShortcut)
 	}
 
 	private fun showMainContent() {

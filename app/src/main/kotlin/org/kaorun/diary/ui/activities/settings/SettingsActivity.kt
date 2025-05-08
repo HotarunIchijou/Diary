@@ -1,6 +1,7 @@
 package org.kaorun.diary.ui.activities.settings
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import androidx.core.net.toUri
@@ -10,6 +11,7 @@ import org.kaorun.diary.data.SettingsItem
 import org.kaorun.diary.databinding.ActivitySettingsBinding
 import org.kaorun.diary.ui.activities.BaseActivity
 import org.kaorun.diary.ui.adapters.SettingsAdapter
+import org.kaorun.diary.utils.InsetsHandler
 
 class SettingsActivity : BaseActivity() {
     private lateinit var binding: ActivitySettingsBinding
@@ -19,7 +21,22 @@ class SettingsActivity : BaseActivity() {
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val settingsItems = listOf(
+        setupInsets()
+        setupToolbar()
+        setupRecyclerView()
+    }
+
+    private fun setupInsets() {
+        InsetsHandler.applyViewInsets(binding.recyclerView)
+        InsetsHandler.applyAppBarInsets(binding.appBarLayout)
+    }
+
+    private fun setupToolbar() {
+        binding.toolbar.setNavigationOnClickListener { finish() }
+    }
+
+    private fun setupRecyclerView() {
+        val settingsItems = listOfNotNull(
             SettingsItem(
                 title = getString(R.string.appearance),
                 summary = getString(R.string.appearance_summary),
@@ -27,6 +44,7 @@ class SettingsActivity : BaseActivity() {
                 targetActivity = AppearanceActivity::class.java
             ),
 
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
             SettingsItem(
                 title = getString(R.string.language),
                 summary = getString(R.string.language_summary),
@@ -34,7 +52,7 @@ class SettingsActivity : BaseActivity() {
                 targetActivity = null,
                 url = null,
                 specialAction = Settings.ACTION_APP_LOCALE_SETTINGS
-            ),
+            ) else null,
 
             SettingsItem(
                 title = getString(R.string.about),
@@ -63,8 +81,5 @@ class SettingsActivity : BaseActivity() {
                 }
             }
         }
-
-
-        binding.toolbar.setNavigationOnClickListener { finish() }
     }
 }

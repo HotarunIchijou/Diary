@@ -13,6 +13,7 @@ import org.kaorun.diary.databinding.ActivityAppearanceBinding
 import org.kaorun.diary.ui.activities.BaseActivity
 import org.kaorun.diary.ui.adapters.ThemeAdapter
 import org.kaorun.diary.ui.fragments.AppearanceFragment
+import org.kaorun.diary.utils.InsetsHandler
 
 class AppearanceActivity : BaseActivity() {
     private lateinit var binding: ActivityAppearanceBinding
@@ -23,10 +24,27 @@ class AppearanceActivity : BaseActivity() {
         binding = ActivityAppearanceBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupInsets()
+        setupToolbar()
+        setupRecyclerView()
+
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, AppearanceFragment())
+                .commit()
+        }
+    }
+
+    private fun setupInsets() {
+        InsetsHandler.applyViewInsets(binding.recyclerView)
+        InsetsHandler.applyAppBarInsets(binding.appBarLayout)
+    }
+
+    private fun setupToolbar() {
         binding.toolbar.setNavigationOnClickListener { finish() }
+    }
 
-
-
+    private fun setupRecyclerView() {
         val systemCtx = ContextThemeWrapper(this, R.style.Base_Theme_Diary)
 
         val themes = listOf(
@@ -61,8 +79,7 @@ class AppearanceActivity : BaseActivity() {
             ),
         )
 
-
-        val adapter = ThemeAdapter(themes, prefs) { newIndex -> recreate() }
+        val adapter = ThemeAdapter(themes, prefs) { _ -> recreate() }
 
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(
@@ -71,16 +88,9 @@ class AppearanceActivity : BaseActivity() {
             )
             this.adapter = adapter
         }
-
-
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, AppearanceFragment())
-                .commit()
-        }
     }
 
-    fun Context.getThemeColor(attrResId: Int): Int {
+    private fun Context.getThemeColor(attrResId: Int): Int {
         val typedValue = TypedValue()
         theme.resolveAttribute(attrResId, typedValue, true)
         return typedValue.data

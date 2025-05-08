@@ -1,5 +1,6 @@
 package org.kaorun.diary.ui.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -38,6 +39,8 @@ class NoteActivity : BaseActivity() {
 		setContentView(binding.root)
 
 		InsetsHandler.applyAppBarInsets(binding.appBarLayout)
+		InsetsHandler.applyViewInsets(binding.noteTitle, ignoreBottomPadding = true)
+		InsetsHandler.applyDividerInsets(binding.titleDivider)
 		InsetsHandler.applyViewInsets(binding.noteContent)
 
 		val rtApi = RTApi(this, RTProxyImpl(this), RTMediaFactoryImpl(this, true))
@@ -67,13 +70,22 @@ class NoteActivity : BaseActivity() {
 			}
 		}
 
-		noteId = intent.getStringExtra("NOTE_ID")
-		val noteTitle = intent.getStringExtra("NOTE_TITLE")
-		val noteContent = intent.getStringExtra("NOTE_CONTENT")
+		if (Intent.ACTION_SEND == intent.action && intent.type != null) {
+			if ("text/plain" == intent.type) {
+				val noteContent = intent.getStringExtra(Intent.EXTRA_TEXT)
+				if (noteContent != null) {
+					note.setRichTextEditing(true, noteContent)
+				}
+			}
+		} else {
+			noteId = intent.getStringExtra("NOTE_ID")
+			val noteTitle = intent.getStringExtra("NOTE_TITLE")
+			val noteContent = intent.getStringExtra("NOTE_CONTENT")
 
-		if (noteContent != null) {
-			title.setRichTextEditing(true, noteTitle)
-			note.setRichTextEditing(true, noteContent)
+			if (noteContent != null) {
+				title.setRichTextEditing(true, noteTitle)
+				note.setRichTextEditing(true, noteContent)
+			}
 		}
 
 		binding.noteTitle.requestFocus()

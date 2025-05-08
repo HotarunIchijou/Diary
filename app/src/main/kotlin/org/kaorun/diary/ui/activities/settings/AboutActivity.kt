@@ -9,8 +9,10 @@ import org.kaorun.diary.data.SettingsItem
 import org.kaorun.diary.databinding.ActivityAboutBinding
 import org.kaorun.diary.ui.activities.BaseActivity
 import org.kaorun.diary.ui.adapters.AboutAdapter
+import org.kaorun.diary.utils.InsetsHandler
 
 class AboutActivity : BaseActivity() {
+
     private lateinit var binding: ActivityAboutBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,6 +23,21 @@ class AboutActivity : BaseActivity() {
         val versionName = packageManager.getPackageInfo(packageName, 0).versionName
         binding.version.text = versionName
 
+        setupInsets()
+        setupToolbar()
+        setupRecyclerView()
+    }
+
+    private fun setupInsets() {
+        InsetsHandler.applyViewInsets(binding.recyclerView)
+        InsetsHandler.applyAppBarInsets(binding.appBarLayout)
+    }
+
+    private fun setupToolbar() {
+        binding.topAppBar.setNavigationOnClickListener { finish() }
+    }
+
+    private fun setupRecyclerView() {
         val settingsItems = listOf(
             SettingsItem(
                 title = getString(R.string.source_code),
@@ -58,7 +75,5 @@ class AboutActivity : BaseActivity() {
                 startActivity(intent)
             }
         )
-
-        binding.topAppBar.setNavigationOnClickListener { finish() }
     }
 }

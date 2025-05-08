@@ -37,6 +37,7 @@ class AppearanceActivity : BaseActivity() {
 
     private fun setupInsets() {
         InsetsHandler.applyViewInsets(binding.recyclerView)
+        InsetsHandler.applyViewInsets(binding.illustration)
         InsetsHandler.applyAppBarInsets(binding.appBarLayout)
     }
 

@@ -79,7 +79,7 @@ class NoteActivity : BaseActivity() {
 			}
 		} else {
 			noteId = intent.getStringExtra("NOTE_ID")
-			loadNote(noteId!!)
+            noteId?.let { loadNote(it) }
 		}
 
 		binding.noteTitle.requestFocus()

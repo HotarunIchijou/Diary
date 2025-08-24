@@ -1,39 +1,40 @@
 [versions]
-agp = "8.9.2"
-kotlin = "2.0.21"
-coreKtx = "1.16.0"
-appcompat = "1.7.0"
+agp = "8.12.1"
+kotlin = "2.2.10"
+coreKtx = "1.17.0"
+appcompat = "1.7.1"
 activity = "1.10.1"
 constraintlayout = "2.2.1"
-googleGmsGoogleServices = "4.4.2"
-firebaseDatabase = "21.0.0"
-firebaseAuth = "23.2.0"
-navigationFragment = "2.8.9"
+googleGmsGoogleServices = "4.4.3"
+firebaseDatabase = "22.0.0"
+firebaseAuth = "24.0.1"
+navigationFragment = "2.9.3"
 annotation = "1.9.1"
-lifecycleLivedataKtx = "2.8.7"
-lifecycleViewmodelKtx = "2.8.7"
-navigationFragmentKtx = "2.8.9"
-navigationUiKtx = "2.8.9"
+lifecycleLivedataKtx = "2.9.2"
+lifecycleViewmodelKtx = "2.9.2"
+navigationFragmentKtx = "2.9.3"
+navigationUiKtx = "2.9.3"
 androidRteditor = "1.8.0"
 transitionKtx = "1.6.0"
-fragmentKtx = "1.8.6"
-playServicesAuth = "21.3.0"
+fragmentKtx = "1.8.9"
+playServicesAuth = "21.4.0"
 googleid = "1.1.1"
 credentialsPlayServicesAuth = "1.5.0"
-firebaseBom = "33.13.0"
+firebaseBom = "34.1.0"
 credentials = "1.5.0"
 preferenceKtx = "1.2.1"
-roomCompiler = "2.7.1"
-roomRuntime = "2.7.1"
-ksp = "2.0.21-1.0.28"
-workRuntimeKtx = "2.10.1"
+roomCompiler = "2.7.2"
+roomRuntime = "2.7.2"
+ksp = "2.2.10-2.0.2"
+material = "1.14.0-alpha04"
+materialVersion = "1.12.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-navigation-fragment = { module = "androidx.navigation:navigation-fragment", version.ref = "navigationFragment" }
 androidx-navigation-ui = { module = "androidx.navigation:navigation-ui", version.ref = "navigationFragment" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-material = { group = "com.google.android.material", name = "material", version = "1.13.0-alpha13" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
@@ -54,7 +55,7 @@ androidx-credentials = { group = "androidx.credentials", name = "credentials", v
 androidx-preference-ktx = { group = "androidx.preference", name = "preference-ktx", version.ref = "preferenceKtx" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomCompiler" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomRuntime" }
-androidx-work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "workRuntimeKtx" }
+google-material = { group = "com.google.android.material", name = "material", version.ref = "materialVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

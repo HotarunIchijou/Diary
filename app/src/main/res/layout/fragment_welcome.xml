@@ -5,7 +5,7 @@
 	android:id="@+id/fragment_container"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:background="?attr/colorSurface"
+	android:background="?attr/colorSurfaceContainer"
 	tools:context=".ui.fragments.WelcomeFragment">
 
 	<LinearLayout
@@ -37,7 +37,7 @@
 			android:textAppearance="?attr/textAppearanceHeadlineMedium" />
 	</LinearLayout>
 
-	<LinearLayout
+	<com.google.android.material.button.MaterialButtonGroup
 		android:id="@+id/buttons_group"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -49,23 +49,24 @@
 		app:layout_constraintStart_toStartOf="parent">
 
 		<com.google.android.material.button.MaterialButton
+			style="@style/Widget.Material3Expressive.Button.OutlinedButton"
 			android:id="@+id/google_button"
-			style="@style/Widget.Material3.Button.OutlinedButton.Icon"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_marginBottom="4dp"
 			android:text="@string/continue_with_google"
+			android:theme="@style/SizeOverlay.Material3Expressive.Button.Medium"
 			app:icon="@drawable/google_24px"
 			app:iconGravity="textStart"
 			app:iconTint="@null" />
 
 		<com.google.android.material.button.MaterialButton
+			style="@style/Widget.Material3Expressive.Button"
 			android:id="@+id/email_button"
-			style="@style/Widget.Material3.Button.Icon"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="@string/sign_in_with_email" />
-	</LinearLayout>
+			android:text="@string/sign_in_with_email"
+			android:theme="@style/SizeOverlay.Material3Expressive.Button.Medium" />
+	</com.google.android.material.button.MaterialButtonGroup>
 
 	<ImageView
 		android:layout_width="320dp"
@@ -89,12 +90,13 @@
 		app:layout_constraintStart_toStartOf="parent">
 
 		<TextView
+			style="?textAppearanceTitleSmall"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_marginEnd="4dp"
 			android:text="@string/dont_have_an_account" />
 
 		<TextView
+			style="@style/Widget.Material3.Button.TextButton"
 			android:id="@+id/registerButton"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"

@@ -18,8 +18,4 @@
 		<item name="color">@color/material_dynamic_primary80</item>
 	</style>
 
-	<style name="TextButton" parent="Widget.Material3.Button.TextButton">
-		<item name="textStartPadding">0dp</item>
-	</style>
-
 </resources>

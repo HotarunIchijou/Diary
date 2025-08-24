@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto">
+	<item
+		android:id="@+id/main_item"
+        tools:ignore="MenuTitle">
+		<menu>
+			<item
+				android:id="@+id/notes"
+				android:icon="@drawable/sticky_note_2_24px"
+				android:title="@string/notes"
+				android:checkable="true" />
+
+			<item
+				android:id="@+id/tasks"
+				android:icon="@drawable/task_alt_24px"
+				android:title="@string/tasks"
+				android:checkable="true" />
+		</menu>
+	</item>
+	<item
+		android:id="@+id/settings"
+		android:icon="@drawable/settings_24px"
+		android:title="@string/settings"
+		app:showAsAction="never" />
+	<item
+		android:id="@+id/signOut"
+		android:icon="@drawable/logout_24px"
+		android:title="@string/sign_out"
+		app:showAsAction="never" />
+</menu>

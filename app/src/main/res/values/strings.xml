@@ -84,4 +84,6 @@
 	<string name="license_summary">This project is licensed under the MIT license</string>
 	<string name="language">Language</string>
 	<string name="language_summary">Select language of the application</string>
+    <string name="notes">Notes</string>
+	<string name="tasks">Tasks</string>
 </resources>

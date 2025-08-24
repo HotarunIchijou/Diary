@@ -1,4 +1,5 @@
 <resources>
+    <color name="outline_variant">@color/m3_sys_color_dynamic_light_outline_variant</color>
     <color name="md_theme_primary">#4C662B</color>
     <color name="md_theme_onPrimary">#FFFFFF</color>
     <color name="md_theme_primaryContainer">#CDEDA3</color>

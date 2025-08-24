@@ -54,7 +54,7 @@ class RegisterFragment : BaseFragment() {
 		binding.username.addTextChangedListener(textWatcher)
 		binding.password.addTextChangedListener(textWatcher)
 
-		binding.back.setOnClickListener {
+		binding.toolbar.setNavigationOnClickListener {
 			val supportFragmentManager = requireActivity().supportFragmentManager
 			supportFragmentManager.popBackStack()
 		}
@@ -145,9 +145,9 @@ class RegisterFragment : BaseFragment() {
 			val visibleHeight = rect.bottom
 
 			if (screenHeight - visibleHeight > 100) {
-				if (binding.titlebar.visibility != View.GONE) {
-					animateViewTranslation(binding.titlebar, -100f)
-					binding.titlebar.visibility = View.GONE
+				if (binding.titleBar.visibility != View.GONE) {
+					animateViewTranslation(binding.titleBar, -100f)
+					binding.titleBar.visibility = View.GONE
 					binding.infoContainer.visibility = View.INVISIBLE
 
 					animateViewTranslation(binding.imageView, -100f)
@@ -155,9 +155,9 @@ class RegisterFragment : BaseFragment() {
 					animateViewTranslation(binding.passwordContainer, -100f)
 				}
 			} else {
-				if (binding.titlebar.visibility != View.VISIBLE) {
-					animateViewTranslation(binding.titlebar, 0f)
-					binding.titlebar.visibility = View.VISIBLE
+				if (binding.titleBar.visibility != View.VISIBLE) {
+					animateViewTranslation(binding.titleBar, 0f)
+					binding.titleBar.visibility = View.VISIBLE
 					binding.infoContainer.visibility = View.VISIBLE
 
 					animateViewTranslation(binding.imageView, 0f)

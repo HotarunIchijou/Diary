@@ -83,4 +83,7 @@
 	<string name="license_summary">Данный проект использует лицензию MIT</string>
 	<string name="language">Язык</string>
 	<string name="language_summary">Выбрать язык приложения</string>
+	<string name="notes">Заметки</string>
+	<string name="tasks">Задачи</string>
+	<string name="register_icon">Иконка регистрации</string>
 </resources>

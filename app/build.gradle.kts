@@ -1,4 +1,4 @@
-import org.gradle.api.JavaVersion.VERSION_17
+import org.gradle.api.JavaVersion.VERSION_23
 
 plugins {
     alias(libs.plugins.android.application)
@@ -46,13 +46,13 @@ android {
 	}
 
     compileOptions {
-        sourceCompatibility = VERSION_17
-        targetCompatibility = VERSION_17
+        sourceCompatibility = VERSION_23
+        targetCompatibility = VERSION_23
     }
 
-    kotlinOptions {
-        jvmTarget = "17"
-    }
+	kotlin {
+		jvmToolchain(23)
+	}
 
 	buildFeatures{
 		viewBinding = true
@@ -84,5 +84,6 @@ dependencies {
 	implementation(libs.androidx.credentials)
 	implementation(libs.androidx.preference.ktx)
 	implementation(libs.androidx.room.runtime)
+	implementation(libs.google.material)
 	ksp(libs.androidx.room.compiler)
 }

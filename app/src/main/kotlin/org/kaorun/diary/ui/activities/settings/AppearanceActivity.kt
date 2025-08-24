@@ -42,6 +42,7 @@ class AppearanceActivity : BaseActivity() {
     }
 
     private fun setupToolbar() {
+        binding.appBarLayout.setExpanded(false)
         binding.toolbar.setNavigationOnClickListener { finish() }
     }
 

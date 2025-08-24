@@ -2,11 +2,10 @@ package org.kaorun.diary.ui.components
 
 import android.content.Context
 import android.util.AttributeSet
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.preference.Preference
 import androidx.preference.PreferenceViewHolder
 import org.kaorun.diary.R
+import org.kaorun.diary.databinding.ItemSettingBinding
 
 class PreferencesList @JvmOverloads constructor(
     context: Context,
@@ -20,12 +19,12 @@ class PreferencesList @JvmOverloads constructor(
     override fun onBindViewHolder(holder: PreferenceViewHolder) {
         super.onBindViewHolder(holder)
 
-        val titleView = holder.findViewById(R.id.title) as TextView
-        val summaryView = holder.findViewById(R.id.summary) as TextView
-        val iconView = holder.findViewById(R.id.icon) as ImageView
+        val binding = ItemSettingBinding.bind(holder.itemView)
 
-        titleView.text = title
-        summaryView.text = summary
-        iconView.setImageDrawable(icon)
+        binding.title.text = title
+        binding.summary.text = summary
+        binding.icon.setImageDrawable(icon)
+
+        binding.listItemLayout.updateAppearance(1, 1)
     }
 }

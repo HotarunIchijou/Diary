@@ -72,10 +72,6 @@ class SearchTasksManager(
             }
             true
         }
-
-        searchBar.inflateMenu(R.menu.menu_search_bar)
-        val menuItem = searchBar.menu.findItem(R.id.layoutSwitcher)
-        menuItem?.isVisible = tasksList.isNotEmpty()
     }
 
     private fun setupSearchAdapter() {
@@ -118,7 +114,6 @@ class SearchTasksManager(
 
         if (filteredList.isEmpty()) {
             binding.nothingFoundTasks.nothingFoundTasksLayout.visibility = View.VISIBLE
-            searchBar.menu.findItem(R.id.layoutSwitcher)?.isVisible = false
         }
 
         backPressedCallback = object : OnBackPressedCallback(true) {
@@ -146,7 +141,6 @@ class SearchTasksManager(
         searchBar.navigationIcon = AppCompatResources.getDrawable(binding.root.context, R.drawable.search_24px)
         tasksAdapter.updateTasks(tasksList)
         backPressedCallback?.remove()
-        searchBar.menu.findItem(R.id.layoutSwitcher)?.isVisible = tasksList.isNotEmpty()
         binding.tasksEmpty.tasksEmptyLayout.visibility =
             if (tasksList.isNotEmpty()) View.GONE else View.VISIBLE
 

@@ -1,5 +1,6 @@
 package org.kaorun.diary.ui.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.text.HtmlCompat
@@ -63,13 +64,9 @@ class NotesAdapter(
 			selectedNotes.add(noteId)
 		}
 
-		// Notify the changed item
 		notifyItemChanged(position)
 
-		// Notify if selection mode is active or not
-		if (selectedNotes.isEmpty()) {
-			isSelectionModeActive = false
-		}
+		isSelectionModeActive = selectedNotes.isNotEmpty()
 		onSelectionChanged(isSelectionModeActive)
 	}
 
@@ -97,7 +94,8 @@ class NotesAdapter(
 		return notes[position].id
 	}
 
-	fun updateNotes(newNotes: MutableList<NotesDatabase>) {
+	@SuppressLint("NotifyDataSetChanged")
+    fun updateNotes(newNotes: MutableList<NotesDatabase>) {
 		notes = newNotes // Update the data
 		notifyDataSetChanged() // Refresh the RecyclerView
 	}

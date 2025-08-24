@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.search.SearchView
 import org.kaorun.diary.R
 import org.kaorun.diary.data.NotesDatabase
-import org.kaorun.diary.ui.managers.SearchHistoryManager
 import org.kaorun.diary.databinding.ActivityMainBinding
 import org.kaorun.diary.ui.adapters.NotesAdapter
 import org.kaorun.diary.ui.adapters.SearchHistoryAdapter
@@ -22,6 +21,7 @@ class SearchManager(
 	private val lifecycleOwner: LifecycleOwner,
 	private var notesList: MutableList<NotesDatabase>,
 	private var backPressedCallback: OnBackPressedCallback? = null,
+	private val restoreSideSheetListener: (() -> Unit)? = null
 ) {
 
 	private lateinit var searchAdapter: SearchHistoryAdapter
@@ -49,9 +49,9 @@ class SearchManager(
 
 		searchView.addTransitionListener { _, _, newState ->
 			if (newState == SearchView.TransitionState.SHOWING) {
-				binding.extendedFab.hide()
+				binding.fab.hide()
 			} else if (newState == SearchView.TransitionState.HIDING) {
-				binding.extendedFab.show()
+				binding.fab.show()
 			}
 		}
 
@@ -73,10 +73,6 @@ class SearchManager(
 			}
 			true
 		}
-
-		searchBar.inflateMenu(R.menu.menu_search_bar)
-		val menuItem = searchBar.menu.findItem(R.id.layoutSwitcher)
-		menuItem.isVisible = notesList.isNotEmpty()
 	}
 
 	private fun setupSearchAdapter() {
@@ -112,23 +108,24 @@ class SearchManager(
 		}.toMutableList()
 
 		binding.notesEmpty.notesEmptyLayout.visibility = View.GONE
-		searchBar.navigationIcon =
-			AppCompatResources.getDrawable(binding.mainActivity.context, R.drawable.arrow_back_24px)
+		binding.sideSheetButton.icon = AppCompatResources.getDrawable(
+			binding.mainActivity.context,
+			R.drawable.arrow_back_24px)
+		binding.searchBar.textCentered = false
 		backPressedCallback?.remove()
-		binding.extendedFab.hide()
+		binding.fab.hide()
 
 		notesAdapter.updateNotes(filteredList)
 
 		if (filteredList.isEmpty()) {
 			binding.nothingFound.nothingFoundLayout.visibility = View.VISIBLE
-			searchBar.menu.findItem(R.id.layoutSwitcher)?.isVisible = false
 		}
 
 		backPressedCallback = object : OnBackPressedCallback(true) {
 			override fun handleOnBackPressed() {
 				resetNotesList()
 				searchBar.clearText()
-				binding.extendedFab.show()
+				binding.fab.show()
 				backPressedCallback?.remove()
 				binding.nothingFound.nothingFoundLayout.visibility = View.GONE
 			}
@@ -136,24 +133,20 @@ class SearchManager(
 
 		onBackPressedDispatcher.addCallback(lifecycleOwner, backPressedCallback!!)
 
-		searchBar.setNavigationOnClickListener {
+		binding.sideSheetButton.setOnClickListener {
 			resetNotesList()
 			searchBar.clearText()
-			binding.extendedFab.show()
+			binding.fab.show()
 			backPressedCallback?.remove()
-			searchBar.setNavigationOnClickListener(null)
 			binding.nothingFound.nothingFoundLayout.visibility = View.GONE
+			restoreSideSheetListener?.invoke()
 		}
 	}
 
 	private fun resetNotesList() {
-		searchBar.navigationIcon =
-			AppCompatResources.getDrawable(binding.mainActivity.context, R.drawable.search_24px)
 		notesAdapter.updateNotes(notesList)
 		backPressedCallback?.remove()
-
-		searchBar.menu.findItem(R.id.layoutSwitcher).isVisible = notesList.isNotEmpty()
-
+		binding.searchBar.textCentered = true
 		binding.nothingFound.nothingFoundLayout.visibility = View.GONE
 		binding.notesEmpty.notesEmptyLayout.visibility =
 			if (notesList.isNotEmpty()) View.GONE else View.VISIBLE

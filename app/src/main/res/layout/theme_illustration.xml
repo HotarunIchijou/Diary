@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="24dp"
     app:cardElevation="0dp"
-    app:cardBackgroundColor="?attr/colorSurfaceContainer"
+    app:cardBackgroundColor="?attr/colorSurfaceContainerLowest"
     app:strokeWidth="0dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
 

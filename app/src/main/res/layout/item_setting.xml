@@ -1,53 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.listitem.ListItemLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="?materialCardViewFilledStyle"
+    style="?attr/listItemLayoutSegmentedStyle"
+    android:id="@+id/listItemLayout"
     android:layout_width="match_parent"
-    android:layout_height="72dp"
-    app:cardCornerRadius="0dp"
-    app:cardBackgroundColor="@android:color/transparent">
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent">
 
-    <LinearLayout
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:paddingVertical="8dp">
-
-        <ImageView
-            android:id="@+id/icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:importantForAccessibility="no"
-            android:layout_marginVertical="16dp"
-            android:layout_marginStart="16dp"
-            app:tint="?attr/colorOnSurface"
-            tools:src="@drawable/info_24px" />
+        android:layout_height="wrap_content"
+        android:checkable="false">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginHorizontal="16dp"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:paddingVertical="8dp">
 
-            <TextView
-                android:id="@+id/title"
+            <ImageView
+                android:id="@+id/icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?attr/textAppearanceTitleMedium"
-                tools:text="Title" />
+                android:importantForAccessibility="no"
+                android:layout_marginVertical="16dp"
+                android:layout_marginStart="16dp"
+                app:tint="?attr/colorOnSurfaceVariant"
+                tools:src="@drawable/info_24px" />
 
-            <TextView
-                android:id="@+id/summary"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?attr/textAppearanceBodyMedium"
-                tools:text="Summary" />
+                android:layout_gravity="center_vertical"
+                android:layout_marginHorizontal="16dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?attr/textAppearanceTitleMedium"
+                    tools:text="Title" />
+
+                <TextView
+                    android:id="@+id/summary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                    android:textColor="?colorOnSurfaceVariant"
+                    tools:text="Summary" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
-</com.google.android.material.card.MaterialCardView>
+
+</com.google.android.material.listitem.ListItemLayout>

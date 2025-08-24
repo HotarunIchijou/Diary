@@ -5,13 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorSurface"
+    android:background="?attr/colorSurfaceContainer"
     tools:context=".ui.activities.settings.AppearanceActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="?colorSurfaceContainer">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             style="?attr/collapsingToolbarLayoutLargeStyle"
@@ -24,6 +25,8 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:theme="@style/ThemeOverlay.CircleNavigationButton"
+                android:layout_marginStart="8dp"
                 app:layout_collapseMode="pin"
                 app:navigationIcon="@drawable/arrow_back_24px"
                 app:title="@string/appearance" />
@@ -43,8 +46,7 @@
             android:id="@+id/illustration"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="16dp">
+            android:orientation="vertical">
 
             <include
                 layout="@layout/theme_illustration"
@@ -52,18 +54,30 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"/>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
+            <com.google.android.material.card.MaterialCardView
+                style="?materialCardViewFilledStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"/>
+                android:layout_marginHorizontal="16dp"
+                android:backgroundTint="?colorSurfaceBright"
+                app:cardCornerRadius="20dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:overScrollMode="never" />
+
+            </com.google.android.material.card.MaterialCardView>
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainer"
                 android:name="org.kaorun.diary.ui.fragments.AppearanceFragment"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginTop="16dp"
+                android:layout_marginHorizontal="16dp"
                 android:clipToPadding="false" />
 
         </LinearLayout>

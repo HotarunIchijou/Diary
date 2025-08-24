@@ -1,23 +1,21 @@
 package org.kaorun.diary.ui.adapters
 
+import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import androidx.core.content.edit
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.card.MaterialCardView
 import com.google.android.material.color.MaterialColors
-import org.kaorun.diary.R
 import org.kaorun.diary.data.ThemePreview
+import org.kaorun.diary.databinding.ThemeSwitchItemBinding
 
 class ThemeAdapter(
     private var themes: List<ThemePreview>,
     private val prefs: SharedPreferences,
     private val onSchemeSelected: (Int) -> Unit
-) : RecyclerView.Adapter<ThemeAdapter.ThemeViewHolder>() {
+) : RecyclerView.Adapter<ThemeAdapter.ViewHolder>() {
 
     private var selectedIndex: Int = prefs.getInt("color_scheme", 0)
 
@@ -25,42 +23,46 @@ class ThemeAdapter(
         updateSelection()
     }
 
-    inner class ThemeViewHolder(val view: View) : RecyclerView.ViewHolder(view)
+    inner class ViewHolder(
+        private val binding: ThemeSwitchItemBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ThemeViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.theme_switch_item, parent, false)
-        return ThemeViewHolder(view)
-    }
+        @SuppressLint("NotifyDataSetChanged")
+        fun bind(item: ThemePreview) {
+            binding.topColor.setBackgroundColor(item.colorTop)
+            binding.bottomLeftColor.setBackgroundColor(item.colorBottomLeft)
+            binding.bottomRightColor.setBackgroundColor(item.colorBottomRight)
 
-    override fun onBindViewHolder(holder: ThemeViewHolder, position: Int) {
-        val item = themes[position]
-        val top = holder.itemView.findViewById<FrameLayout>(R.id.topColor)
-        val bottomLeft = holder.itemView.findViewById<View>(R.id.bottomLeftColor)
-        val bottomRight = holder.itemView.findViewById<View>(R.id.bottomRightColor)
-        val card = holder.itemView as MaterialCardView
+            binding.root.strokeColor = if (item.isSelected) MaterialColors.getColor(
+                binding.root,
+                com.google.android.material.R.attr.colorSecondary
+            ) else Color.TRANSPARENT
 
-        top.setBackgroundColor(item.colorTop)
-        bottomLeft.setBackgroundColor(item.colorBottomLeft)
-        bottomRight.setBackgroundColor(item.colorBottomRight)
-
-        card.strokeColor = if (item.isSelected) MaterialColors.getColor(holder.itemView,
-            com.google.android.material.R.attr.colorSecondary)
-        else Color.TRANSPARENT
-
-        holder.itemView.setOnClickListener {
-            val pos = holder.bindingAdapterPosition
-            if (pos != RecyclerView.NO_POSITION) {
-                selectedIndex = pos
-                prefs.edit { putInt("color_scheme", selectedIndex) }
-                onSchemeSelected(selectedIndex)
-                notifyDataSetChanged()
+            binding.root.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    selectedIndex = position
+                    prefs.edit { putInt("color_scheme", selectedIndex) }
+                    updateSelection()
+                    notifyDataSetChanged()
+                    onSchemeSelected(selectedIndex)
+                }
             }
         }
-
     }
 
-    override fun getItemCount() = themes.size
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val binding = ThemeSwitchItemBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+        )
+        return ViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(themes[position])
+    }
+
+    override fun getItemCount(): Int = themes.size
 
     private fun updateSelection() {
         themes = themes.mapIndexed { index, theme ->

@@ -19,6 +19,7 @@ class SettingsAdapter(
         fun bind(item: SettingsItem) {
             binding.title.text = item.title
             binding.summary.text = item.summary
+            binding.listItemLayout.updateAppearance(layoutPosition, itemCount)
             if (item.icon != null) binding.icon.setImageResource(item.icon) else binding.icon.isVisible = false
             binding.root.setOnClickListener {
                 val pos = bindingAdapterPosition

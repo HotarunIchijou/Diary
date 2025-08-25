@@ -15,10 +15,11 @@
         android:background="?colorSurfaceContainer">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
-            style="?attr/collapsingToolbarLayoutLargeStyle"
+            style="?collapsingToolbarLayoutLargeStyle"
             android:id="@+id/collapsingToolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/collapsingToolbarLayoutLargeSize"
+            android:layout_height="120dp"
+            app:expandedTitleMarginStart="24dp"
             app:titleCollapseMode="scale"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -27,10 +28,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:theme="@style/ThemeOverlay.CircleNavigationButton"
-                android:layout_marginStart="8dp"
+                android:paddingStart="16dp"
+                app:titleMarginStart="8dp"
                 app:layout_collapseMode="pin"
                 app:navigationIcon="@drawable/arrow_back_24px"
-                app:title="@string/appearance" />
+                app:title="@string/appearance"
+                tools:ignore="RtlSymmetry" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -68,7 +71,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
-                    android:overScrollMode="never" />
+                    android:overScrollMode="never"
+                    android:nestedScrollingEnabled="false" />
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -76,7 +80,7 @@
                 android:id="@+id/fragmentContainer"
                 android:name="org.kaorun.diary.ui.fragments.AppearanceFragment"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginHorizontal="16dp"
                 android:clipToPadding="false" />

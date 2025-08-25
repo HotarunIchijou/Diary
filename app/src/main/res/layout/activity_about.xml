@@ -23,8 +23,9 @@
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
             android:theme="@style/ThemeOverlay.CircleNavigationButton"
-            android:layout_marginStart="8dp"
-            app:navigationIcon="@drawable/arrow_back_24px" />
+            android:paddingStart="16dp"
+            app:navigationIcon="@drawable/arrow_back_24px"
+            tools:ignore="RtlSymmetry" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

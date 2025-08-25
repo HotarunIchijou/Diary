@@ -61,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:backgroundTint="?colorSurfaceBright"
-                app:cardCornerRadius="16dp">
+                app:cardCornerRadius="20dp">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView"

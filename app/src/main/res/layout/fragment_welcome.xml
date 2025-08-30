@@ -55,6 +55,7 @@
 			android:layout_height="wrap_content"
 			android:text="@string/continue_with_google"
 			android:theme="@style/SizeOverlay.Material3Expressive.Button.Medium"
+			app:strokeColor="@color/outline_variant"
 			app:icon="@drawable/google_24px"
 			app:iconGravity="textStart"
 			app:iconTint="@null" />

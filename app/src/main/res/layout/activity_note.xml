@@ -15,18 +15,36 @@
 		android:background="?colorSurfaceContainer"
 		android:id="@+id/appBarLayout">
 
-		<com.google.android.material.appbar.MaterialToolbar
-			android:id="@+id/topAppBar"
+		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:minHeight="?attr/actionBarSize"
-			android:paddingEnd="8dp"
-			android:paddingStart="0dp"
-			android:background="?colorSurfaceContainer"
-			android:theme="@style/ThemeOverlay.CircleNavigationButton"
-			app:navigationIcon="@drawable/arrow_back_24px"
-			app:menu="@menu/menu_select_appbar" />
-	</com.google.android.material.appbar.AppBarLayout>
+			android:orientation="horizontal"
+			app:layout_collapseMode="pin">
+
+			<com.google.android.material.appbar.MaterialToolbar
+				android:id="@+id/topAppBar"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:minHeight="?attr/actionBarSize"
+				android:layout_weight="1"
+				android:paddingEnd="8dp"
+				android:paddingStart="0dp"
+				android:background="?colorSurfaceContainer"
+				android:theme="@style/ThemeOverlay.CircleNavigationButton"
+				app:navigationIcon="@drawable/arrow_back_24px"
+				app:menu="@menu/menu_select_appbar" />
+
+			<com.google.android.material.button.MaterialButton
+				style="@style/Widget.Material3Expressive.Button"
+				android:id="@+id/buttonSave"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:theme="@style/SizeOverlay.Material3Expressive.Button.Small"
+				android:layout_gravity="center_vertical"
+				android:layout_marginEnd="8dp"
+				android:text="@string/save" />
+		</LinearLayout>
+		</com.google.android.material.appbar.AppBarLayout>
 
 	<androidx.core.widget.NestedScrollView
 		android:layout_width="match_parent"

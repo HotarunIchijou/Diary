@@ -4,9 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.view.accessibility.AccessibilityManager
 import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.transition.TransitionManager
+import com.google.android.material.transition.MaterialFade
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -20,6 +23,7 @@ import org.kaorun.diary.R
 import org.kaorun.diary.databinding.ActivityNoteBinding
 import org.kaorun.diary.utils.FloatingToolbarHelper
 import org.kaorun.diary.utils.InsetsHandler
+import androidx.core.view.isVisible
 
 class NoteActivity : BaseActivity() {
 
@@ -31,7 +35,9 @@ class NoteActivity : BaseActivity() {
 	private lateinit var note: RTEditText
 	private var noteId: String? = null
 	private var isNoteDeleted: Boolean = false
-	private var lastSavedNote: String? = null
+	private var lastSavedTitle: String? = null
+	private var lastSavedContent: String? = null
+	private var hasChanges: Boolean = false
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -56,7 +62,6 @@ class NoteActivity : BaseActivity() {
 		toolbarHelper.setupFloatingToolbar()
 
 		val floatingToolbar = binding.floatingToolbar
-
 		val am = applicationContext.getSystemService(AccessibilityManager::class.java)
 		if (am != null && am.isTouchExplorationEnabled) {
 			(floatingToolbar.layoutParams as? CoordinatorLayout.LayoutParams)?.behavior = null
@@ -73,48 +78,40 @@ class NoteActivity : BaseActivity() {
 		if (Intent.ACTION_SEND == intent.action && intent.type != null) {
 			if ("text/plain" == intent.type) {
 				val noteContent = intent.getStringExtra(Intent.EXTRA_TEXT)
-				if (noteContent != null) {
-					note.setRichTextEditing(true, noteContent)
-				}
+				if (noteContent != null) note.setRichTextEditing(true, noteContent)
 			}
-		} else {
+		}
+		else {
 			noteId = intent.getStringExtra("NOTE_ID")
-            noteId?.let { loadNote(it) }
+			noteId?.let { loadNote(it) }
 		}
 
 		binding.noteTitle.requestFocus()
+		binding.buttonSave.visibility = View.GONE
 
 		registerEvents()
-
 	}
 
 	private fun registerEvents() {
 		binding.noteTitle.addTextChangedListener(object : TextWatcher {
-			override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-
-			override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+			override fun afterTextChanged(s: Editable?) = checkForChanges()
+			override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+			override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 				if (binding.noteTitle.lineCount > 5) {
 					val currentText = binding.noteTitle.text?.toString() ?: ""
-					binding.noteTitle.setText(currentText.substring(0, currentText.length - p3))
+					binding.noteTitle.setText(currentText.substring(0, currentText.length - count))
 					binding.noteTitle.text?.let { binding.noteTitle.setSelection(it.length) }
 				}
 			}
-
-			override fun afterTextChanged(p0: Editable?) {}
 		})
 
 		binding.noteContent.addTextChangedListener(object : TextWatcher {
-			override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-
-			override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-
-			override fun afterTextChanged(p0: Editable?) {}
+			override fun afterTextChanged(s: Editable?) = checkForChanges()
+			override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+			override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 		})
 
-		binding.topAppBar.setNavigationOnClickListener {
-			this.finish()
-		}
-
+		binding.topAppBar.setNavigationOnClickListener { finish() }
 		binding.topAppBar.setOnMenuItemClickListener { menuItem ->
 			when (menuItem.itemId) {
 				R.id.delete -> {
@@ -124,33 +121,62 @@ class NoteActivity : BaseActivity() {
 				else -> false
 			}
 		}
+
+		binding.buttonSave.setOnClickListener {
+			saveNote(noteId)
+			lastSavedTitle = title.getText(RTFormat.HTML).trim()
+			lastSavedContent = note.getText(RTFormat.HTML).trim()
+			hasChanges = false
+			hideSaveButton()
+			finish()
+		}
+	}
+
+	private fun checkForChanges() {
+		val currentTitle = title.getText(RTFormat.HTML).trim()
+		val currentContent = note.getText(RTFormat.HTML).trim()
+		val changesDetected = currentTitle != lastSavedTitle || currentContent != lastSavedContent
+		val noteNotEmpty = currentTitle.isNotEmpty() || currentContent.isNotEmpty()
+
+		if (changesDetected && noteNotEmpty) showSaveButton()
+		else hideSaveButton()
+	}
+
+	private fun showSaveButton() {
+		if (binding.buttonSave.isVisible) return
+		val fade = MaterialFade().apply { duration = 150L }
+		TransitionManager.beginDelayedTransition(binding.root, fade)
+		binding.buttonSave.isVisible = true
+	}
+
+	private fun hideSaveButton() {
+		if (binding.buttonSave.visibility != View.VISIBLE) return
+		val fade = MaterialFade().apply { duration = 84L }
+		TransitionManager.beginDelayedTransition(binding.root, fade)
+		binding.buttonSave.isVisible = false
 	}
 
 	private fun saveNote(noteId: String?) {
-		val titleText = title.getText(RTFormat.HTML)
-		val noteText = note.getText(RTFormat.HTML)
+		val titleText = title.getText(RTFormat.HTML).trim()
+		val noteText = note.getText(RTFormat.HTML).trim()
 
 		auth = FirebaseAuth.getInstance()
 		databaseRef = FirebaseDatabase.getInstance()
 			.reference.child("Notes").child(auth.currentUser?.uid.toString())
 
-		val noteData = mapOf(
-			"title" to titleText,
-			"note" to noteText)
+		val noteData = mapOf("title" to titleText, "note" to noteText)
 
 		if (noteId != null) {
 			databaseRef.child(noteId).setValue(noteData).addOnCompleteListener {
-				if (!it.isSuccessful) {
-					Toast.makeText(applicationContext, it.exception?.message, Toast.LENGTH_SHORT).show()
-				}
+				if (!it.isSuccessful) Toast.makeText(applicationContext,
+					it.exception?.message,
+					Toast.LENGTH_SHORT).show()
 			}
-		} else {
-			if (noteText.isNotEmpty() || titleText.isNotEmpty()) {
-				databaseRef.push().setValue(noteData).addOnCompleteListener {
-					if (!it.isSuccessful) {
-						Toast.makeText(applicationContext, it.exception?.message, Toast.LENGTH_SHORT).show()
-					}
-				}
+		} else if (noteText.isNotEmpty() || titleText.isNotEmpty()) {
+			databaseRef.push().setValue(noteData).addOnCompleteListener {
+				if (!it.isSuccessful) Toast.makeText(applicationContext,
+					it.exception?.message,
+					Toast.LENGTH_SHORT).show()
 			}
 		}
 	}
@@ -165,11 +191,11 @@ class NoteActivity : BaseActivity() {
 				if (task.isSuccessful) {
 					isNoteDeleted = true
 					finish()
-				} else {
-					Toast.makeText(this, "Failed to delete note: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
 				}
+				else Toast.makeText(this, "Failed to delete note: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
 			}
-		} else {
+		}
+		else {
 			isNoteDeleted = true
 			finish()
 		}
@@ -181,15 +207,19 @@ class NoteActivity : BaseActivity() {
 			.reference.child("Notes").child(auth.currentUser?.uid.toString())
 		databaseRef.child(noteId).get().addOnSuccessListener { snapshot ->
 			if (snapshot.exists()) {
-				val noteTitle = snapshot.child("title").getValue(String::class.java)
-				val noteContent = snapshot.child("note").getValue(String::class.java)
+				val noteTitle = snapshot.child("title").getValue(String::class.java) ?: ""
+				val noteContent = snapshot.child("note").getValue(String::class.java) ?: ""
 
-				title.setRichTextEditing(true, noteTitle ?: "")
-				note.setRichTextEditing(true, noteContent ?: "")
+				title.setRichTextEditing(true, noteTitle)
+				note.setRichTextEditing(true, noteContent)
+
+				lastSavedTitle = noteTitle
+				lastSavedContent = noteContent
+				hasChanges = false
+				binding.buttonSave.visibility = View.GONE
 			}
 		}
 	}
-
 
 	override fun onSaveInstanceState(outState: Bundle) {
 		super.onSaveInstanceState(outState)
@@ -198,10 +228,13 @@ class NoteActivity : BaseActivity() {
 
 	override fun onPause() {
 		if (!isNoteDeleted) {
-			val currentNote = title.getText(RTFormat.HTML).trim()
-			if (currentNote != lastSavedNote) {
+			val currentTitle = title.getText(RTFormat.HTML).trim()
+			val currentContent = note.getText(RTFormat.HTML).trim()
+			if (currentTitle != lastSavedTitle || currentContent != lastSavedContent) {
 				saveNote(noteId)
-				lastSavedNote = currentNote
+				lastSavedTitle = currentTitle
+				lastSavedContent = currentContent
+				hasChanges = false
 			}
 		}
 		super.onPause()
@@ -209,10 +242,13 @@ class NoteActivity : BaseActivity() {
 
 	override fun onDestroy() {
 		if (!isNoteDeleted) {
-			val currentNote = title.getText(RTFormat.HTML).trim()
-			if (currentNote != lastSavedNote) {
+			val currentTitle = title.getText(RTFormat.HTML).trim()
+			val currentContent = note.getText(RTFormat.HTML).trim()
+			if (currentTitle != lastSavedTitle || currentContent != lastSavedContent) {
 				saveNote(noteId)
-				lastSavedNote = currentNote
+				lastSavedTitle = currentTitle
+				lastSavedContent = currentContent
+				hasChanges = false
 			}
 		}
 		super.onDestroy()

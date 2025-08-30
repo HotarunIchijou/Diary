@@ -89,7 +89,7 @@
 				android:focusableInTouchMode="true"
 				android:imeOptions="flagNoFullscreen"
 				android:inputType="textCapSentences|textMultiLine"
-				android:textAppearance="?textAppearanceTitleMedium"
+				android:textAppearance="?textAppearanceBodyLarge"
 				android:accessibilityTraversalAfter="@id/floatingToolbar" />
 
 

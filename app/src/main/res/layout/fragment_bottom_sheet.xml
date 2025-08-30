@@ -42,34 +42,32 @@
 
     </com.google.android.material.chip.ChipGroup>
 
-    <LinearLayout
+    <com.google.android.material.button.MaterialButtonGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginVertical="8dp"
         android:gravity="end">
 
         <com.google.android.material.button.MaterialButton
+            style="@style/Widget.Material3Expressive.Button"
             android:id="@+id/buttonDelete"
-            style="@style/Widget.Material3.Button.TextButton"
-            android:minWidth="0dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="16dp"
             android:text="@string/delete"
-            android:textColor="?attr/colorError"
+            android:backgroundTint="?colorError"
+            android:textColor="?attr/colorOnError"
             android:visibility="gone"
-            app:rippleColor="@android:color/transparent" />
+            android:theme="@style/SizeOverlay.Material3Expressive.Button.Small" />
 
         <com.google.android.material.button.MaterialButton
+            style="@style/Widget.Material3Expressive.Button"
             android:id="@+id/buttonSave"
-            style="@style/Widget.Material3.Button.TextButton"
-            android:minWidth="0dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="12dp"
             android:text="@string/save"
-            app:rippleColor="@android:color/transparent" />
+            android:theme="@style/SizeOverlay.Material3Expressive.Button.Small" />
 
-    </LinearLayout>
+    </com.google.android.material.button.MaterialButtonGroup>
 
 </LinearLayout>

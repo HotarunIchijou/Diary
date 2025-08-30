@@ -21,6 +21,7 @@ class SearchTasksManager(
     private val lifecycleOwner: LifecycleOwner,
     private var tasksList: MutableList<TasksDatabase>,
     private var backPressedCallback: OnBackPressedCallback? = null,
+    private val restoreSideSheetListener: (() -> Unit)? = null
 ) {
 
     private lateinit var searchAdapter: SearchHistoryAdapter
@@ -48,9 +49,9 @@ class SearchTasksManager(
 
         searchView.addTransitionListener { _, _, newState ->
             if (newState == SearchView.TransitionState.SHOWING) {
-                binding.extendedFab.hide()
+                binding.fab.hide()
             } else if (newState == SearchView.TransitionState.HIDING) {
-                binding.extendedFab.show()
+                binding.fab.show()
             }
         }
 
@@ -106,11 +107,16 @@ class SearchTasksManager(
             it.title.contains(query, ignoreCase = true)
         }.toMutableList()
 
-        searchBar.navigationIcon = AppCompatResources.getDrawable(binding.root.context, R.drawable.arrow_back_24px)
-        backPressedCallback?.remove()
-        binding.extendedFab.hide()
-        tasksAdapter.updateTasks(filteredList)
         binding.tasksEmpty.tasksEmptyLayout.visibility = View.GONE
+        binding.sideSheetButton.icon = AppCompatResources.getDrawable(
+            binding.tasksMainActivity.context,
+            R.drawable.arrow_back_24px
+        )
+        searchBar.textCentered = false
+        backPressedCallback?.remove()
+        binding.fab.hide()
+
+        tasksAdapter.updateTasks(filteredList)
 
         if (filteredList.isEmpty()) {
             binding.nothingFoundTasks.nothingFoundTasksLayout.visibility = View.VISIBLE
@@ -120,27 +126,29 @@ class SearchTasksManager(
             override fun handleOnBackPressed() {
                 resetTasksList()
                 searchBar.clearText()
-                binding.extendedFab.show()
+                binding.fab.show()
                 backPressedCallback?.remove()
                 binding.nothingFoundTasks.nothingFoundTasksLayout.visibility = View.GONE
             }
         }
+
         onBackPressedDispatcher.addCallback(lifecycleOwner, backPressedCallback!!)
 
-        searchBar.setNavigationOnClickListener {
+        binding.sideSheetButton.setOnClickListener {
             resetTasksList()
             searchBar.clearText()
-            binding.extendedFab.show()
+            binding.fab.show()
             backPressedCallback?.remove()
-            searchBar.setNavigationOnClickListener(null)
             binding.nothingFoundTasks.nothingFoundTasksLayout.visibility = View.GONE
+            restoreSideSheetListener?.invoke()
         }
     }
 
     private fun resetTasksList() {
-        searchBar.navigationIcon = AppCompatResources.getDrawable(binding.root.context, R.drawable.search_24px)
         tasksAdapter.updateTasks(tasksList)
         backPressedCallback?.remove()
+        searchBar.textCentered = true
+        binding.nothingFoundTasks.nothingFoundTasksLayout.visibility = View.GONE
         binding.tasksEmpty.tasksEmptyLayout.visibility =
             if (tasksList.isNotEmpty()) View.GONE else View.VISIBLE
 

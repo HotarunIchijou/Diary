@@ -1,51 +1,52 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.listitem.ListItemLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    style="?attr/listItemLayoutSegmentedStyle"
+    android:id="@+id/listItemLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingEnd="8dp"
-    tools:ignore="RtlSymmetry">
+    android:background="@android:color/transparent">
 
-    <LinearLayout
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:paddingVertical="8dp">
+        android:layout_height="wrap_content"
+        android:checkable="false">
 
-        <com.google.android.material.checkbox.MaterialCheckBox
-            android:id="@+id/checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:paddingVertical="8dp">
 
-        <TextView
-            android:id="@+id/taskTitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?attr/textAppearanceTitleLarge"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:maxLines="2"
-            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."/>
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
 
-        <TextView
-            android:id="@+id/date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|center_vertical"
-            android:gravity="end"
-            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-            android:textColor="?attr/colorPrimary"
-            tools:text="Jan 1, 1970, 12:00" />
+            <TextView
+                android:id="@+id/taskTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?attr/textAppearanceTitleLarge"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:maxLines="2"
+                tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."/>
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginHorizontal="8dp"
+                android:gravity="end"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                android:textColor="?attr/colorPrimary"
+                tools:text="Jan 1, 1970, 12:00" />
 
-    <com.google.android.material.divider.MaterialDivider
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="end"
-        android:layout_marginStart="48dp"
-        app:dividerColor="?attr/colorSurfaceContainerHighest"/>
+        </LinearLayout>
 
-</LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</com.google.android.material.listitem.ListItemLayout>

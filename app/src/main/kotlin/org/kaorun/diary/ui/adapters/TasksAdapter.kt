@@ -1,5 +1,6 @@
 package org.kaorun.diary.ui.adapters
 
+import android.annotation.SuppressLint
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -33,6 +34,7 @@ class TasksAdapter(
 
             binding.taskTitle.text = task.title
             binding.date.text = formattedDate
+            binding.listItemLayout.updateAppearance(layoutPosition, itemCount)
             val color = TypedValue()
             binding.root.context.theme.resolveAttribute(
                 if (task.isCompleted) com.google.android.material.R.attr.colorOnSurfaceVariant
@@ -60,19 +62,22 @@ class TasksAdapter(
 
     // Create a new view holder for each task item
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
-        val binding = ItemTaskBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemTaskBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false)
         return TaskViewHolder(binding)
     }
 
     // Bind data to the views in the ViewHolder
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-        val task = tasks[position]
-        holder.bind(task)
+        holder.bind(tasks[position])
     }
 
     // Return the number of tasks in the list
     override fun getItemCount(): Int = tasks.size
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateTasks(newTasks: List<TasksDatabase>) {
         tasks = newTasks // Update the data
         notifyDataSetChanged() // Refresh the RecyclerView

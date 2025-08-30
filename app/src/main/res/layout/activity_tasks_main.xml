@@ -5,47 +5,72 @@
     android:id="@+id/tasksMainActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorSurface"
+    android:background="?attr/colorSurfaceContainer"
     tools:context=".ui.activities.TasksMainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?colorSurfaceContainer"
         android:fitsSystemWindows="true"
         app:layout_constraintBottom_toTopOf="@+id/recyclerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.search.SearchBar
-            android:id="@+id/search_bar"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:navigationIcon="@drawable/search_24px"
-            android:hint="@string/search_tasks" />
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="4dp">
 
-        <com.google.android.material.chip.ChipGroup
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            app:singleLine="true">
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipSwitch"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/sideSheetButton"
+                style="?materialIconButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/switch_mode"
-                app:chipIcon="@drawable/sticky_note_2_24px" />
+                android:layout_marginStart="8dp"
+                app:colorOnContainer="?attr/colorOnSurfaceVariant"
+                app:icon="@drawable/menu_24px"
+                app:iconSize="24dp"
+                app:iconTint="?attr/colorOnSurfaceVariant"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipTasksFilter"
+            <com.google.android.material.search.SearchBar
+                android:id="@+id/search_bar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginVertical="4dp"
+                android:hint="@string/search_tasks"
+                app:backgroundTint="?colorSurfaceContainerHighest"
+                app:defaultMarginsEnabled="false"
+                app:hideNavigationIcon="true"
+                app:layout_constraintEnd_toStartOf="@id/switchFilerButton"
+                app:layout_constraintStart_toEndOf="@id/sideSheetButton"
+                app:layout_constraintTop_toTopOf="parent"
+                app:textCentered="true" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/switchFilerButton"
+                style="?materialIconButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/pending"
-                app:chipIcon="@drawable/pending_actions_24px" />
+                android:layout_marginEnd="8dp"
+                app:colorOnContainer="?attr/colorOnSurfaceVariant"
+                app:icon="@drawable/pending_actions_24px"
+                app:iconSize="24dp"
+                app:iconTint="?attr/colorOnSurfaceVariant"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </com.google.android.material.chip.ChipGroup>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -76,7 +101,8 @@
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginHorizontal="8dp"
+        android:layout_marginHorizontal="16dp"
+        android:paddingTop="16dp"
         android:clipToPadding="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -95,15 +121,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/extended_fab"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        style="?attr/floatingActionButtonLargePrimaryStyle"
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:contentDescription="@string/add_task"
-        android:text="@string/add_task"
-        app:icon="@drawable/task_alt_24px"
+        app:srcCompat="@drawable/task_alt_24px"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

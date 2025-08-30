@@ -1,11 +1,11 @@
 package org.kaorun.diary.ui.activities
 
-import android.app.ActivityOptions
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.content.res.AppCompatResources
@@ -13,6 +13,8 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.navigation.NavigationView
+import com.google.android.material.sidesheet.SideSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import org.kaorun.diary.R
@@ -25,6 +27,7 @@ import org.kaorun.diary.ui.fragments.WelcomeFragment
 import org.kaorun.diary.ui.managers.SearchTasksManager
 import org.kaorun.diary.utils.InsetsHandler
 import org.kaorun.diary.utils.NotificationUtils.cancelNotification
+import org.kaorun.diary.utils.VerticalSpaceItemDecoration
 import org.kaorun.diary.viewmodel.TasksViewModel
 
 class TasksMainActivity : BaseActivity() {
@@ -41,49 +44,16 @@ class TasksMainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTasksMainBinding.inflate(layoutInflater)
-        setContentView(binding.root) // Set the layout for the activity
+        setContentView(binding.root)
+
         setupInsets()
+        setupRecyclerView()
         setupScrollBehavior()
+        setupSideSheetButton()
 
         createNotificationChannel(this)
 
-        // Initialize RecyclerView and Adapter
-        val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
-        taskAdapter = TasksAdapter(
-            taskList,
-            onItemClicked = { taskId, title, isCompleted, time, date ->
-                val bottomSheet = BottomSheetFragment.newInstance(taskId, title, isCompleted, time, date)
-                bottomSheet.show(supportFragmentManager, bottomSheet.tag)
-            },
-            onTaskChecked = { task, isChecked ->
-                if (isChecked) {
-                    showUndoSnackbar(task)
-                    cancelNotification(this, task.id)
-                }
-                tasksViewModel.updateTask(this, task)
-            }
-        )
-
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = taskAdapter
-
-        searchTasksManager = SearchTasksManager(
-            binding = binding,
-            onBackPressedDispatcher = onBackPressedDispatcher,
-            tasksAdapter = taskAdapter,
-            lifecycleOwner = this,
-            tasksList = taskList
-        )
-
-        binding.chipSwitch.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            val options = ActivityOptions.makeCustomAnimation(this, android.R.anim.fade_in,
-                android.R.anim.fade_out)
-            startActivity(intent, options.toBundle())
-            finish()
-        }
-
-        binding.chipTasksFilter.setOnClickListener {
+        binding.switchFilerButton.setOnClickListener {
             val options = arrayOf(getString(R.string.pending), getString(R.string.completed))
 
             MaterialAlertDialogBuilder(this, com.google.android.material.R.style.ThemeOverlay_Material3_MaterialAlertDialog_Centered)
@@ -101,7 +71,7 @@ class TasksMainActivity : BaseActivity() {
         }
 
 
-        binding.extendedFab.setOnClickListener {
+        binding.fab.setOnClickListener {
             val bottomSheet = BottomSheetFragment()
             bottomSheet.show(supportFragmentManager, bottomSheet.tag)
         }
@@ -124,6 +94,37 @@ class TasksMainActivity : BaseActivity() {
         titleFromNotification = intent.getStringExtra("notification_title")
 
         observeViewModel()
+    }
+
+    private fun setupRecyclerView() {
+        val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
+        taskAdapter = TasksAdapter(
+            taskList,
+            onItemClicked = { taskId, title, isCompleted, time, date ->
+                val bottomSheet =
+                    BottomSheetFragment.newInstance(taskId, title, isCompleted, time, date)
+                bottomSheet.show(supportFragmentManager, bottomSheet.tag)
+            },
+            onTaskChecked = { task, isChecked ->
+                if (isChecked) {
+                    showUndoSnackbar(task)
+                    cancelNotification(this, task.id)
+                }
+                tasksViewModel.updateTask(this, task)
+            }
+        )
+
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = taskAdapter
+        recyclerView.addItemDecoration(VerticalSpaceItemDecoration(this))
+
+        searchTasksManager = SearchTasksManager(
+            binding = binding,
+            onBackPressedDispatcher = onBackPressedDispatcher,
+            tasksAdapter = taskAdapter,
+            lifecycleOwner = this,
+            tasksList = taskList
+        )
     }
 
     private fun observeViewModel() {
@@ -156,16 +157,65 @@ class TasksMainActivity : BaseActivity() {
 
 
     private fun setupScrollBehavior() {
-        val fab = binding.extendedFab
+        val fab = binding.fab
         binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
-                if (dy > 12 && fab.isExtended) fab.shrink()
-                if (dy < -12 && !fab.isExtended) fab.extend()
-                if (!recyclerView.canScrollVertically(-1)) fab.extend()
+                if (dy > 12 && fab.isVisible) fab.hide()
+                if (dy < -12 && !fab.isVisible) fab.show()
             }
         })
+    }
+
+    private fun setupSideSheetButton() {
+        binding.sideSheetButton.icon = AppCompatResources.getDrawable(
+            binding.tasksMainActivity.context,
+            R.drawable.menu_24px)
+
+        binding.sideSheetButton.setOnClickListener {
+            val sideSheetDialog = SideSheetDialog(this)
+
+            with(sideSheetDialog) {
+                setContentView(R.layout.side_sheet_layout)
+                setFitsSystemWindows(false)
+                show()
+                setSheetEdge(Gravity.START)
+            }
+
+            val navigationView =
+                sideSheetDialog.findViewById<NavigationView>(R.id.sideSheetNavigationView)
+            InsetsHandler.applyViewInsets(navigationView!!)
+            val tasks = navigationView.menu.findItem(R.id.tasks)
+            tasks?.isChecked = true
+
+            navigationView.setNavigationItemSelectedListener { menuItem ->
+                when (menuItem.itemId) {
+                    R.id.notes -> {
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                        sideSheetDialog.hide()
+                    }
+
+                    R.id.tasks -> {
+                        sideSheetDialog.hide()
+                    }
+
+                    R.id.settings -> {
+                        val intent = Intent(this, SettingsActivity::class.java)
+                        startActivity(intent)
+                        sideSheetDialog.hide()
+                    }
+
+                    R.id.signOut -> {
+                        FirebaseAuth.getInstance().signOut()
+                        navigateToWelcomeFragment()
+                        sideSheetDialog.hide()
+                    }
+                }
+                true
+            }
+        }
     }
 
     private fun createNotificationChannel(context: Context) {
@@ -181,7 +231,7 @@ class TasksMainActivity : BaseActivity() {
     private fun navigateToWelcomeFragment() {
         binding.recyclerView.visibility = View.GONE
         binding.searchBar.visibility = View.GONE
-        binding.extendedFab.visibility = View.GONE
+        binding.fab.visibility = View.GONE
         binding.fragmentContainerView.visibility = View.VISIBLE
 
         // Create the WelcomeFragment instance
@@ -207,15 +257,13 @@ class TasksMainActivity : BaseActivity() {
 
         binding.tasksEmpty.tasksEmptyLayout.isVisible = tasks.isEmpty()
 
-        binding.chipTasksFilter.apply {
+        binding.switchFilerButton.apply {
             when (selected) {
                 0 -> {
-                    text = getString(R.string.pending)
-                    chipIcon = AppCompatResources.getDrawable(context, R.drawable.pending_actions_24px)
+                    setIconResource(R.drawable.pending_actions_24px)
                 }
                 1 -> {
-                    text = getString(R.string.completed)
-                    chipIcon = AppCompatResources.getDrawable(context, R.drawable.inventory_24px)
+                    setIconResource(R.drawable.pending_actions_24px)
                 }
             }
         }
@@ -223,7 +271,7 @@ class TasksMainActivity : BaseActivity() {
 
     private fun showUndoSnackbar(task: TasksDatabase) {
         Snackbar.make(binding.root, getString(R.string.task_completed), Snackbar.LENGTH_LONG)
-            .setAnchorView(binding.extendedFab)
+            .setAnchorView(binding.fab)
             .setAction(
                 getString(R.string.undo)
             ) {
@@ -234,7 +282,7 @@ class TasksMainActivity : BaseActivity() {
 
     private fun setupInsets() {
         InsetsHandler.applyViewInsets(binding.recyclerView)
-        InsetsHandler.applyFabInsets(binding.extendedFab)
+        InsetsHandler.applyFabInsets(binding.fab)
         InsetsHandler.applyAppBarInsets(binding.appBarLayout)
     }
 }

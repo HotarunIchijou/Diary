@@ -1,4 +1,4 @@
-<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt"
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:viewportWidth="869.9999"
     android:viewportHeight="520.1385"
     android:width="869.9999dp"
@@ -36,7 +36,7 @@
         android:translateY="-189.9307">
         <path
             android:pathData="M789.5 708.93073h-365v-374.5c0 -79.67773 64.82227 -144.5 144.49976 -144.5h76.00049c79.67749 0 144.49975 64.82227 144.49975 144.5Z"
-            android:fillColor="?attr/colorSecondaryContainer" />
+            android:fillColor="?attr/colorSurfaceDim" />
     </group>
     <group
         android:translateX="-165"
@@ -117,14 +117,14 @@
         android:translateY="-189.9307">
         <path
             android:pathData="M1004.98163 709.57417h-738.294a1.19069 1.19069 0 0 1 0 -2.38137h738.294a1.19069 1.19069 0 0 1 0 2.38137Z"
-            android:fillColor="?attr/colorOutlineVariant" />
+            android:fillColor="?attr/colorSecondaryContainer" />
     </group>
     <group
         android:translateX="-165"
         android:translateY="-189.9307">
         <path
             android:pathData="M634 600.43073H504a6.46539 6.46539 0 0 1 -6.5 -6.41531V303.846a6.46539 6.46539 0 0 1 6.5 -6.41531H634a6.46539 6.46539 0 0 1 6.5 6.41531V594.01542A6.46539 6.46539 0 0 1 634 600.43073Z"
-            android:fillColor="?attr/colorSurfaceContainer" />
+            android:fillColor="?attr/colorSurfaceBright" />
     </group>
     <path
         android:pathData="M332.4999 201.3897H475.4999V203.3897H332.4999V201.3897Z"

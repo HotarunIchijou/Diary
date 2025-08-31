@@ -6,20 +6,20 @@
   <path
       android:pathData="m550.6,411.25c0,0.66 -0.53,1.19 -1.19,1.19H1.19c-0.66,0 -1.19,-0.53 -1.19,-1.19s0.53,-1.19 1.19,-1.19h548.22c0.66,0 1.19,0.53 1.19,1.19Z"
       android:strokeWidth="0"
-      android:fillColor="?attr/colorSurfaceContainerHighest"/>
+      android:fillColor="?attr/colorSecondaryContainer"/>
   <path
       android:pathData="m436.66,84.78H114.08c-4.46,0 -8.09,-3.63 -8.09,-8.09v-24.85c0,-4.46 3.63,-8.09 8.09,-8.09h322.58c4.46,0 8.09,3.63 8.09,8.09v24.85c0,4.46 -3.63,8.09 -8.09,8.09Z"
       android:strokeLineJoin="round"
       android:strokeWidth="2"
-      android:fillColor="?attr/colorSurfaceContainerLowest"
-      android:strokeColor="?attr/colorOutlineVariant"
+      android:fillColor="?attr/colorSurfaceBright"
+      android:strokeColor="?attr/colorSurfaceContainerLow"
       android:strokeLineCap="round"/>
   <path
       android:pathData="m436.66,237.99H114.08c-4.46,0 -8.09,-3.63 -8.09,-8.09v-24.85c0,-4.46 3.63,-8.09 8.09,-8.09h322.58c4.46,0 8.09,3.63 8.09,8.09v24.85c0,4.46 -3.63,8.09 -8.09,8.09Z"
       android:strokeLineJoin="round"
       android:strokeWidth="2"
-      android:fillColor="?attr/colorSurfaceContainerLowest"
-      android:strokeColor="?attr/colorOutlineVariant"
+      android:fillColor="?attr/colorSurfaceBright"
+      android:strokeColor="?attr/colorSurfaceContainerLow"
       android:strokeLineCap="round"/>
   <path
       android:pathData="m207.66,347.99h-94.58c-4.46,0 -8.09,-3.63 -8.09,-8.09v-24.85c0,-4.46 3.63,-8.09 8.09,-8.09h94.58c4.46,0 8.09,3.63 8.09,8.09v24.85c0,4.46 -3.63,8.09 -8.09,8.09Z"
@@ -30,14 +30,14 @@
       android:strokeLineJoin="round"
       android:strokeWidth="2"
       android:fillColor="#00000000"
-      android:strokeColor="?attr/colorOutlineVariant"
+      android:strokeColor="?attr/colorSurfaceContainerLow"
       android:strokeLineCap="round"/>
   <path
       android:pathData="M106.7,154.21L238.12,154.21"
       android:strokeLineJoin="round"
       android:strokeWidth="2"
       android:fillColor="#00000000"
-      android:strokeColor="?attr/colorOutlineVariant"
+      android:strokeColor="?attr/colorSurfaceContainerLow"
       android:strokeLineCap="round"/>
   <path
       android:pathData="M386.51,374.35l11.13,-7.11l10.09,15.78l-11.13,7.11z"
@@ -74,15 +74,15 @@
   <path
       android:pathData="m334.46,411.32c-1.39,0.02 -2.62,0 -3.55,-0.08 -3.52,-0.28 -6.88,-2.83 -8.59,-4.33 -0.77,-0.67 -1.02,-1.76 -0.64,-2.69h0c0.27,-0.67 0.83,-1.18 1.53,-1.39l9.24,-2.75 14.9,-10.29 0.17,0.3c0.06,0.11 1.57,2.75 2.08,4.54 0.19,0.68 0.16,1.25 -0.13,1.69 -0.19,0.3 -0.47,0.49 -0.69,0.6 0.27,0.28 1.13,0.85 3.76,1.24 3.83,0.57 4.6,-3.41 4.62,-3.58l0.03,-0.14 0.11,-0.08c1.81,-1.2 2.92,-1.74 3.31,-1.63 0.25,0.06 0.64,0.19 1.85,10.98 0.11,0.34 0.9,2.81 0.41,5.2 -0.53,2.59 -11.85,1.82 -14.11,1.65 -0.06,0.01 -8.52,0.71 -14.32,0.77h0.02,-0.01v0Z"
       android:strokeWidth="0"
-      android:fillColor="?attr/colorOnSurfaceVariant"/>
+      android:fillColor="?attr/colorOnPrimary"/>
   <path
       android:pathData="m383.21,408.21c-1.55,0.02 -2.98,-0.16 -4,-0.32 -1,-0.17 -1.79,-0.95 -1.96,-1.95h0c-0.13,-0.72 0.08,-1.44 0.56,-1.98l6.38,-7.22 7.19,-16.62 0.3,0.16c0.11,0.06 2.78,1.5 4.17,2.75 0.53,0.47 0.79,0.97 0.79,1.5 0,0.36 -0.14,0.66 -0.27,0.86 0.38,0.09 1.41,0.12 3.85,-0.94 3.55,-1.54 2.09,-5.33 2.03,-5.48l-0.05,-0.13 0.06,-0.12c0.9,-1.97 1.56,-3.02 1.95,-3.14 0.25,-0.06 0.64,-0.19 7.38,8.33 0.27,0.23 2.26,1.91 3.1,4.19 0.91,2.48 -9.08,7.82 -11.1,8.86 -0.06,0.05 -10.51,7.82 -14.8,10.04 -1.71,0.88 -3.74,1.17 -5.58,1.19l0.02,0.02h-0.01v0Z"
       android:strokeWidth="0"
-      android:fillColor="?attr/colorOnSurfaceVariant"/>
+      android:fillColor="?attr/colorOnPrimary"/>
   <path
       android:pathData="m368.18,224.19l-36.97,0.41 -2.97,34.42 16.09,126.91 18.87,-0.21 -8.36,-73.31 31.35,65.93 16.64,-11.93 -24.59,-61.6s7.94,-53.99 1.08,-67.33c-6.86,-13.35 -11.14,-13.3 -11.14,-13.3v0.02h-0.01v0Z"
       android:strokeWidth="0"
-      android:fillColor="?attr/colorOnSurfaceVariant"/>
+      android:fillColor="?attr/colorOnPrimary"/>
   <path
       android:pathData="M386.58,226.08l-58.71,0.66l16.77,-76.1l25.59,-0.29l16.36,75.74z"
       android:strokeWidth="0"

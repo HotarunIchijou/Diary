@@ -323,7 +323,7 @@ class MainActivity : BaseActivity() {
 
 		val addTaskShortcut = ShortcutInfoCompat.Builder(this, "create_task")
 			.setShortLabel(getString(R.string.add_task))
-			.setIcon(IconCompat.createWithResource(this, R.drawable.task_add_24px))
+			.setIcon(IconCompat.createWithResource(this, R.drawable.ic_launcher_shortcut_tasks))
 			.setIntent(addTaskIntent)
 			.build()
 
@@ -337,7 +337,7 @@ class MainActivity : BaseActivity() {
 
 		val addNoteShortcut = ShortcutInfoCompat.Builder(this, "create_note")
 			.setShortLabel(getString(R.string.add_note))
-			.setIcon(IconCompat.createWithResource(this, R.drawable.note_add_24px))
+			.setIcon(IconCompat.createWithResource(this, R.drawable.ic_launcher_shortcut_notes))
 			.setIntent(addNoteIntent)
 			.build()
 

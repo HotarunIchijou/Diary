@@ -181,7 +181,7 @@ class MainActivity : BaseActivity() {
 
 			val rectF = RectF(left, top, right, bottom)
 
-			c.drawRoundRect(rectF, 52f, 52f, backgroundPaint)
+			c.drawRoundRect(rectF, 56f, 56f, backgroundPaint)
 
 			val iconColor = MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorOnError)
 			DrawableCompat.setTint(deleteIcon, iconColor)
@@ -262,6 +262,7 @@ class MainActivity : BaseActivity() {
                     }
 
                     R.id.tasks -> {
+						finish()
                         val intent = Intent(this, TasksMainActivity::class.java)
                         startActivity(intent)
                         sideSheetDialog.hide()

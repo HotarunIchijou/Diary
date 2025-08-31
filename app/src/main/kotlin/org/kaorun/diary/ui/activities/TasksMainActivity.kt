@@ -192,6 +192,7 @@ class TasksMainActivity : BaseActivity() {
             navigationView.setNavigationItemSelectedListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.notes -> {
+                        finish()
                         val intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)
                         sideSheetDialog.hide()
@@ -263,7 +264,7 @@ class TasksMainActivity : BaseActivity() {
                     setIconResource(R.drawable.pending_actions_24px)
                 }
                 1 -> {
-                    setIconResource(R.drawable.pending_actions_24px)
+                    setIconResource(R.drawable.inventory_24px)
                 }
             }
         }

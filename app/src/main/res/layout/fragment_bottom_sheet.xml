@@ -55,8 +55,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/delete"
-            android:backgroundTint="?colorError"
-            android:textColor="?attr/colorOnError"
             android:visibility="gone"
             android:theme="@style/SizeOverlay.Material3Expressive.Button.Small" />
 

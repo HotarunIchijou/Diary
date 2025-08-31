@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.MaterialTimePicker.INPUT_MODE_CLOCK
@@ -144,13 +145,33 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
                 binding.dateChip.isVisible = true
             }
 
-            binding.buttonDelete.visibility = View.VISIBLE
-            binding.buttonDelete.setOnClickListener {
-                existingTaskId?.let { id ->
-                    tasksViewModel.deleteTask(requireContext(), id)
-                    cancelNotification(requireContext(), id)
-                    dismiss()
-                }
+            setupDeleteButton()
+        }
+    }
+
+    private fun setupDeleteButton() {
+        binding.buttonDelete.visibility = View.VISIBLE
+        val backgroundHarmonizedColor = MaterialColors.harmonizeWithPrimary(
+            requireContext(),
+            MaterialColors.getColor(
+                binding.buttonDelete,
+                com.google.android.material.R.attr.colorErrorContainer
+            )
+        )
+        val foregroundHarmonizedColor = MaterialColors.harmonizeWithPrimary(
+            requireContext(),
+            MaterialColors.getColor(
+                binding.buttonDelete,
+                com.google.android.material.R.attr.colorOnErrorContainer
+            )
+        )
+        binding.buttonDelete.setBackgroundColor(backgroundHarmonizedColor)
+        binding.buttonDelete.setTextColor(foregroundHarmonizedColor)
+        binding.buttonDelete.setOnClickListener {
+            existingTaskId?.let { id ->
+                tasksViewModel.deleteTask(requireContext(), id)
+                cancelNotification(requireContext(), id)
+                dismiss()
             }
         }
     }

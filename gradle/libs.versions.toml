@@ -1,5 +1,5 @@
 [versions]
-agp = "8.12.1"
+agp = "8.12.2"
 kotlin = "2.2.10"
 coreKtx = "1.17.0"
 appcompat = "1.7.1"
@@ -10,8 +10,8 @@ firebaseDatabase = "22.0.0"
 firebaseAuth = "24.0.1"
 navigationFragment = "2.9.3"
 annotation = "1.9.1"
-lifecycleLivedataKtx = "2.9.2"
-lifecycleViewmodelKtx = "2.9.2"
+lifecycleLivedataKtx = "2.9.3"
+lifecycleViewmodelKtx = "2.9.3"
 navigationFragmentKtx = "2.9.3"
 navigationUiKtx = "2.9.3"
 androidRteditor = "1.8.0"
@@ -20,14 +20,13 @@ fragmentKtx = "1.8.9"
 playServicesAuth = "21.4.0"
 googleid = "1.1.1"
 credentialsPlayServicesAuth = "1.5.0"
-firebaseBom = "34.1.0"
+firebaseBom = "34.2.0"
 credentials = "1.5.0"
 preferenceKtx = "1.2.1"
 roomCompiler = "2.7.2"
 roomRuntime = "2.7.2"
 ksp = "2.2.10-2.0.2"
 material = "1.14.0-alpha04"
-materialVersion = "1.12.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -55,7 +54,6 @@ androidx-credentials = { group = "androidx.credentials", name = "credentials", v
 androidx-preference-ktx = { group = "androidx.preference", name = "preference-ktx", version.ref = "preferenceKtx" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomCompiler" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomRuntime" }
-google-material = { group = "com.google.android.material", name = "material", version.ref = "materialVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

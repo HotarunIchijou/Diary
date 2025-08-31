@@ -84,6 +84,5 @@ dependencies {
 	implementation(libs.androidx.credentials)
 	implementation(libs.androidx.preference.ktx)
 	implementation(libs.androidx.room.runtime)
-	implementation(libs.google.material)
 	ksp(libs.androidx.room.compiler)
 }

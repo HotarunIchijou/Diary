@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.color.MaterialColors
 import org.kaorun.diary.data.ThemePreview
 import org.kaorun.diary.databinding.ThemeSwitchItemBinding
+import org.kaorun.diary.utils.ConvertUtils
 
 class ThemeAdapter(
     private var themes: List<ThemePreview>,
@@ -37,6 +38,13 @@ class ThemeAdapter(
                 binding.root,
                 com.google.android.material.R.attr.colorSecondary
             ) else Color.TRANSPARENT
+
+            val defaultRadius = ConvertUtils.run { 100f.toPx() }
+            val selectedRadius = ConvertUtils.run { 20f.toPx() }
+            val selectedInnerRadius = ConvertUtils.run { 16f.toPx() }
+
+            binding.root.radius = if (item.isSelected) selectedRadius else defaultRadius
+            binding.innerCard.radius = if (item.isSelected) selectedInnerRadius else defaultRadius
 
             binding.root.setOnClickListener {
                 val position = bindingAdapterPosition

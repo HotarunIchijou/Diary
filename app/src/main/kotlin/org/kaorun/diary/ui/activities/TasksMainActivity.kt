@@ -7,6 +7,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.isVisible
@@ -37,6 +38,7 @@ class TasksMainActivity : BaseActivity() {
     private lateinit var searchTasksManager: SearchTasksManager
     private val taskList = mutableListOf<TasksDatabase>()
     private val tasksViewModel: TasksViewModel by viewModels()
+    private var backPressedCallback: OnBackPressedCallback? = null
     private var selected = 0
     private var taskIdFromNotification: String? = null
     private var titleFromNotification: String? = null
@@ -123,8 +125,11 @@ class TasksMainActivity : BaseActivity() {
             onBackPressedDispatcher = onBackPressedDispatcher,
             tasksAdapter = taskAdapter,
             lifecycleOwner = this,
-            tasksList = taskList
-        )
+            tasksList = taskList,
+            backPressedCallback = backPressedCallback
+        ) {
+            setupSideSheetButton()
+        }
     }
 
     private fun observeViewModel() {
@@ -256,16 +261,18 @@ class TasksMainActivity : BaseActivity() {
     private fun updateList(tasks: List<TasksDatabase>) {
         taskAdapter.updateTasks(tasks)
 
-        binding.tasksEmpty.tasksEmptyLayout.isVisible = tasks.isEmpty()
-
-        binding.switchFilerButton.apply {
-            when (selected) {
-                0 -> {
-                    setIconResource(R.drawable.pending_actions_24px)
-                }
-                1 -> {
-                    setIconResource(R.drawable.inventory_24px)
-                }
+        when {
+            tasks.isEmpty() -> {
+                binding.tasksEmpty.tasksEmptyLayout.isVisible = true
+                binding.nothingFoundTasks.nothingFoundTasksLayout.isVisible = false
+            }
+            taskAdapter.itemCount == 0 -> {
+                binding.tasksEmpty.tasksEmptyLayout.isVisible = false
+                binding.nothingFoundTasks.nothingFoundTasksLayout.isVisible = true
+            }
+            else -> {
+                binding.tasksEmpty.tasksEmptyLayout.isVisible = false
+                binding.nothingFoundTasks.nothingFoundTasksLayout.isVisible = false
             }
         }
     }

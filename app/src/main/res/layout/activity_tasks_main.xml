@@ -110,16 +110,33 @@
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-    <include
-        layout="@layout/nothing_found_tasks"
-        android:id="@+id/nothingFoundTasks"
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:id="@+id/emptyContainer"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <include
+            layout="@layout/tasks_empty"
+            android:id="@+id/tasksEmpty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+        <include
+            layout="@layout/nothing_found_tasks"
+            android:id="@+id/nothingFoundTasks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+    </FrameLayout>
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         style="?attr/floatingActionButtonLargePrimaryStyle"
@@ -132,16 +149,6 @@
         app:srcCompat="@drawable/task_alt_24px"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
-    <include layout="@layout/tasks_empty"
-        android:id="@+id/tasksEmpty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
     <com.google.android.material.loadingindicator.LoadingIndicator
         style="@style/Widget.Material3.LoadingIndicator.Contained"

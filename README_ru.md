@@ -15,9 +15,12 @@
   Firebase Realtime Database для безопасного хранения и управления записями в облаке  
 
 ## 🎨 Скриншоты  
-| ![Скриншот 1](assets/Screenshot_20250112-174808.png) | ![Скриншот 2](assets/Screenshot_20250112-174813.png) | ![Скриншот 3](assets/Screenshot_20250112-174818.png) |
-|---|---|---|
-| ![Скриншот 4](assets/Screenshot_20250112-174832.png) | ![Скриншот 5](assets/Screenshot_20250112-175617.png) | ![Скриншот 6](assets/Screenshot_20250112-175441.png) |
+| ![Screenshot 1](assets/Screenshot_20251130-130119.png) | ![Screenshot 2](assets/Screenshot_20251130-130150.png) | ![Screenshot 3](assets/Screenshot_20251130-130240.png)
+|---                                                     |---                                                     |---   
+| ![Screenshot 4](assets/Screenshot_20251130-130431.png) | ![Screenshot 5](assets/Screenshot_20251130-130413.png) | ![Screenshot 6](assets/Screenshot_20251130-130436.png)             
+|---                                                     |---                                                     |---   
+| ![Screenshot 7](assets/Screenshot_20251130-130624.png) | ![Screenshot 8](assets/Screenshot_20251130-130459.png) | ![Screenshot 9](assets/Screenshot_20251130-130710.png)
+
 
 ## 📲 Установка  
 Чтобы установить приложение:  

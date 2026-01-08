@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 	<style name="Widget.Diary.ActionMode" parent="Base.Widget.Material3.ActionMode">
 		<item name="theme">@style/ThemeOverlay.Diary.ActionMode</item>
 	</style>
@@ -19,7 +19,8 @@
 		<item name="color">@color/material_dynamic_primary40</item>
 	</style>
 
-	<style name="ShapeAppearance.Material3.ListItem.First" parent="" tools:override="true">
+    <!--
+    <style name="ShapeAppearance.Material3.ListItem.First" parent="" tools:override="true">
 		<item name="cornerFamily">?attr/shapeCornerFamily</item>
 		<item name="cornerSizeTopLeft">?attr/shapeCornerSizeLargeIncreased</item>
 		<item name="cornerSizeTopRight">?attr/shapeCornerSizeLargeIncreased</item>
@@ -49,5 +50,6 @@
 		<item name="cornerFamily">?attr/shapeCornerFamily</item>
 		<item name="cornerSize">?attr/shapeCornerSizeLargeIncreased</item>
 	</style>
+    -->
 
 </resources>

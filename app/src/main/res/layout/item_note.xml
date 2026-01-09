@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<com.google.android.material.listitem.ListItemLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="?listItemLayoutStyle"
+    android:id="@+id/list_item_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.listitem.ListItemCardView
+        style="?listItemCardViewSegmentedStyle"
+        android:id="@+id/list_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?listPreferredItemHeight"
+        android:clickable="true"
+        android:focusable="true"
+        android:checkable="true">
+
+        <TextView
+            android:id="@+id/note_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:textAppearance="?attr/textAppearanceHeadlineSmall"
+            android:maxLines="4"
+            tools:text="@string/app_name" />
+
+    </com.google.android.material.listitem.ListItemCardView>
+
+    <com.google.android.material.listitem.ListItemRevealLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.button.MaterialButton
+            style="?attr/materialIconButtonFilledStyle"
+            android:id="@+id/delete_button"
+            android:layout_width="64dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="2dp"
+            android:backgroundTint="?colorErrorContainer"
+            app:iconTint="?colorOnErrorContainer"
+            app:icon="@drawable/delete_24px"
+            tools:ignore="VisualLintBounds" />
+
+    </com.google.android.material.listitem.ListItemRevealLayout>
+
+
+
+</com.google.android.material.listitem.ListItemLayout>

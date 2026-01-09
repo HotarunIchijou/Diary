@@ -12,7 +12,7 @@ import org.kaorun.diary.databinding.ActivitySettingsBinding
 import org.kaorun.diary.ui.activities.BaseActivity
 import org.kaorun.diary.ui.adapters.SettingsAdapter
 import org.kaorun.diary.utils.InsetsHandler
-import org.kaorun.diary.utils.VerticalSpaceItemDecoration
+import org.kaorun.diary.utils.SpaceItemDecoration
 
 class SettingsActivity : BaseActivity() {
     private lateinit var binding: ActivitySettingsBinding
@@ -65,7 +65,8 @@ class SettingsActivity : BaseActivity() {
         )
 
         val recyclerView = binding.recyclerView
-        recyclerView.addItemDecoration(VerticalSpaceItemDecoration(this))
+        recyclerView.addItemDecoration(SpaceItemDecoration())
+
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = SettingsAdapter(settingsItems) { item ->
             when {

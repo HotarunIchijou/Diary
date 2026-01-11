@@ -38,7 +38,7 @@
 1. Open the app and register or log in into existing account
 2. Create a new diary entry
 3. Use the rich-text editor to style your content 
-4. Save your work (auto-save coming soon!)  
+4. Save your work
 
 ## 📝 TODO List  
 Here's what's planned for future updates:  

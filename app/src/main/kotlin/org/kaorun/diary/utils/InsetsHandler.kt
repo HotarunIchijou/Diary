@@ -7,7 +7,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
-
+import kotlin.math.roundToInt
 
 object InsetsHandler {
 	fun applyViewInsets(view: View, additionalBottomPadding: Int = 16, isTopPadding: Boolean = false, ignoreBottomPadding: Boolean = false) {
@@ -39,7 +39,7 @@ object InsetsHandler {
 		}
 	}
 
-	fun applyDividerInsets(view: View, additionalMargin: Int = 16) {
+	fun applyDividerInsets(view: View, additionalMargin: Int = 24) {
 		ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
 			val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars()
 					or WindowInsetsCompat.Type.displayCutout())
@@ -67,6 +67,6 @@ object InsetsHandler {
 
 	private fun dpToPx(view: View, dp: Int): Int {
 		val displayMetrics: DisplayMetrics = view.resources.displayMetrics
-		return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT))
+		return (dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT)).roundToInt()
 	}
 }

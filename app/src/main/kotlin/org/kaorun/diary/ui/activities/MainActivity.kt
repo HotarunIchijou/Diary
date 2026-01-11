@@ -9,14 +9,12 @@ import android.view.Gravity
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.app.ActivityCompat
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
 import androidx.core.view.isVisible
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -38,6 +36,7 @@ import org.kaorun.diary.ui.managers.SearchHistoryManager
 import org.kaorun.diary.ui.managers.SearchManager
 import org.kaorun.diary.utils.ConvertUtils.toPx
 import org.kaorun.diary.utils.InsetsHandler
+import org.kaorun.diary.utils.LayoutMode
 import org.kaorun.diary.utils.SpaceItemDecoration
 import org.kaorun.diary.viewmodel.MainViewModel
 
@@ -52,47 +51,46 @@ class MainActivity : BaseActivity() {
 	private val notesList = mutableListOf<NotesDatabase>()
 	private var backPressedCallback: OnBackPressedCallback? = null
     private var itemDecoration: RecyclerView.ItemDecoration? = null
-	private var isGridLayout = false
+    private var layoutMode = LayoutMode.LIST
 
     override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		binding = ActivityMainBinding.inflate(layoutInflater)
-		setContentView(binding.root)
-		applySavedTheme()
-		checkNotificationPermission()
-
-		auth = FirebaseAuth.getInstance()
-		databaseReference = FirebaseDatabase.getInstance().getReference("Notes")
-
-		if (auth.currentUser == null || !auth.currentUser!!.isEmailVerified) {
-			navigateToWelcomeFragment()
-		} else {
-			addShortcuts()
-			showMainContent()
-		}
-
-		searchHistoryManager = SearchHistoryManager(this, "notes")
-
-		setupInsets()
-		setupRecyclerView()
-		setupScrollBehavior()
-		setupSearchManager()
-		setupSideSheetButton()
-		setupSwitchLayoutButton()
-		setupContextualToolbar()
-
-		observeViewModel()
-
-		//val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
-		//itemTouchHelper.attachToRecyclerView(binding.recyclerView)
-
-		binding.fab.setOnClickListener {
-			val intent = Intent(this, NoteActivity::class.java)
-			startActivity(intent)
-		}
+        initBinding()
+        initFirebase()
+        checkNotificationPermission()
+        setupUI()
+        observeViewModel()
 	}
 
-	private fun setupRecyclerView() {
+    private fun initBinding() {
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+    }
+
+    private fun initFirebase() {
+        auth = FirebaseAuth.getInstance()
+        databaseReference = FirebaseDatabase.getInstance().getReference("Notes")
+
+        if (auth.currentUser == null || !auth.currentUser!!.isEmailVerified) {
+            navigateToWelcomeFragment()
+        } else {
+            addShortcuts()
+            showMainContent()
+        }
+    }
+
+    private fun setupUI() {
+        setupInsets()
+        setupRecyclerView()
+        setupScrollBehavior()
+        setupSearchManager()
+        setupSideSheetButton()
+        setupSwitchLayoutButton()
+        setupContextualToolbar()
+        setupFab()
+    }
+
+    private fun setupRecyclerView() {
 		notesAdapter = NotesAdapter(
             notesList,
             onItemClicked = { noteId, noteTitle, noteContent ->
@@ -129,78 +127,6 @@ class MainActivity : BaseActivity() {
         applyItemDecoration()
     }
 
-
-	/*private val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0,
-		ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
-		override fun onMove(
-			recyclerView: RecyclerView,
-			viewHolder: RecyclerView.ViewHolder,
-			target: RecyclerView.ViewHolder
-		): Boolean {
-			return false
-		}
-
-		override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-			val position = viewHolder.absoluteAdapterPosition
-
-			val itemViewWidth = viewHolder.itemView.width
-			val swipeDistance = abs(viewHolder.itemView.translationX)
-			val noteId = notesAdapter.getNoteIdAtPosition(position)
-
-			if (swipeDistance > itemViewWidth) {
-				notesAdapter.removeItem(position)
-				viewModel.deleteNotes(listOf(noteId))
-			}
-			else {
-				notesAdapter.notifyItemChanged(position)
-			}
-		}
-
-		override fun onChildDraw(
-			c: Canvas,
-			recyclerView: RecyclerView,
-			viewHolder: RecyclerView.ViewHolder,
-			dX: Float,
-			dY: Float,
-			actionState: Int,
-			isCurrentlyActive: Boolean
-		) {
-			val itemView = viewHolder.itemView
-			val backgroundColor = MaterialColors.getColor(itemView, androidx.appcompat.R.attr.colorError)
-			val deleteIcon: Drawable = AppCompatResources.getDrawable(applicationContext, R.drawable.delete_24px)!!
-
-			// Set up the Paint object
-			val backgroundPaint = Paint().apply {
-				color = backgroundColor
-				isAntiAlias = true
-				style = Paint.Style.FILL
-			}
-
-			val left = itemView.left.toFloat()
-			val right = itemView.right.toFloat()
-			val top = itemView.top.toFloat()
-			val bottom = itemView.bottom.toFloat()
-
-			val rectF = RectF(left, top, right, bottom)
-
-			c.drawRoundRect(rectF, 56f, 56f, backgroundPaint)
-
-			val iconColor = MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorOnError)
-			DrawableCompat.setTint(deleteIcon, iconColor)
-
-			val iconMargin = 32
-			val iconTop = (itemView.top + (itemView.height - deleteIcon.intrinsicHeight) / 2)
-			val iconBottom = iconTop + deleteIcon.intrinsicHeight
-			val iconLeft = if (dX > 0) { itemView.left + iconMargin } else { itemView.right - iconMargin - deleteIcon.intrinsicWidth }
-			val iconRight = iconLeft + deleteIcon.intrinsicWidth
-
-			deleteIcon.setBounds(iconLeft, iconTop, iconRight, iconBottom)
-			deleteIcon.draw(c)
-
-			super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-		}
-	}*/
-
 	private fun setupScrollBehavior() {
 		val fab = binding.fab
 		binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -213,6 +139,7 @@ class MainActivity : BaseActivity() {
 	}
 
 	private fun setupSearchManager() {
+        searchHistoryManager = SearchHistoryManager(this, "notes")
 		SearchManager(
 			binding = binding,
 			onBackPressedDispatcher = this.onBackPressedDispatcher,
@@ -229,12 +156,11 @@ class MainActivity : BaseActivity() {
 		with(binding.switchLayoutButton) {
 			this.setOnClickListener {
 				switchLayout()
-				if (isGridLayout) this.setIconResource(R.drawable.view_agenda_24px)
-				else this.setIconResource(R.drawable.grid_view_24px)
+				if (layoutMode == LayoutMode.LIST) this.setIconResource(R.drawable.grid_view_24px)
+				else this.setIconResource(R.drawable.view_agenda_24px)
 			}
 		}
 	}
-
 
 	private fun setupSideSheetButton() {
 		binding.sideSheetButton.icon = AppCompatResources.getDrawable(
@@ -286,6 +212,39 @@ class MainActivity : BaseActivity() {
             }
 		}
 	}
+
+    private fun setupInsets() {
+        InsetsHandler.applyViewInsets(binding.recyclerView)
+        InsetsHandler.applyFabInsets(binding.fab)
+        InsetsHandler.applyAppBarInsets(binding.appBarLayout)
+    }
+
+    private fun setupContextualToolbar() {
+        binding.contextualToolbar.apply {
+            inflateMenu(R.menu.menu_select_appbar)
+            setNavigationIcon(R.drawable.close_24px)
+            setNavigationOnClickListener { hideContextualToolbarAndClearSelection() }
+
+            setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.delete -> {
+                        deleteNotes(notesAdapter.getSelectedNotes())
+                        hideContextualToolbarAndClearSelection()
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }
+        InsetsHandler.applyAppBarInsets(binding.contextualToolbarContainer)
+    }
+
+    private fun setupFab() {
+        binding.fab.setOnClickListener {
+            val intent = Intent(this, NoteActivity::class.java)
+            startActivity(intent)
+        }
+    }
 
 	private fun observeViewModel() {
 		viewModel.isLoading.observe(this) {
@@ -353,67 +312,28 @@ class MainActivity : BaseActivity() {
 		binding.fragmentContainerView.visibility = View.GONE
 	}
 
-	private fun setupInsets() {
-		InsetsHandler.applyViewInsets(binding.recyclerView)
-		InsetsHandler.applyFabInsets(binding.fab)
-		InsetsHandler.applyAppBarInsets(binding.appBarLayout)
-	}
-
 	private fun switchLayout() {
-		layoutManager = if (isGridLayout) {
-			// Switch to LinearLayoutManager
-            StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
-		} else {
-			// Switch to StaggeredGridLayoutManager (2 columns)
-            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-		}
+        binding.recyclerView.layoutManager = layoutManager
+		layoutMode = if (layoutMode == LayoutMode.LIST) LayoutMode.GRID
+		else LayoutMode.LIST
 
-		binding.recyclerView.layoutManager = layoutManager
-		isGridLayout = !isGridLayout
+        applyLayout()
+	}
 
+    private fun applyLayout() {
+        binding.recyclerView.layoutManager =
+            StaggeredGridLayoutManager(
+                layoutMode.spanCount,
+                StaggeredGridLayoutManager.VERTICAL
+            )
         applyItemDecoration()
-	}
-
-	private fun applySavedTheme() {
-		val themeMode = PreferenceManager.getDefaultSharedPreferences(this)
-			.getInt("theme_mode", 0)
-
-		val mode = when (themeMode) {
-			1 -> AppCompatDelegate.MODE_NIGHT_NO
-			2 -> AppCompatDelegate.MODE_NIGHT_YES
-			else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-		}
-
-		AppCompatDelegate.setDefaultNightMode(mode)
-	}
+    }
 
     private fun checkNotificationPermission() {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
 		if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
 			ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 1)
 		}
-	}
-
-	private fun setupContextualToolbar() {
-		binding.contextualToolbar.apply {
-			inflateMenu(R.menu.menu_select_appbar)
-			setNavigationIcon(R.drawable.close_24px)
-			setNavigationOnClickListener { hideContextualToolbarAndClearSelection() }
-
-			setOnMenuItemClickListener { item ->
-				when (item.itemId) {
-					R.id.delete -> {
-                        deleteNotes(notesAdapter.getSelectedNotes())
-						hideContextualToolbarAndClearSelection()
-						true
-					}
-					else -> false
-				}
-			}
-		}
-
-
-		InsetsHandler.applyAppBarInsets(binding.contextualToolbarContainer)
 	}
 
 	private fun startActionModeAnimated() {
@@ -430,13 +350,12 @@ class MainActivity : BaseActivity() {
     private fun applyItemDecoration() {
         itemDecoration?.let { binding.recyclerView.removeItemDecoration(it) }
 
-        val spanCount = if (isGridLayout) 2 else 1
+        val spanCount = layoutMode.spanCount
         val spacingPx = 8.toPx()
 
         itemDecoration = SpaceItemDecoration(spanCount, spacingPx)
         binding.recyclerView.addItemDecoration(itemDecoration!!)
     }
-
 
     private fun deleteNotes(noteIds: List<String>) {
         val deletedNotes = viewModel.deleteNotesTemporarily(noteIds)
@@ -462,4 +381,3 @@ class MainActivity : BaseActivity() {
             }).show()
     }
 }
-

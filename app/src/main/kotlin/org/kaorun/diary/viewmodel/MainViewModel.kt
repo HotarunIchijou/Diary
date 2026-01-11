@@ -84,15 +84,29 @@ class MainViewModel : ViewModel() {
 		})
 	}
 
-	fun deleteNotes(noteIds: List<String>) {
-		val userId = firebaseAuth.currentUser?.uid ?: return
-		for (noteId in noteIds) {
-			databaseReference.child(userId).child(noteId).removeValue()
-			val index = notes.indexOfFirst { it.id == noteId }
-			if (index != -1) {
-				notes.removeAt(index)
-				_notesList.value = notes.toList()
-			}
-		}
-	}
+    fun deleteNotesTemporarily(noteIds: List<String>): List<NotesDatabase> {
+        val deletedNotes = mutableListOf<NotesDatabase>()
+
+        for (noteId in noteIds) {
+            val index = notes.indexOfFirst { it.id == noteId }
+            if (index != -1) {
+                deletedNotes.add(notes.removeAt(index))
+            }
+        }
+
+        _notesList.value = notes.toList()
+        return deletedNotes
+    }
+
+    fun restoreNotes(notesToRestore: List<NotesDatabase>) {
+        notes.addAll(notesToRestore)
+        _notesList.value = notes.toList()
+    }
+
+    fun permanentlyDeleteNotes(notesToDelete: List<NotesDatabase>) {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        for (note in notesToDelete) {
+            databaseReference.child(userId).child(note.id).removeValue()
+        }
+    }
 }

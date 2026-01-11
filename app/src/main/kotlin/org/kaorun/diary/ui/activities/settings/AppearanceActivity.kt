@@ -51,33 +51,33 @@ class AppearanceActivity : BaseActivity() {
 
         val themes = listOf(
             ThemePreview(
-                systemCtx.getThemeColor(com.google.android.material.R.attr.colorPrimaryFixedDim),
-                systemCtx.getThemeColor(com.google.android.material.R.attr.colorOnSecondaryFixedVariant),
-                systemCtx.getThemeColor(com.google.android.material.R.attr.colorOnTertiaryFixedVariant)
+                systemCtx.getThemeColor(com.google.android.material.R.attr.colorPrimaryVariant),
+                systemCtx.getThemeColor(com.google.android.material.R.attr.colorSecondary),
+                systemCtx.getThemeColor(com.google.android.material.R.attr.colorTertiary)
             ),
 
             ThemePreview(
-                ContextCompat.getColor(this, R.color.md_theme_primaryFixedDim),
-                ContextCompat.getColor(this, R.color.md_theme_onSecondaryFixedVariant),
-                ContextCompat.getColor(this, R.color.md_theme_onTertiaryFixedVariant)
+                ContextCompat.getColor(this, R.color.md_theme_primary),
+                ContextCompat.getColor(this, R.color.md_theme_secondary),
+                ContextCompat.getColor(this, R.color.md_theme_tertiary)
             ),
 
             ThemePreview(
-                ContextCompat.getColor(this, R.color.red_theme_primaryFixedDim),
-                ContextCompat.getColor(this, R.color.red_theme_onSecondaryFixedVariant),
-                ContextCompat.getColor(this, R.color.red_theme_onTertiaryFixedVariant)
+                ContextCompat.getColor(this, R.color.red_theme_primary),
+                ContextCompat.getColor(this, R.color.red_theme_secondary),
+                ContextCompat.getColor(this, R.color.red_theme_tertiary)
             ),
 
             ThemePreview(
-                ContextCompat.getColor(this, R.color.blue_theme_primaryFixedDim),
-                ContextCompat.getColor(this, R.color.blue_theme_onSecondaryFixedVariant),
-                ContextCompat.getColor(this, R.color.blue_theme_onTertiaryFixedVariant)
+                ContextCompat.getColor(this, R.color.blue_theme_primary),
+                ContextCompat.getColor(this, R.color.blue_theme_secondary),
+                ContextCompat.getColor(this, R.color.blue_theme_tertiary)
             ),
 
             ThemePreview(
-                ContextCompat.getColor(this, R.color.yellow_theme_primaryFixedDim),
-                ContextCompat.getColor(this, R.color.yellow_theme_onSecondaryFixedVariant),
-                ContextCompat.getColor(this, R.color.yellow_theme_onTertiaryFixedVariant)
+                ContextCompat.getColor(this, R.color.yellow_theme_primary),
+                ContextCompat.getColor(this, R.color.yellow_theme_secondary),
+                ContextCompat.getColor(this, R.color.yellow_theme_tertiary)
             ),
         )
 

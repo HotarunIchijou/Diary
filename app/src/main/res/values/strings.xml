@@ -87,4 +87,6 @@
     <string name="notes">Notes</string>
 	<string name="tasks">Tasks</string>
     <string name="register_icon">Register icon</string>
+    <string name="note_deleted">Note has been deleted</string>
+    <string name="notes_deleted">Notes have been deleted</string>
 </resources>

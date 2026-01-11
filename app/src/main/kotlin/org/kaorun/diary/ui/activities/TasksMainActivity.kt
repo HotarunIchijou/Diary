@@ -28,7 +28,7 @@ import org.kaorun.diary.ui.fragments.WelcomeFragment
 import org.kaorun.diary.ui.managers.SearchTasksManager
 import org.kaorun.diary.utils.InsetsHandler
 import org.kaorun.diary.utils.NotificationUtils.cancelNotification
-import org.kaorun.diary.utils.VerticalSpaceItemDecoration
+import org.kaorun.diary.utils.SpaceItemDecoration
 import org.kaorun.diary.viewmodel.TasksViewModel
 
 class TasksMainActivity : BaseActivity() {
@@ -118,7 +118,7 @@ class TasksMainActivity : BaseActivity() {
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = taskAdapter
-        recyclerView.addItemDecoration(VerticalSpaceItemDecoration(this))
+        recyclerView.addItemDecoration(SpaceItemDecoration())
 
         searchTasksManager = SearchTasksManager(
             binding = binding,

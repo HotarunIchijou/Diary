@@ -6,80 +6,88 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.listitem.ListItemViewHolder
 import org.kaorun.diary.data.TasksDatabase
 import org.kaorun.diary.databinding.ItemTaskBinding
 import org.kaorun.diary.utils.DateUtils.formatDate
 
 class TasksAdapter(
     private var tasks: List<TasksDatabase>,
-    private val onItemClicked: (taskId: String, title: String, isCompleted: Boolean, time: String?, date: String?) -> Unit,
+    private val onItemClicked: (
+        taskId: String,
+        title: String,
+        isCompleted: Boolean,
+        time: String?,
+        date: String?
+    ) -> Unit,
     private val onTaskChecked: (task: TasksDatabase, isChecked: Boolean) -> Unit
-) : RecyclerView.Adapter<TasksAdapter.TaskViewHolder>() {
+) : RecyclerView.Adapter<ListItemViewHolder>() {
 
-    // ViewHolder to hold each item view
-    inner class TaskViewHolder(private val binding: ItemTaskBinding)
-        : RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(task: TasksDatabase) {
-            val formattedDate = when {
-                task.date.isNullOrEmpty() && task.time.isNullOrEmpty() -> null
-                task.date.isNullOrEmpty() -> task.time
-                task.time.isNullOrEmpty() -> formatDate(binding.root.context, task.date)
-                else -> {
-                    val formattedDate = formatDate(binding.root.context, task.date)
-                    if (formattedDate != null) "${formattedDate}, ${task.time}" else task.time
-                }
-            }
-
-
-            binding.taskTitle.text = task.title
-            binding.date.text = formattedDate
-            binding.listItemLayout.updateAppearance(layoutPosition, itemCount)
-            val color = TypedValue()
-            binding.root.context.theme.resolveAttribute(
-                if (task.isCompleted) com.google.android.material.R.attr.colorOnSurfaceVariant
-                else android.R.attr.colorPrimary,
-                color,
-                true
-            )
-            binding.date.setTextColor(color.data)
-
-
-
-            binding.date.isVisible = !formattedDate.isNullOrEmpty()
-            binding.root.setOnClickListener {
-                onItemClicked(task.id, task.title, task.isCompleted, task.time, task.date)
-            }
-
-            binding.checkbox.isChecked = task.isCompleted
-
-            binding.checkbox.setOnClickListener {
-                val updatedTask = task.copy(isCompleted = binding.checkbox.isChecked)
-                onTaskChecked(updatedTask, binding.checkbox.isChecked)
-            }
-        }
-    }
-
-    // Create a new view holder for each task item
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListItemViewHolder {
         val binding = ItemTaskBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
-            false)
-        return TaskViewHolder(binding)
+            false
+        )
+        return ListItemViewHolder(binding.root)
     }
 
-    // Bind data to the views in the ViewHolder
-    override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-        holder.bind(tasks[position])
+    override fun onBindViewHolder(holder: ListItemViewHolder, position: Int) {
+        holder.bind(position, itemCount)
+
+        val binding = ItemTaskBinding.bind(holder.itemView)
+        val task = tasks[position]
+
+        val formattedDate = when {
+            task.date.isNullOrEmpty() && task.time.isNullOrEmpty() -> null
+            task.date.isNullOrEmpty() -> task.time
+            task.time.isNullOrEmpty() -> formatDate(binding.root.context, task.date)
+            else -> {
+                val date = formatDate(binding.root.context, task.date)
+                if (date != null) "$date, ${task.time}" else task.time
+            }
+        }
+
+        binding.taskTitle.text = task.title
+        binding.date.text = formattedDate
+        binding.date.isVisible = !formattedDate.isNullOrEmpty()
+
+        val color = TypedValue()
+        binding.root.context.theme.resolveAttribute(
+            if (task.isCompleted)
+                com.google.android.material.R.attr.colorOnSurfaceVariant
+            else
+                android.R.attr.colorPrimary,
+            color,
+            true
+        )
+        binding.date.setTextColor(color.data)
+
+        binding.checkbox.isChecked = task.isCompleted
+
+        binding.root.setOnClickListener {
+            onItemClicked(
+                task.id,
+                task.title,
+                task.isCompleted,
+                task.time,
+                task.date
+            )
+        }
+
+        binding.checkbox.setOnClickListener {
+            onTaskChecked(
+                task.copy(isCompleted = binding.checkbox.isChecked),
+                binding.checkbox.isChecked
+            )
+        }
     }
 
-    // Return the number of tasks in the list
     override fun getItemCount(): Int = tasks.size
 
     @SuppressLint("NotifyDataSetChanged")
     fun updateTasks(newTasks: List<TasksDatabase>) {
-        tasks = newTasks // Update the data
-        notifyDataSetChanged() // Refresh the RecyclerView
+        tasks = newTasks
+        notifyDataSetChanged()
     }
 }

@@ -31,8 +31,8 @@
 
 ## 🛠️ Tech Stack  
 - **Programming language**: Kotlin  
-- **Design framework**: Material Design 3
-- **Database**: Firebase Realtime Database 
+- **Design framework**: Material 3 Expressive
+- **Database**: Firebase Realtime Database, Room Database (SQLite)
 
 ## 🚀 Usage  
 1. Open the app and register or log in into existing account

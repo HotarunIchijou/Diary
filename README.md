@@ -2,13 +2,13 @@
 
 🇬🇧EN/[🇷🇺RU](https://github.com/HotarunIchijou/Diary/blob/master/README_ru.md)
 
-**Diary** is a simple and elegant mobile application built in **Kotlin** with **Material 3 Design**. It features a **rich text editor** that allows users to format text with bold, italic, and underlined styles, making it perfect for journaling or documenting thoughts and ideas. This app is being developed as part of a **college project**.  
+**Diary** is a simple and elegant mobile application built in **Kotlin** with **Material 3 Expressive Design**. It features a **rich text editor** that allows users to format text with bold, italic, and underlined styles, making it perfect for journaling or documenting thoughts and ideas. This app is being developed as part of a **college project**.  
 
 ## ✨ Key features  
 - **Rich text editor**:  
   Add bold, italic, and underlined text to your entries 
 
-- **Material 3 design**:  
+- **Material 3 Expressive design**:  
   Sleek and modern UI with support for light and dark modes
 
 - **Firebase integration**:  
@@ -17,8 +17,7 @@
 ## 🎨 Screenshots  
 | ![Screenshot 1](assets/Screenshot_20251130-130119.png) | ![Screenshot 2](assets/Screenshot_20251130-130150.png) | ![Screenshot 3](assets/Screenshot_20251130-130240.png)
 |---                                                     |---                                                     |---   
-| ![Screenshot 4](assets/Screenshot_20251130-130431.png) | ![Screenshot 5](assets/Screenshot_20251130-130413.png) | ![Screenshot 6](assets/Screenshot_20251130-130436.png)             
-|---                                                     |---                                                     |---   
+| ![Screenshot 4](assets/Screenshot_20251130-130431.png) | ![Screenshot 5](assets/Screenshot_20251130-130413.png) | ![Screenshot 6](assets/Screenshot_20251130-130436.png)           
 | ![Screenshot 7](assets/Screenshot_20251130-130624.png) | ![Screenshot 8](assets/Screenshot_20251130-130459.png) | ![Screenshot 9](assets/Screenshot_20251130-130710.png)
 
 ## 📲 Installation  

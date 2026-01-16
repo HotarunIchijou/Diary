@@ -97,7 +97,7 @@ class NotesAdapter(
 
     @SuppressLint("NotifyDataSetChanged")
     fun updateNotes(newNotes: MutableList<NotesDatabase>) {
-        notes = newNotes
+        notes = newNotes.asReversed()
         notifyDataSetChanged()
     }
 }

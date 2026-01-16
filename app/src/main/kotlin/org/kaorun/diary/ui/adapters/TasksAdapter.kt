@@ -87,7 +87,7 @@ class TasksAdapter(
 
     @SuppressLint("NotifyDataSetChanged")
     fun updateTasks(newTasks: List<TasksDatabase>) {
-        tasks = newTasks
+        tasks = newTasks.asReversed()
         notifyDataSetChanged()
     }
 }

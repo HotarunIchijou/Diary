@@ -16,7 +16,6 @@ import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -117,7 +116,10 @@ class MainActivity : BaseActivity() {
             }
         )
 
-		layoutManager = LinearLayoutManager(this)
+		layoutManager = StaggeredGridLayoutManager(
+            layoutMode.spanCount,
+            StaggeredGridLayoutManager.VERTICAL
+        )
 		binding.recyclerView.itemAnimator = DefaultItemAnimator()
 		binding.recyclerView.apply {
 			adapter = notesAdapter

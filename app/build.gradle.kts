@@ -17,8 +17,6 @@ android {
         targetSdk = 36
         versionCode = 6
         versionName = "1.2.0"
-
-		setProperty("archivesBaseName", "Diary-$versionName")
     }
 
     buildTypes {
@@ -57,6 +55,10 @@ android {
 	buildFeatures{
 		viewBinding = true
 	}
+}
+
+base {
+    archivesName = "Diary-${android.defaultConfig.versionName}"
 }
 
 dependencies {

@@ -18,11 +18,13 @@
             style="?collapsingToolbarLayoutLargeStyle"
             android:id="@+id/collapsingToolbar"
             android:layout_width="match_parent"
-            android:layout_height="172dp"
+            android:layout_height="wrap_content"
+            app:expandedTitleMarginStart="24dp"
+            app:expandedTitleMarginEnd="24dp"
+            app:expandedTitleMarginTop="106dp"
+            app:expandedTitleMarginBottom="32dp"
             app:collapsedTitleTextAppearance="?textAppearanceTitleLargeEmphasized"
             app:expandedTitleTextAppearance="?textAppearanceDisplaySmallEmphasized"
-            app:expandedTitleMarginStart="24dp"
-            app:expandedTitleMarginBottom="24dp"
             app:titleCollapseMode="scale"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 

@@ -15,7 +15,8 @@
         android:minHeight="?listPreferredItemHeight"
         android:clickable="true"
         android:focusable="true"
-        android:checkable="true">
+        android:checkable="true"
+        app:cardBackgroundColor="?colorSurfaceBright">
 
         <TextView
             android:id="@+id/note_title"
@@ -23,7 +24,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:textAppearance="?attr/textAppearanceHeadlineSmall"
-            android:maxLines="4"
+            android:maxLines="3"
             tools:text="@string/app_name" />
 
     </com.google.android.material.listitem.ListItemCardView>

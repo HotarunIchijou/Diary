@@ -17,8 +17,11 @@
             style="?collapsingToolbarLayoutLargeStyle"
             android:id="@+id/collapsingToolbar"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="172dp"
+            app:collapsedTitleTextAppearance="?textAppearanceTitleLargeEmphasized"
+            app:expandedTitleTextAppearance="?textAppearanceDisplaySmallEmphasized"
             app:expandedTitleMarginStart="24dp"
+            app:expandedTitleMarginBottom="24dp"
             app:titleCollapseMode="scale"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -43,7 +46,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:paddingTop="16dp"
         android:layout_marginHorizontal="16dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 

@@ -18,8 +18,11 @@
             style="?collapsingToolbarLayoutLargeStyle"
             android:id="@+id/collapsingToolbar"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="172dp"
+            app:collapsedTitleTextAppearance="?textAppearanceTitleLargeEmphasized"
+            app:expandedTitleTextAppearance="?textAppearanceDisplaySmallEmphasized"
             app:expandedTitleMarginStart="24dp"
+            app:expandedTitleMarginBottom="24dp"
             app:titleCollapseMode="scale"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -36,7 +39,6 @@
                 tools:ignore="RtlSymmetry" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
-
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -56,24 +58,25 @@
                 layout="@layout/theme_illustration"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"/>
+                android:layout_marginVertical="8dp"
+                android:layout_marginHorizontal="16dp" />
 
             <com.google.android.material.card.MaterialCardView
                 style="?materialCardViewFilledStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:backgroundTint="?colorSurface"
-                app:cardCornerRadius="16dp">
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="?colorSurfaceBright"
+                app:cardCornerRadius="?shapeCornerSizeLargeIncreased">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
-                    android:overScrollMode="never"
-                    android:nestedScrollingEnabled="false" />
-
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never" />
             </com.google.android.material.card.MaterialCardView>
 
             <androidx.fragment.app.FragmentContainerView
@@ -81,10 +84,8 @@
                 android:name="org.kaorun.diary.ui.fragments.AppearanceFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:layout_marginHorizontal="16dp"
                 android:clipToPadding="false" />
-
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

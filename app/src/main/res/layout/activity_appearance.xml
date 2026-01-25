@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             app:expandedTitleMarginStart="24dp"
             app:expandedTitleMarginEnd="24dp"
-            app:expandedTitleMarginTop="106dp"
+            app:expandedTitleMarginTop="102dp"
             app:expandedTitleMarginBottom="32dp"
             app:collapsedTitleTextAppearance="?textAppearanceTitleLargeEmphasized"
             app:expandedTitleTextAppearance="?textAppearanceDisplaySmallEmphasized"
@@ -31,7 +31,7 @@
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="56dp"
                 android:theme="@style/ThemeOverlay.CircleNavigationButton"
                 android:paddingStart="16dp"
                 app:titleMarginStart="8dp"

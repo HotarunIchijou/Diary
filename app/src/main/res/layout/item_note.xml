@@ -5,7 +5,8 @@
     style="?listItemLayoutStyle"
     android:id="@+id/list_item_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent">
 
     <com.google.android.material.listitem.ListItemCardView
         style="?listItemCardViewSegmentedStyle"
@@ -15,8 +16,7 @@
         android:minHeight="?listPreferredItemHeight"
         android:clickable="true"
         android:focusable="true"
-        android:checkable="true"
-        app:cardBackgroundColor="?colorSurfaceBright">
+        android:checkable="true">
 
         <TextView
             android:id="@+id/note_title"

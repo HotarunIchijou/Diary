@@ -10,12 +10,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import org.kaorun.diary.R
 import org.kaorun.diary.data.ThemePreview
 import org.kaorun.diary.databinding.ActivityAppearanceBinding
-import org.kaorun.diary.ui.activities.BaseActivity
 import org.kaorun.diary.ui.adapters.ThemeAdapter
 import org.kaorun.diary.ui.fragments.AppearanceFragment
 import org.kaorun.diary.utils.InsetsHandler
 
-class AppearanceActivity : BaseActivity() {
+class AppearanceActivity : BaseSettingsActivity() {
     private lateinit var binding: ActivityAppearanceBinding
     private val prefs by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
 
@@ -25,7 +24,7 @@ class AppearanceActivity : BaseActivity() {
         setContentView(binding.root)
 
         setupInsets()
-        setupToolbar()
+        setupToolbar(binding.appBarLayout, binding.toolbar, binding.collapsingToolbar)
         setupRecyclerView()
 
         if (savedInstanceState == null) {
@@ -39,11 +38,6 @@ class AppearanceActivity : BaseActivity() {
         InsetsHandler.applyViewInsets(binding.recyclerView)
         InsetsHandler.applyViewInsets(binding.illustration)
         InsetsHandler.applyAppBarInsets(binding.appBarLayout)
-    }
-
-    private fun setupToolbar() {
-        binding.appBarLayout.setExpanded(false)
-        binding.toolbar.setNavigationOnClickListener { finish() }
     }
 
     private fun setupRecyclerView() {

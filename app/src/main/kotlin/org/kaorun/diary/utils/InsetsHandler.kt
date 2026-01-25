@@ -60,7 +60,8 @@ object InsetsHandler {
 	fun applyAppBarInsets(view: View) {
 		ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
 			val bars = insets.getInsets(
-				WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout(),
+				WindowInsetsCompat.Type.systemBars()
+                        or WindowInsetsCompat.Type.displayCutout()
 			)
 			v.updatePadding(
 				left = bars.left,

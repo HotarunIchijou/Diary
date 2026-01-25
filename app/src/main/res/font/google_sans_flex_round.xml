@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<font-family xmlns:android="http://schemas.android.com/apk/res/android">
+    <font
+        android:font="@font/google_sans_flex_variable"
+        android:fontStyle="normal"
+        android:fontWeight="500"
+        android:fontVariationSettings="'ROND' 100, 'GRAD' 100" />
+</font-family>

@@ -1,32 +1,31 @@
 [versions]
-agp = "8.13.2"
-kotlin = "2.3.0"
+agp = "9.0.0"
 coreKtx = "1.17.0"
 appcompat = "1.7.1"
-activity = "1.12.2"
+activity = "1.12.3"
 constraintlayout = "2.2.1"
 googleGmsGoogleServices = "4.4.4"
 firebaseDatabase = "22.0.1"
 firebaseAuth = "24.0.1"
-navigationFragment = "2.9.6"
+navigationFragment = "2.9.7"
 annotation = "1.9.1"
 lifecycleLivedataKtx = "2.10.0"
 lifecycleViewmodelKtx = "2.10.0"
-navigationFragmentKtx = "2.9.6"
-navigationUiKtx = "2.9.6"
+navigationFragmentKtx = "2.9.7"
+navigationUiKtx = "2.9.7"
 androidRteditor = "1.8.0"
-transitionKtx = "1.6.0"
+transitionKtx = "1.7.0"
 fragmentKtx = "1.8.9"
 playServicesAuth = "21.5.0"
-googleid = "1.1.1"
+googleid = "1.2.0"
 credentialsPlayServicesAuth = "1.5.0"
-firebaseBom = "34.7.0"
+firebaseBom = "34.8.0"
 credentials = "1.5.0"
 preferenceKtx = "1.2.1"
 roomCompiler = "2.8.4"
 roomRuntime = "2.8.4"
 ksp = "2.3.4"
-material = "1.14.0-alpha08"
+material = "1.14.0-alpha09"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -57,7 +56,6 @@ androidx-room-runtime = { group = "androidx.room", name = "room-runtime", versio
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
 

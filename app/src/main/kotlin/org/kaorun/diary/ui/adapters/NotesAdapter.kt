@@ -1,6 +1,7 @@
 package org.kaorun.diary.ui.adapters
 
 import android.annotation.SuppressLint
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.text.HtmlCompat
@@ -60,7 +61,7 @@ class NotesAdapter(
         }
 
         binding.deleteButton.setOnClickListener {
-            binding.listItemLayout.swipeState = SwipeableListItem.STATE_CLOSED
+            binding.listItemLayout.setSwipeState(SwipeableListItem.STATE_CLOSED, Gravity.END)
             onDeleteClicked(note.id)
         }
     }

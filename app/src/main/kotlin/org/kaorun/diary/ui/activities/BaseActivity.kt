@@ -9,6 +9,10 @@ import org.kaorun.diary.R
 
 abstract class BaseActivity : AppCompatActivity() {
 
+    companion object {
+        const val ROUND_GRAD_TYPEFACE = "'ROND' 100, 'GRAD' 100"
+    }
+
     protected var cachedThemeIndex: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {

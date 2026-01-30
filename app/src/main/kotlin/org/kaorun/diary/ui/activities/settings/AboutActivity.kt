@@ -23,6 +23,8 @@ class AboutActivity : BaseActivity() {
 
         val versionName = packageManager.getPackageInfo(packageName, 0).versionName
         binding.version.text = versionName
+        binding.appName.fontVariationSettings = ROUND_GRAD_TYPEFACE
+        binding.description.fontVariationSettings = ROUND_GRAD_TYPEFACE
 
         setupInsets()
         setupToolbar()

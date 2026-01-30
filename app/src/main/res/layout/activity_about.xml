@@ -51,7 +51,7 @@
                 android:layout_width="240dp"
                 android:layout_height="240dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="24dp"
                 android:background="@drawable/shape_flower"
                 android:backgroundTint="?attr/colorPrimaryContainer">
 
@@ -72,11 +72,11 @@
                 android:layout_marginHorizontal="16dp">
 
                 <TextView
-                    android:id="@+id/appName"
+                    android:id="@+id/app_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/app_name"
-                    android:textAppearance="?attr/textAppearanceHeadlineLargeEmphasized"
+                    android:textAppearance="?attr/textAppearanceDisplaySmallEmphasized"
                     android:textColor="?attr/colorOnSurface"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -90,16 +90,17 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="-8dp"
                     android:layout_marginTop="24dp"
-                    android:layout_marginBottom="-24dp"
+                    android:layout_marginBottom="-32dp"
                     android:backgroundTint="?attr/colorTertiaryContainer"
                     android:clickable="false"
                     android:minWidth="0dp"
                     android:minHeight="0dp"
                     android:paddingHorizontal="8dp"
                     android:textAppearance="?attr/textAppearanceLabelSmall"
+                    android:textFontWeight="600"
                     android:textColor="?attr/colorOnTertiaryContainer"
-                    app:layout_constraintBottom_toTopOf="@+id/appName"
-                    app:layout_constraintStart_toEndOf="@id/appName"
+                    app:layout_constraintBottom_toTopOf="@+id/app_name"
+                    app:layout_constraintStart_toEndOf="@id/app_name"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="1.0.0-beta01" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -111,13 +112,13 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="@string/simple_elegant_productive"
-                android:textAppearance="?attr/textAppearanceTitleLarge"
+                android:textAppearance="?attr/textAppearanceTitleLargeEmphasized"
                 android:textColor="?attr/colorOnSurface"
                 android:layout_marginHorizontal="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/appName" />
+                app:layout_constraintTop_toBottomOf="@id/app_name" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"

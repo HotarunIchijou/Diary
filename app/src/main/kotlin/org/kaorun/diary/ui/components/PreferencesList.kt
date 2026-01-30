@@ -26,10 +26,7 @@ class PreferencesList @JvmOverloads constructor(
         val position = recyclerView?.getChildAdapterPosition(holder.itemView) ?: 0
         val itemCount = recyclerView?.adapter?.itemCount ?: 1
 
-        binding.title.text = title
-        binding.summary.text = summary
-        binding.icon.setImageDrawable(icon)
-
+        binding.bindSetting(title, summary, iconDrawable = icon)
         binding.listItemLayout.updateAppearance(position, itemCount)
     }
 }

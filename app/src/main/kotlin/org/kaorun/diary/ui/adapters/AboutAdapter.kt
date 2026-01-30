@@ -2,11 +2,11 @@ package org.kaorun.diary.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.listitem.ListItemViewHolder
 import org.kaorun.diary.data.SettingsItem
 import org.kaorun.diary.databinding.ItemSettingBinding
+import org.kaorun.diary.ui.components.bindSetting
 
 class AboutAdapter(
     private val items: List<SettingsItem>,
@@ -28,15 +28,7 @@ class AboutAdapter(
         val binding = ItemSettingBinding.bind(holder.itemView)
         val item = items[position]
 
-        binding.title.text = item.title
-        binding.summary.text = item.summary
-
-        if (item.icon != null) {
-            binding.icon.setImageResource(item.icon)
-            binding.icon.isVisible = true
-        } else {
-            binding.icon.isVisible = false
-        }
+        binding.bindSetting(item.title, item.summary, item.icon)
 
         holder.itemView.setOnClickListener {
             item.url?.let(onUrlClick)

@@ -50,7 +50,7 @@
 		<item name="cornerSize">?attr/shapeCornerSizeLargeIncreased</item>
 	</style>
     
-    <style name="Widget.Material3.ListItemCardView.Segmented" parent="Widget.Material3.ListItemCardView.Segmented" tools:override="true">
+    <style name="Widget.Material3.ListItemCardView.Segmented" parent="" tools:override="true">
         <item name="cardBackgroundColor">@color/segmented_list_item_background</item>
     </style>
 

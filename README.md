@@ -1,3 +1,6 @@
+> [!WARNING]
+> This app is being deprecated and won't be maintained anymore. Consider using my another project: [Nouto](https://github.com/HotarunIchijou/Nouto)
+
 # 📖 Diary
 
 🇬🇧EN/[🇷🇺RU](https://github.com/HotarunIchijou/Diary/blob/master/README_ru.md)

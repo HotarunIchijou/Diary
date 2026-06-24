@@ -44,9 +44,9 @@ class WelcomeFragment : BaseFragment() {
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		_binding = FragmentWelcomeBinding.inflate(inflater, container, false)
-		InsetsHandler.applyViewInsets(binding.root)
-
-		return binding.root
+		InsetsHandler.applyAppBarInsets(binding.header)
+        InsetsHandler.applyViewInsets(binding.buttonsGroup, 0)
+        return binding.root
 	}
 
 

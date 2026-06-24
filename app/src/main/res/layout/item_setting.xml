@@ -2,60 +2,77 @@
 <com.google.android.material.listitem.ListItemLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="?attr/listItemLayoutSegmentedStyle"
-    android:id="@+id/listItemLayout"
+    style="?listItemLayoutStyle"
+    android:id="@+id/list_item_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/transparent">
+    android:background="@android:color/transparent"> <!-- required for Preference ripple to display correct shape -->
 
-    <com.google.android.material.card.MaterialCardView
+    <com.google.android.material.listitem.ListItemCardView
+        style="?listItemCardViewSegmentedStyle"
+        android:id="@+id/list_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:checkable="false">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingVertical="8dp">
+            android:layout_marginVertical="6dp">
 
-            <ImageView
-                android:id="@+id/icon"
+            <FrameLayout
+                android:id="@+id/icon_frame"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:importantForAccessibility="no"
-                android:layout_marginVertical="16dp"
-                android:layout_marginStart="16dp"
-                app:tint="?attr/colorOnSurfaceVariant"
-                tools:src="@drawable/info_24px" />
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="12dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:importantForAccessibility="no"
+                    app:tint="?attr/colorOnSurfaceVariant"
+                    tools:src="@drawable/info_24px" />
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginHorizontal="16dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?attr/textAppearanceTitleMedium"
+                    android:textAppearance="?textAppearanceListItem"
+                    android:layout_gravity="top"
+                    android:maxLines="1"
+                    android:includeFontPadding="false"
+                    android:lineHeight="21sp"
+                    android:firstBaselineToTopHeight="16.5sp"
+                    android:lastBaselineToBottomHeight="4.5sp"
                     tools:text="Title" />
 
                 <TextView
                     android:id="@+id/summary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                    android:layout_gravity="bottom"
+                    android:textAppearance="?textAppearanceListItemSecondary"
                     android:textColor="?colorOnSurfaceVariant"
+                    android:maxLines="2"
+                    android:includeFontPadding="false"
+                    android:lineHeight="18sp"
+                    android:firstBaselineToTopHeight="15sp"
+                    android:lastBaselineToBottomHeight="4sp"
                     tools:text="Summary" />
-
             </LinearLayout>
-
         </LinearLayout>
-
-    </com.google.android.material.card.MaterialCardView>
-
-
+    </com.google.android.material.listitem.ListItemCardView>
 </com.google.android.material.listitem.ListItemLayout>

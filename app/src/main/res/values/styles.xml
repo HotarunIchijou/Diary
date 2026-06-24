@@ -19,7 +19,7 @@
 		<item name="color">@color/material_dynamic_primary40</item>
 	</style>
 
-	<style name="ShapeAppearance.Material3.ListItem.First" parent="" tools:override="true">
+    <style name="ShapeAppearance.Material3.ListItem.First" parent="" tools:override="true">
 		<item name="cornerFamily">?attr/shapeCornerFamily</item>
 		<item name="cornerSizeTopLeft">?attr/shapeCornerSizeLargeIncreased</item>
 		<item name="cornerSizeTopRight">?attr/shapeCornerSizeLargeIncreased</item>
@@ -49,5 +49,9 @@
 		<item name="cornerFamily">?attr/shapeCornerFamily</item>
 		<item name="cornerSize">?attr/shapeCornerSizeLargeIncreased</item>
 	</style>
+    
+    <style name="Widget.Material3.ListItemCardView.Segmented" parent="" tools:override="true">
+        <item name="cardBackgroundColor">@color/segmented_list_item_background</item>
+    </style>
 
 </resources>

@@ -2,43 +2,37 @@ package org.kaorun.diary.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.listitem.ListItemViewHolder
 import org.kaorun.diary.data.SettingsItem
 import org.kaorun.diary.databinding.ItemSettingBinding
+import org.kaorun.diary.ui.components.bindSetting
 
 class AboutAdapter(
     private val items: List<SettingsItem>,
     private val onUrlClick: (String) -> Unit
-) : RecyclerView.Adapter<AboutAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<ListItemViewHolder>() {
 
-    inner class ViewHolder(
-        private val binding: ItemSettingBinding
-    ) : RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(item: SettingsItem) {
-            binding.title.text = item.title
-            binding.summary.text = item.summary
-            binding.listItemLayout.updateAppearance(layoutPosition, itemCount)
-            if (item.icon != null) binding.icon.setImageResource(item.icon) else binding.icon.isVisible = false
-            binding.root.setOnClickListener {
-                val pos = bindingAdapterPosition
-                if (pos != RecyclerView.NO_POSITION) {
-                   if (item.url != null)onUrlClick(item.url)
-                }
-            }
-        }
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListItemViewHolder {
         val binding = ItemSettingBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false
+            LayoutInflater.from(parent.context),
+            parent,
+            false
         )
-        return ViewHolder(binding)
+        return ListItemViewHolder(binding.root)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(items[position])
+    override fun onBindViewHolder(holder: ListItemViewHolder, position: Int) {
+        holder.bind(position, itemCount)
+
+        val binding = ItemSettingBinding.bind(holder.itemView)
+        val item = items[position]
+
+        binding.bindSetting(item.title, item.summary, item.icon)
+
+        holder.itemView.setOnClickListener {
+            item.url?.let(onUrlClick)
+        }
     }
 
     override fun getItemCount(): Int = items.size

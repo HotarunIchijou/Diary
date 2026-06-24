@@ -1,107 +1,104 @@
 package org.kaorun.diary.ui.adapters
 
 import android.annotation.SuppressLint
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.listitem.ListItemViewHolder
+import com.google.android.material.listitem.SwipeableListItem
 import org.kaorun.diary.data.NotesDatabase
-import org.kaorun.diary.databinding.NotesItemBinding
+import org.kaorun.diary.databinding.ItemNoteBinding
 
 class NotesAdapter(
-	private var notes: MutableList<NotesDatabase>,
-	private val onItemClicked: (noteId: String, noteTitle:String, noteContent: String) -> Unit,
-	private val onSelectionChanged: (isSelectionModeActive: Boolean) -> Unit
-) : RecyclerView.Adapter<NotesAdapter.NoteViewHolder>() {
+    private var notes: MutableList<NotesDatabase>,
+    private val onItemClicked: (noteId: String, noteTitle: String, noteContent: String) -> Unit,
+    private val onSelectionChanged: (isSelectionModeActive: Boolean) -> Unit,
+    private val onDeleteClicked: (noteId: String) -> Unit
+) : RecyclerView.Adapter<ListItemViewHolder>() {
 
-	private val selectedNotes = mutableSetOf<String>() // Track selected notes
-	var isSelectionModeActive = false
+    private val selectedNotes = mutableSetOf<String>()
+    var isSelectionModeActive = false
 
-	inner class NoteViewHolder(private val binding: NotesItemBinding) :
-		RecyclerView.ViewHolder(binding.root) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListItemViewHolder {
+        val binding = ItemNoteBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return ListItemViewHolder(binding.root)
+    }
 
-		fun bind(note: NotesDatabase, position: Int) {
-			val isSelected = selectedNotes.contains(note.id)
+    override fun onBindViewHolder(holder: ListItemViewHolder, position: Int) {
+        holder.bind(0, 1)
 
-			binding.CardView.isChecked = isSelected
-			binding.noteTitle.text = HtmlCompat.fromHtml(
-				(note.title.ifEmpty { note.note }),
-				HtmlCompat.FROM_HTML_MODE_COMPACT)
+        val binding = ItemNoteBinding.bind(holder.itemView)
+        val note = notes[position]
+        val isSelected = selectedNotes.contains(note.id)
 
-			// Handle click and long-click events
-			binding.root.setOnClickListener {
-				if (isSelectionModeActive) {
-					toggleSelection(note.id, position)
-				} else {
-					onItemClicked(note.id, note.title, note.note)
-				}
-			}
+        binding.listItem.isChecked = isSelected
 
-			binding.root.setOnLongClickListener {
-				isSelectionModeActive = true
-				toggleSelection(note.id, position)
-				true
-			}
-		}
-	}
+        binding.noteTitle.text = HtmlCompat.fromHtml(
+            note.title.ifEmpty { note.note },
+            HtmlCompat.FROM_HTML_MODE_COMPACT
+        )
 
-	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
-		val binding = NotesItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-		return NoteViewHolder(binding)
-	}
+        binding.listItem.setOnClickListener {
+            if (isSelectionModeActive) {
+                toggleSelection(note.id, position)
+            } else {
+                onItemClicked(note.id, note.title, note.note)
+            }
+        }
 
-	override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
-		holder.bind(notes[position], position)
-	}
+        binding.listItem.setOnLongClickListener {
+            if (!isSelectionModeActive) {
+                isSelectionModeActive = true
+            }
+            toggleSelection(note.id, position)
+            true
+        }
 
-	override fun getItemCount(): Int = notes.size
+        binding.deleteButton.setOnClickListener {
+            binding.listItemLayout.setSwipeState(SwipeableListItem.STATE_CLOSED, Gravity.END)
+            onDeleteClicked(note.id)
+        }
+    }
 
-	// Toggle selection state
-	fun toggleSelection(noteId: String, position: Int) {
-		if (selectedNotes.contains(noteId)) {
-			selectedNotes.remove(noteId)
-		} else {
-			selectedNotes.add(noteId)
-		}
+    override fun getItemCount(): Int = notes.size
 
-		notifyItemChanged(position)
+    fun toggleSelection(noteId: String, position: Int) {
+        if (selectedNotes.contains(noteId)) {
+            selectedNotes.remove(noteId)
+        } else {
+            selectedNotes.add(noteId)
+        }
 
-		isSelectionModeActive = selectedNotes.isNotEmpty()
-		onSelectionChanged(isSelectionModeActive)
-	}
+        notifyItemChanged(position)
 
-	// Clear all selections
-	fun clearSelection() {
-		val previouslySelected = selectedNotes.toList() // Track selected notes for efficient updates
-		selectedNotes.clear()
-		isSelectionModeActive = false
+        isSelectionModeActive = selectedNotes.isNotEmpty()
+        onSelectionChanged(isSelectionModeActive)
+    }
 
-		// Update previously selected items
-		previouslySelected.forEach { noteId ->
-			val position = notes.indexOfFirst { it.id == noteId }
-			if (position != -1) notifyItemChanged(position)
-		}
+    fun clearSelection() {
+        val previouslySelected = selectedNotes.toList()
+        selectedNotes.clear()
+        isSelectionModeActive = false
 
-		onSelectionChanged(false)
-	}
+        previouslySelected.forEach { id ->
+            val pos = notes.indexOfFirst { it.id == id }
+            if (pos != -1) notifyItemChanged(pos)
+        }
 
-	// Get selected notes
-	fun getSelectedNotes(): List<String> {
-		return selectedNotes.toList()
-	}
+        onSelectionChanged(false)
+    }
 
-	fun getNoteIdAtPosition(position: Int): String {
-		return notes[position].id
-	}
+    fun getSelectedNotes(): List<String> = selectedNotes.toList()
 
-	@SuppressLint("NotifyDataSetChanged")
+    @SuppressLint("NotifyDataSetChanged")
     fun updateNotes(newNotes: MutableList<NotesDatabase>) {
-		notes = newNotes // Update the data
-		notifyDataSetChanged() // Refresh the RecyclerView
-	}
-
-	fun removeItem(position: Int) {
-		notes.removeAt(position)
-		notifyItemRemoved(position)
-	}
+        notes = newNotes.asReversed()
+        notifyDataSetChanged()
+    }
 }

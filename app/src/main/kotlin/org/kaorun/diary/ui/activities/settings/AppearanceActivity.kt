@@ -10,12 +10,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import org.kaorun.diary.R
 import org.kaorun.diary.data.ThemePreview
 import org.kaorun.diary.databinding.ActivityAppearanceBinding
-import org.kaorun.diary.ui.activities.BaseActivity
 import org.kaorun.diary.ui.adapters.ThemeAdapter
 import org.kaorun.diary.ui.fragments.AppearanceFragment
 import org.kaorun.diary.utils.InsetsHandler
 
-class AppearanceActivity : BaseActivity() {
+class AppearanceActivity : BaseSettingsActivity() {
     private lateinit var binding: ActivityAppearanceBinding
     private val prefs by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
 
@@ -25,7 +24,7 @@ class AppearanceActivity : BaseActivity() {
         setContentView(binding.root)
 
         setupInsets()
-        setupToolbar()
+        setupToolbar(binding.appBarLayout, binding.toolbar, binding.collapsingToolbar)
         setupRecyclerView()
 
         if (savedInstanceState == null) {
@@ -41,43 +40,38 @@ class AppearanceActivity : BaseActivity() {
         InsetsHandler.applyAppBarInsets(binding.appBarLayout)
     }
 
-    private fun setupToolbar() {
-        binding.appBarLayout.setExpanded(false)
-        binding.toolbar.setNavigationOnClickListener { finish() }
-    }
-
     private fun setupRecyclerView() {
         val systemCtx = ContextThemeWrapper(this, R.style.Base_Theme_Diary)
 
         val themes = listOf(
             ThemePreview(
-                systemCtx.getThemeColor(com.google.android.material.R.attr.colorPrimaryFixedDim),
-                systemCtx.getThemeColor(com.google.android.material.R.attr.colorOnSecondaryFixedVariant),
-                systemCtx.getThemeColor(com.google.android.material.R.attr.colorOnTertiaryFixedVariant)
+                systemCtx.getThemeColor(com.google.android.material.R.attr.colorPrimaryVariant),
+                systemCtx.getThemeColor(com.google.android.material.R.attr.colorSecondary),
+                systemCtx.getThemeColor(com.google.android.material.R.attr.colorTertiary)
             ),
 
             ThemePreview(
-                ContextCompat.getColor(this, R.color.md_theme_primaryFixedDim),
-                ContextCompat.getColor(this, R.color.md_theme_onSecondaryFixedVariant),
-                ContextCompat.getColor(this, R.color.md_theme_onTertiaryFixedVariant)
+                ContextCompat.getColor(this, R.color.md_theme_primary),
+                ContextCompat.getColor(this, R.color.md_theme_secondary),
+                ContextCompat.getColor(this, R.color.md_theme_tertiary)
             ),
 
             ThemePreview(
-                ContextCompat.getColor(this, R.color.red_theme_primaryFixedDim),
-                ContextCompat.getColor(this, R.color.red_theme_onSecondaryFixedVariant),
-                ContextCompat.getColor(this, R.color.red_theme_onTertiaryFixedVariant)
+                ContextCompat.getColor(this, R.color.red_theme_primary),
+                ContextCompat.getColor(this, R.color.red_theme_secondary),
+                ContextCompat.getColor(this, R.color.red_theme_tertiary)
             ),
 
             ThemePreview(
-                ContextCompat.getColor(this, R.color.blue_theme_primaryFixedDim),
-                ContextCompat.getColor(this, R.color.blue_theme_onSecondaryFixedVariant),
-                ContextCompat.getColor(this, R.color.blue_theme_onTertiaryFixedVariant)
+                ContextCompat.getColor(this, R.color.blue_theme_primary),
+                ContextCompat.getColor(this, R.color.blue_theme_secondary),
+                ContextCompat.getColor(this, R.color.blue_theme_tertiary)
             ),
 
             ThemePreview(
-                ContextCompat.getColor(this, R.color.yellow_theme_primaryFixedDim),
-                ContextCompat.getColor(this, R.color.yellow_theme_onSecondaryFixedVariant),
-                ContextCompat.getColor(this, R.color.yellow_theme_onTertiaryFixedVariant)
+                ContextCompat.getColor(this, R.color.yellow_theme_primary),
+                ContextCompat.getColor(this, R.color.yellow_theme_secondary),
+                ContextCompat.getColor(this, R.color.yellow_theme_tertiary)
             ),
         )
 

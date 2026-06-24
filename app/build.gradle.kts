@@ -2,7 +2,6 @@ import org.gradle.api.JavaVersion.VERSION_23
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
 	alias(libs.plugins.google.gms.google.services)
 	alias(libs.plugins.kotlin.ksp)
 }
@@ -17,8 +16,6 @@ android {
         targetSdk = 36
         versionCode = 6
         versionName = "1.2.0"
-
-		setProperty("archivesBaseName", "Diary-$versionName")
     }
 
     buildTypes {
@@ -41,7 +38,7 @@ android {
 
 	android.sourceSets {
 		getByName("main") {
-			java.srcDirs("src/main/kotlin")
+            kotlin.directories.add("src/main/kotlin")
 		}
 	}
 
@@ -49,15 +46,19 @@ android {
         sourceCompatibility = VERSION_23
         targetCompatibility = VERSION_23
     }
-
-	kotlin {
-		jvmToolchain(23)
-	}
-
 	buildFeatures{
 		viewBinding = true
 	}
 }
+
+base {
+    archivesName = "Diary-${android.defaultConfig.versionName}"
+}
+
+kotlin {
+    jvmToolchain(23)
+}
+
 
 dependencies {
 	implementation(libs.androidx.navigation.fragment)

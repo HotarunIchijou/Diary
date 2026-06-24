@@ -1,6 +1,6 @@
 <resources>
     <style name="Theme.Diary" parent="Base.Theme.Diary">
-        <!-- Transparent system bars for edge-to-edge. -->
+        <item name="android:fontFamily">@font/google_sans_flex_variable</item>
 		<item name="windowActionModeOverlay">true</item>
     </style>
 </resources>

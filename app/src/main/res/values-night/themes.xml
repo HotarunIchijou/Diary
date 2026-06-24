@@ -1,6 +1,7 @@
 <resources>
 	<!-- Base application theme. -->
 	<style name="Base.Theme.Diary" parent="Theme.Material3Expressive.DynamicColors.DayNight.NoActionBar">
+        <item name="android:fontFamily">@font/google_sans_flex_variable</item>
 		<item name="windowActionModeOverlay">true</item>
 	</style>
 

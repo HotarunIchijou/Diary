@@ -3,19 +3,25 @@ package org.kaorun.diary.ui.activities
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
 import org.kaorun.diary.R
 
 abstract class BaseActivity : AppCompatActivity() {
 
+    companion object {
+        const val ROUND_GRAD_TYPEFACE = "'ROND' 100, 'GRAD' 100"
+    }
+
     protected var cachedThemeIndex: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
         cachedThemeIndex = prefs.getInt("color_scheme", 0)
         setTheme(getThemeResFromIndex(cachedThemeIndex))
-        super.onCreate(savedInstanceState)
+        applySavedTheme()
     }
 
     override fun onResume() {
@@ -36,5 +42,18 @@ abstract class BaseActivity : AppCompatActivity() {
             4 -> R.style.Yellow
             else -> R.style.Base_Theme_Diary
         }
+    }
+
+    private fun applySavedTheme() {
+        val themeMode = PreferenceManager.getDefaultSharedPreferences(this)
+            .getInt("theme_mode", 0)
+
+        val mode = when (themeMode) {
+            1 -> AppCompatDelegate.MODE_NIGHT_NO
+            2 -> AppCompatDelegate.MODE_NIGHT_YES
+            else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+        }
+
+        AppCompatDelegate.setDefaultNightMode(mode)
     }
 }

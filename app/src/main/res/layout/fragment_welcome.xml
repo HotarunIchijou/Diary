@@ -13,9 +13,8 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:orientation="vertical"
-		android:paddingHorizontal="16dp"
-		android:paddingTop="96dp"
-		android:paddingBottom="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginHorizontal="16dp"
 		android:fitsSystemWindows="true"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
@@ -23,8 +22,9 @@
 		tools:ignore="UseCompoundDrawables">
 
 		<ImageView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
+			android:layout_width="48dp"
+			android:layout_height="48dp"
+            android:layout_gravity="center_horizontal"
 			android:contentDescription="@string/sign_in_icon"
 			android:src="@drawable/login_40px"
 			app:tint="?colorPrimary" />
@@ -32,77 +32,89 @@
 		<TextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_marginTop="8dp"
+			android:layout_marginTop="24dp"
 			android:text="@string/welcome"
-			android:textAppearance="?attr/textAppearanceHeadlineMedium" />
+            android:textColor="?colorOnSurface"
+			android:textAppearance="?attr/textAppearanceDisplaySmallEmphasized" />
 	</LinearLayout>
 
-	<com.google.android.material.button.MaterialButtonGroup
-		android:id="@+id/buttons_group"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginHorizontal="16dp"
-		android:layout_marginBottom="16dp"
-		android:orientation="vertical"
-		app:layout_constraintBottom_toTopOf="@+id/register_container"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent">
+    <ImageView
+        android:layout_width="320dp"
+        android:layout_height="320dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/welcome"
+        app:layout_constraintBottom_toTopOf="@+id/buttons_group"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header"
+        tools:ignore="ContentDescription" />
 
-		<com.google.android.material.button.MaterialButton
-			style="@style/Widget.Material3Expressive.Button.OutlinedButton"
-			android:id="@+id/google_button"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:text="@string/continue_with_google"
-			android:theme="@style/SizeOverlay.Material3Expressive.Button.Medium"
-			app:strokeColor="@color/outline_variant"
-			app:icon="@drawable/google_24px"
-			app:iconGravity="textStart"
-			app:iconTint="@null" />
+    <LinearLayout
+        android:id="@+id/buttons_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-		<com.google.android.material.button.MaterialButton
-			style="@style/Widget.Material3Expressive.Button"
-			android:id="@+id/email_button"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:text="@string/sign_in_with_email"
-			android:theme="@style/SizeOverlay.Material3Expressive.Button.Medium" />
-	</com.google.android.material.button.MaterialButtonGroup>
+        <com.google.android.material.button.MaterialButtonGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="16dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/register_container"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
-	<ImageView
-		android:layout_width="320dp"
-		android:layout_height="320dp"
-		android:layout_marginTop="16dp"
-		android:layout_marginBottom="16dp"
-		android:src="@drawable/welcome"
-		app:layout_constraintBottom_toTopOf="@+id/buttons_group"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/header"
-		tools:ignore="ContentDescription" />
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.Material3Expressive.Button.OutlinedButton"
+                android:id="@+id/google_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/continue_with_google"
+                android:theme="@style/SizeOverlay.Material3Expressive.Button.Medium"
+                app:strokeColor="@color/outline_variant"
+                app:icon="@drawable/google_24px"
+                app:iconGravity="textStart"
+                app:iconTint="@null" />
 
-	<LinearLayout
-		android:id="@+id/register_container"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginBottom="16dp"
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent">
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.Material3Expressive.Button"
+                android:id="@+id/email_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sign_in_with_email"
+                android:theme="@style/SizeOverlay.Material3Expressive.Button.Medium" />
+        </com.google.android.material.button.MaterialButtonGroup>
 
-		<TextView
-			style="?textAppearanceTitleSmall"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/dont_have_an_account" />
+        <LinearLayout
+            android:id="@+id/register_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
-		<TextView
-			style="@style/Widget.Material3.Button.TextButton"
-			android:id="@+id/registerButton"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/register"
-			android:textColor="?colorPrimary" />
-	</LinearLayout>
+            <TextView
+                style="?textAppearanceTitleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dont_have_an_account" />
+
+            <TextView
+                style="@style/Widget.Material3.Button.TextButton"
+                android:id="@+id/registerButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/register"
+                android:textColor="?colorPrimary" />
+        </LinearLayout>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

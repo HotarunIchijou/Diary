@@ -9,12 +9,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import org.kaorun.diary.R
 import org.kaorun.diary.data.SettingsItem
 import org.kaorun.diary.databinding.ActivitySettingsBinding
-import org.kaorun.diary.ui.activities.BaseActivity
 import org.kaorun.diary.ui.adapters.SettingsAdapter
 import org.kaorun.diary.utils.InsetsHandler
-import org.kaorun.diary.utils.VerticalSpaceItemDecoration
+import org.kaorun.diary.utils.SpaceItemDecoration
 
-class SettingsActivity : BaseActivity() {
+class SettingsActivity : BaseSettingsActivity() {
     private lateinit var binding: ActivitySettingsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,18 +22,13 @@ class SettingsActivity : BaseActivity() {
         setContentView(binding.root)
 
         setupInsets()
-        setupToolbar()
+        setupToolbar(binding.appBarLayout, binding.toolbar, binding.collapsingToolbar)
         setupRecyclerView()
     }
 
     private fun setupInsets() {
         InsetsHandler.applyViewInsets(binding.recyclerView)
         InsetsHandler.applyAppBarInsets(binding.appBarLayout)
-    }
-
-    private fun setupToolbar() {
-        binding.appBarLayout.setExpanded(false)
-        binding.toolbar.setNavigationOnClickListener { finish() }
     }
 
     private fun setupRecyclerView() {
@@ -65,7 +59,8 @@ class SettingsActivity : BaseActivity() {
         )
 
         val recyclerView = binding.recyclerView
-        recyclerView.addItemDecoration(VerticalSpaceItemDecoration(this))
+        recyclerView.addItemDecoration(SpaceItemDecoration())
+
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = SettingsAdapter(settingsItems) { item ->
             when {

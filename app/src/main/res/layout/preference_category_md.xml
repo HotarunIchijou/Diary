@@ -11,8 +11,9 @@
         android:id="@android:id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?attr/textAppearanceLabelLarge"
+        android:minHeight="21dp"
+        android:textAppearance="?textAppearanceLabelLarge"
+        android:textFontWeight="500"
         android:textColor="?colorPrimary"
         tools:text="Label" />
-
 </FrameLayout>

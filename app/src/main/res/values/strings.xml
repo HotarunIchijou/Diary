@@ -6,7 +6,7 @@
 	<string name="action_sign_in">Sign in</string>
 	<string name="action_register">Register</string>
 	<string name="registered_successfully">Registered successfully</string>
-	<string name="welcome">Welcome to Diary! \nPlease choose how to sign in</string>
+	<string name="welcome">Welcome to Diary!</string>
 	<string name="invalid_username">Not a valid username</string>
 	<string name="login_failed">"Login failed"</string>
 	<string name="action_sign_in_short">Sign in</string>
@@ -87,4 +87,6 @@
     <string name="notes">Notes</string>
 	<string name="tasks">Tasks</string>
     <string name="register_icon">Register icon</string>
+    <string name="note_deleted">Note has been deleted</string>
+    <string name="notes_deleted">Notes have been deleted</string>
 </resources>
